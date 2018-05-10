@@ -16,7 +16,7 @@ var app = express();
 
 
 //view engine
-app.set("views", )
+app.set("views", path.join(__dirname, ))
 app.set("view engine", "ejs");
 
 //middleware
