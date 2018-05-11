@@ -8,20 +8,28 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', function(socket) {
-  console.log('a user connected');
+app.get('/chat', function(req, res) {
+  res.sendFile(__dirname + '/test.html');
+});
 
-  // creates a message to send to all connected clients
-  socket.on('chat message', function(msg) {
-    io.emit('chat message', msg);
+// a socket is a user
+// ceates a unique connection to a room
+io.sockets.on('connection', function(socket) {
+  // when the 'room' event is emitted, the user joins their specified room
+  socket.on('room', function(room) {
+    socket.join(room);
   });
 
-  // runs when a client disconnects
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
+  // emits a message to the room the user is connected to.
+  // each time this event occurs the users room and message is passed in
+  socket.on('message', function(data) {
+    console.log('data:', data);
+
+    // this sends the users message to the room they are in
+    io.sockets.in(data.room).emit('message', data.msg);
   });
 });
 
 http.listen(3000, function() {
-  console.log('Listening on localhost://3000');
+  console.log('Listening on localhost:3000');
 });
