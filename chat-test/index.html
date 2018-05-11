@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chat</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <style>
+    .chat-container,
+    form {
+      width: 95%;
+    }
+
+    .chat-msgs {
+      height: 200px;
+      overflow-y: auto;
+      background-color: white;
+      color: black !important;
+    }
+
+    #send-msg {
+      width: 100%;
+      padding: 0;
+      border: none;
+      border-top: 1px solid rgb(207, 207, 207);
+      resize: none;
+    }
+
+    .chat-msgs div {
+      padding: 5px 10px;
+    }
+
+    .chat-msgs div:nth-child(odd) {
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-container container p-0 mx-auto">
+    <h2 class="text-center bg-primary p-2 mb-0 text-white">Group Chat</h2>
+    <div class="chat-msgs border border-top-0 border-bottom-0">
+      <!-- span for name -->
+      <!-- span for msg -->
+    </div>
+    <div class="bg-white">
+      <textarea name="input" class="border p-3" id="send-msg" cols="0" rows="1" placeholder="New Message"></textarea>
+    </div>
+  </div>
+  <!-- End chat-container -->
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    // get message value to emit to all connected clients
+    $('#send-msg').on('keyup', function (e) {
+      if (e.keyCode === 13) {
+
+        // sends an event to the server called 'chat message'
+        // when that event occurs, the new message is sent to all connected clients
+        socket.emit('chat message', $(this).val());
+        $(this).val('');
+        return false;
+      }
+    });
+
+    // callback to run when the 'chat message' event occurs
+    socket.on('chat message', function (msg) {
+      console.log(msg);
+      // var nameSpan = $('span');
+      $('.chat-msgs').append(`
+        <div class="messages">
+          <span>${msg}</span>
+        </div>
+      `);
+    });
+
+
+  </script>
+</body>
+
+</html>
