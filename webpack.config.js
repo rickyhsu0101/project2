@@ -14,6 +14,10 @@ var path = require('path');
                  query: {
                      presets: ['env']
                  }
+             },
+             {
+                 test: /\.css$/,
+                 loader: ['style-loader','css-loader']
              }
          ]
      },
