@@ -1,14 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
 module.exports = {
-  entry: './public/assets/js/main.js',
+  entry: {
+    login: './dev-Public/assets/js/pages/login.js',
+    register: './dev-Public/assets/js/pages/register.js'
+  },
   output: {
-    path: path.resolve(__dirname, './public/assets/dist'),
-    filename: 'app.bundle.js'
+    path: path.join(__dirname, 'dist/js'),
+    filename: '[name].js'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js$/,
         loader: 'babel-loader',
         query: {

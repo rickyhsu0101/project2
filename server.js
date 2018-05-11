@@ -18,11 +18,15 @@ app.set('view engine', 'ejs');
 
 //middleware
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/dist')));
 app.use(bodyParser.json());
-app.use(bodyParser.bodyParser({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(expressValidator());
 
-app.use(router);
-app.listen(PORT, function() {
+app.use(require("./controllers/html-routes.js"));
+
+app.listen(PORT, function () {
   console.log('listening on ' + PORT);
 });
