@@ -1,16 +1,16 @@
-var express = require('express');
-var ejs = require('ejs');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var expressValidator = require('express-validator');
-var dotenv = require('dotenv');
-var path = require('path');
+const express = require('express');
+const ejs = require('ejs');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
+const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
-var PORT = 8080;
+const PORT = 8080;
 
-var app = express();
+const app = express();
 
 //view engine
 app.set('views', path.join(__dirname, '/views'));
