@@ -1,6 +1,6 @@
-import {headerInit} from  './header.js';
+import { headerInit } from './header.js';
 
-
-$(document),ready(function(){
+$(document),
+  ready(function() {
     headerInit();
-});
+  });

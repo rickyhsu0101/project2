@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const io = require('socket.io');
 
-module.exports = function(app) {
+export function createSocket(app) {
   const io = io(http(app));
   io.on('connection', function(socket) {
     console.log('a user connected');
@@ -13,4 +13,6 @@ module.exports = function(app) {
       console.log('user disconnected');
     });
   });
-};
+}
+
+//*******TEST EXPORT FILE FOR SOCKETS */

@@ -1,4 +1,3 @@
-
-export function headerInit (){
-    $('.sidenav').sidenav();
+export function headerInit() {
+  $('.sidenav').sidenav();
 }
