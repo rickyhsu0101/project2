@@ -71,7 +71,8 @@ var orm = {
         query += colValGenerator(colValue);
 
         values = values.concat(valuesColVal);
-        connection.query(query, function (err, result) {
+        query += ";";
+        connection.query(query, values, function (err, result) {
             if (err) {
                 throw err;
             }

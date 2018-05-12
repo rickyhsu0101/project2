@@ -10,7 +10,7 @@ const chat = {
         };
         orm.selectAllParam("chat_room", where, function (err, result) {
             if (result.length > 0) {
-                let stringIdArr = result[0].members;
+                let stringIdArr = result[0].members.split(",");
                 let userChats = [];
                 let whereMultiple = {};
                 stringIdArr.forEach(function (val) {
