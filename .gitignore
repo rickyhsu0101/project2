@@ -2,5 +2,7 @@ node_modules/
 viewTest/
 test/
 config/configTest/
+models/modelTest/
+dist/
 .env
 dist/

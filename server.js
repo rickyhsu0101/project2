@@ -29,12 +29,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
+
 // creates a log entry for each http request. specifies the location to write the log
 // 'combined' represents the format to write the log. This is the standard apache log format
 app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(require('./controllers/html-routes.js'));
-app.use(require('./controllers/api-routes.js'));
+//app.use(require('./controllers/api-routes.js'));
+
 
 app.listen(PORT, function() {
   console.log('listening on ' + PORT);

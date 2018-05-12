@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/api/register", function (req, res) {
+router.post("/api/register", function (req, res) {
 
     res.redirect("/profile");
 });
