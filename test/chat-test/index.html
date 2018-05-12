@@ -65,7 +65,7 @@
       var room = $('#send-msg').attr('data-room');
       console.log('connect from room:', room);
 
-      // the 'room' event logs the user into the correct room
+      // sends the 'room' event to the client to log the user into their room
       socket.emit('room', room);
     });
 
@@ -79,23 +79,25 @@
           msg: $(this).val()
         };
 
-        // sends an event called 'message', and passes our info to the server
-        // only gets sent to the users connected room
+        // emits the 'message' event to the server to send to users in the same room
         socket.emit('message', info);
         $(this).val('');
         return false;
       }
     });
 
+    // change detects any kind of change to the '#send-msg' element, such as a click 
     $('#send-msg').on('change', function () {
       var info = {
         room: $('#send-msg').attr('data-room'),
         value: $('#send-msg').val()
       }
+
+      // emits the 'change' event to the server to show typing message to users in the room
       socket.emit('change', info);
     });
 
-    // creates a message to indicate a user is typing
+    // runs when the the server emits the 'change' event back to the client
     socket.on('change', function (data) {
       // without this, the typing message would get appended each time someone types
       $('#typing').remove();
@@ -112,7 +114,7 @@
 
     });
 
-    // adds the users message to the chat when the 'message' event occurs
+    // runs when the server emits the 'message' event back to the client. Creates a new message to users in the room
     socket.on('message', function (msg) {
       console.log(msg);
       // var nameSpan = $('span');

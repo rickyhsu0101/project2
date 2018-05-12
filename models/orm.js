@@ -2,6 +2,7 @@ const connection = require("../config/connection.js");
 const conditional = require("../public/assets/js/helper/orm/conditional.js");
 const colValGenerator = require("../public/assets/js/helper/orm/colValGenerator.js");
 
+
 var orm = {
     createTable: function (tableName, rules, cb) {
         let query = "CREATE TABLE " + tableName + "(";
@@ -22,19 +23,28 @@ var orm = {
             }
             cb(err, result);
         });
+
+        connection.query(query, values, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
     },
-    selectAllParam: function (table, where, cb) {
-        let query = "SELECT * FROM ??";
+    insertOneWithoutParams: function (table, colValue, cb) {
+        let query = 'INSERT INTO ??';
+
         let values = [table];
-        const conditionalObj = conditional(where);
-        values = values.concat(conditionalObj.whereValues);
-        query += " " + conditionalObj.whereQuery;
+        var valuesColVal = Object.values(colValue);
+        query += colValGenerator(colValue);
+
         connection.query(query, values, function (err, result) {
             if (err) {
                 throw err;
             }
             cb(err, result);
         });
+
     },
     selectMultipleAllParamWithOrder: function (tables, wheres, orderBy, cb) {
         query = "";
@@ -62,9 +72,7 @@ var orm = {
     insertOneWithoutParams: function (table, colValue, cb) {
         let query = "INSERT INTO ??";
 
-        let values = [table];
-        var valuesColVal = Object.values(colValue);
-        query += colValGenerator(colValue);
+        values = values.concat(valuesColVal, conditionalObj.whereValues);
 
         values = values.concat(valuesColVal);
         query += ";";
@@ -96,5 +104,6 @@ var orm = {
         });
 
     }
+
 };
 module.exports = orm;
