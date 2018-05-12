@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({
 app.use(expressValidator());
 
 app.use(require("./controllers/html-routes.js"));
-app.use(require("./controllers/api-routes.js"));
+//app.use(require("./controllers/api-routes.js"));
 
 app.listen(PORT, function () {
   console.log('listening on ' + PORT);
