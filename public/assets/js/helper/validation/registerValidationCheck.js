@@ -6,7 +6,6 @@ const {
 var emptyString = function (value, {
     req
 }) {
-
     return (value);
 };
 

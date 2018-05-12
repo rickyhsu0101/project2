@@ -1,6 +1,5 @@
 node_modules/
 viewTest/
-test/
 config/configTest/
 models/modelTest/
 controllers/controllerTest/

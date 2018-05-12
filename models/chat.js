@@ -1,7 +1,5 @@
-const orm = require("../config/orm.js");
+const orm = require("./orm.js");
 const users = require("./users.js");
-const callbackChaining = require("./users");
-const async = require("async");
 const chat = {
     getChatById: function (chatId, cb) {
         //where clause for id
