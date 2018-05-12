@@ -5,3 +5,4 @@ config/configTest/
 models/modelTest/
 dist/
 .env
+dist/
