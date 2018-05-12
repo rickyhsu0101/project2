@@ -10,32 +10,38 @@ const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 dotenv.config();
 
-const PORT = 8080;
+// create the server
 const app = express();
+const PORT = 8080;
 
-// create a write stream to add log entries to access.log. the object passed in opens the file for appending, and creates the file if it does not exist
+// create a write stream to add log entries to access.log.
+// the object passed in opens the file for appending, and creates the file if it does not exist
+// 'combined' represents the format to write the log. This is the standard apache log format
 const accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), {
   flags: 'a'
 });
+app.use(morgan('combined', { stream: accessLogStream }));
 
-//view engine
+// specify the view engine and file locations
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
-//middleware
+// static file locations
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/dist')));
+
+// Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// form validation
 app.use(expressValidator());
 
-// creates a log entry for each http request. specifies the location to write the log
-// 'combined' represents the format to write the log. This is the standard apache log format
-app.use(morgan('combined', { stream: accessLogStream }));
-
+// routes
 app.use(require('./controllers/html-routes.js'));
 app.use(require('./controllers/api-routes.js'));
 
+// start the server
 app.listen(PORT, function() {
   console.log('listening on ' + PORT);
 });
