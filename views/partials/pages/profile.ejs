@@ -9,17 +9,19 @@
         </div>
         <div class = "col s12 m8" id = "groupsColumn">
             <div class = "row">
-                <% for(var i =0; i < groups.length; i++){ %>
-                    <div class = "col s12 m6">
-                        <div class = "group">
-                            <a href = "<%= '/group' + groups[i].id %>">
-                                <%= groups[i].name %>
-                            </a>
-                            <div class = "shortDesc">
-                                <%= groups[i].shortDesc%>
+                <% if(groups){%>
+                    <% for(var i =0; i < groups.length; i++){ %>
+                        <div class = "col s12 m6">
+                            <div class = "group">
+                                <a href = "<%= '/group/' + groups[i].id %>">
+                                    <%= groups[i].name %>
+                                </a>
+                                <div class = "shortDesc">
+                                    <%= groups[i].shortDesc%>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <%}%>
                 <%}%>
             </div>
         </div>

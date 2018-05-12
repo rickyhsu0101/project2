@@ -19,9 +19,13 @@ const users = {
             friends: ""
         };
         orm.insertOneWithoutParams("users", keyValues, function (err, result) {
-            orm.createTable(id + "_chat", userChatRules, function (err, result) {
-                users.selectUserWithUsername(username, function (err, result) {
-                    cb(err, result);
+            users.selectUserWithUsername(username, function (err, result) {
+                console.log(result);
+                let id = result[0].userId;
+                orm.createTable(id + "_chat", userChatRules, function (err, result) {
+                    cb(err, {
+                        userId: id
+                    });
                 });
             });
         });

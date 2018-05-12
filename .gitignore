@@ -3,6 +3,7 @@ viewTest/
 test/
 config/configTest/
 models/modelTest/
-dist/
+controllers/controllerTest/
 .env
+projectProposal.txt
 dist/

@@ -81,3 +81,18 @@ SELECT * FROM 123_chat;
 SELECT * FROM 222_chat;
 SELECT * FROM 387_chat;
 SELECT * FROM chat_room;
+
+
+USE simulation_db;
+
+DELETE FROM users
+WHERE username = 'rickyhsu0101';
+USE simulation_db;
+DROP TABLE 392_chat;
+SELECT * FROM users;
+
+DROP TABLE 390_chat;
+DROP TABLE 391_chat;
+DROP TABLE georgebush_chat;
+DROP TABLE johndoe_chat;
+DROP TABLE obama123_chat;
