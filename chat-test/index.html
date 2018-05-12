@@ -95,6 +95,7 @@
       socket.emit('change', info);
     });
 
+    // creates a message to indicate a user is typing
     socket.on('change', function (data) {
       // without this, the typing message would get appended each time someone types
       $('#typing').remove();
