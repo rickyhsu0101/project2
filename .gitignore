@@ -3,3 +3,4 @@ viewTest/
 test/
 config/configTest/
 .env
+dist/
