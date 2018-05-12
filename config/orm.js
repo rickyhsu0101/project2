@@ -3,23 +3,25 @@ const conditional = require('./helper/conditional.js');
 const colValGenerator = require('./helper/colValGenerator.js');
 
 var orm = {
-  selectAll: function(table, cb) {
-    let query = 'SELECT * FROM ??;';
-
-    connection.query(query, [table], function(err, result) {
-      if (err) {
-        throw err;
-      }
-      cb(result);
-    });
-  },
-  selectAllParam: function(table, where, cb) {
-    let query = 'SELECT * FROM ??';
-    let values = [table];
-
-    let conditionalObj = conditional(where);
-    values = values.concat(conditionalObj.whereValues);
-    query += ' ' + conditionalObj.whereQuery;
+    createTable: function (tableName, rules, cb) {
+        let query = "CREATE TABLE " + tableName + "(";
+        query += rules.toString();
+        query += ");";
+        connection.query(query, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
+    },
+    selectAll: function (table, cb) {
+        let query = "SELECT * FROM ??;";
+        connection.query(query, [table], function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
 
     connection.query(query, values, function(err, result) {
       if (err) {
@@ -34,33 +36,73 @@ var orm = {
     let values = [table];
     var valuesColVal = Object.values(colValue);
     query += colValGenerator(colValue);
+    
+        connection.query(query, values, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
 
-    values = values.concat(valuesColVal);
-    connection.query(query, function(err, result) {
-      if (err) {
-        throw err;
-      }
-      cb(result);
-    });
-  },
-  insertOneWithParams: function(table, colValue, where, cb) {
-    let query = 'INSERT INTO ??';
+    },
+    selectMultipleAllParamWithOrder: function (tables, wheres, orderBy, cb) {
+        query = "";
+        values = [];
+        for (let i = 0; i < tables.length; i++) {
+            query += "SELECT * FROM ??";
+            let conditionalObj = conditional(wheres[tables[i]]);
 
-    let values = [table];
-    var valuesColVal = Object.values(colValue);
-    query += colValGenerator(colValue);
-    query += ' ';
-    let conditionalObj = conditional(where);
-    query += conditionalObj.whereQuery;
+            values.push(tables[i]);
+            values = values.concat(conditionalObj.whereValues);
+            query += " " + conditionalObj.whereQuery + " ";
+            if (i != tables.length - 1) {
+                query += "UNION ";
+            }
+        }
+        query += " ORDER BY ??";
+        values.push(orderBy);
+        connection.query(query, values, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
+    },
+    insertOneWithoutParams: function (table, colValue, cb) {
+        let query = "INSERT INTO ??";
 
     values = values.concat(valuesColVal, conditionalObj.whereValues);
 
-    connection.query(query, function(err, result) {
-      if (err) {
-        throw err;
-      }
-      cb(result);
-    });
-  }
+        values = values.concat(valuesColVal);
+        query += ";";
+        connection.query(query, values, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
+    },
+    insertOneWithParams: function (table, colValue, where, cb) {
+        let query = "INSERT INTO ??";
+
+        let values = [table];
+        var valuesColVal = Object.values(colValue);
+        query += colValGenerator(colValue);
+        query += " ";
+        let conditionalObj = conditional(where);
+        query += conditionalObj.whereQuery;
+
+        values = values.concat(valuesColVal, conditionalObj.whereValues);
+
+
+        connection.query(query, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
+
+    }
+
 };
 module.exports = orm;

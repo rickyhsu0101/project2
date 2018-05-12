@@ -1,11 +1,12 @@
 const moment = require('moment');
 
-module.exports = function() {
+module.exports = function () {
   var obj = {
     user: null,
     groups: null,
     year: moment().format('YYYY'),
-    page: ''
+    page: '',
+    errors: null
   };
   return obj;
 };

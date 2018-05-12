@@ -39,7 +39,7 @@ app.use(expressValidator());
 
 // routes
 app.use(require('./controllers/html-routes.js'));
-app.use(require('./controllers/api-routes.js'));
+//app.use(require('./controllers/api-routes.js'));
 
 // start the server
 app.listen(PORT, function() {

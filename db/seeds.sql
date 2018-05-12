@@ -18,57 +18,81 @@ USE simulation_db;
 DROP TABLE IF EXISTS johnDoe;
 DROP TABLE IF EXISTS georgeBush;
 DROP TABLE IF EXISTS obama123;
-CREATE TABLE johnDoe(
+DROP TABLE IF EXISTS johnDoe;
+CREATE TABLE 222_chat(
     messageId INT AUTO_INCREMENT,
     roomId INT NOT NULL,
     groupMembers TEXT NOT NULL,
     groupName VARCHAR(30),
     messageContent TEXT NOT NULL,
-    time VARCHAR(255) NOT NULL,
+    time BIGINT NOT NULL,
     PRIMARY KEY(messageId)
 );
 
-CREATE TABLE georgeBush(
+CREATE TABLE 123_chat(
     messageId INT AUTO_INCREMENT,
     roomId INT NOT NULL,
     groupMembers TEXT NOT NULL,
     groupName VARCHAR(30),
     messageContent TEXT NOT NULL,
-    time VARCHAR(255) NOT NULL,
+    time BIGINT NOT NULL,
     PRIMARY KEY(messageId)
 );
 
-CREATE TABLE obama123(
+CREATE TABLE 387_chat(
     messageId INT AUTO_INCREMENT,
     roomId INT NOT NULL,
     groupMembers TEXT NOT NULL,
     groupName VARCHAR(30),
     messageContent TEXT NOT NULL,
-    time VARCHAR(255) NOT NULL,
+    time BIGINT NOT NULL,
     PRIMARY KEY(messageId)
 );
+-- population chat_room
+USE simulation_db;
+INSERT INTO chat_room(roomId, roomName, members)
+VALUES (23141, "Rando-Chat", "123,222,387");
 
+INSERT INTO chat_room(roomId, roomName, members)
+VALUES (23287, "President-Chat","123,387");
 -- populate premade messages for all users
 USE simulation_db;
-INSERT INTO georgeBush(roomId, groupMembers, groupName, messageContent, time)
+INSERT INTO 123_chat(roomId, groupMembers, groupName, messageContent, time)
 VALUES (23141, "222,387", "Rando-Chat", "Yo type in all your names?", 1410715000000);
 
-INSERT INTO johnDoe(roomId, groupMembers, groupName, messageContent, time)
+INSERT INTO 222_chat(roomId, groupMembers, groupName, messageContent, time)
 VALUES (23141, "123,387", "Rando-Chat", "Yea my name is John Doe, the best", 1410715060000);
 
-INSERT INTO obama123(roomId, groupMembers, groupName, messageContent, time)
+INSERT INTO 387_chat(roomId, groupMembers, groupName, messageContent, time)
 VALUES (23141, "123,222", "Rando-Chat", "Yea my name is Obame, the best president ever imo.", 1410715080000);
 
 -- populate premade messages for two users
 USE simulation_db;
-INSERT INTO obama123(roomId, groupMembers, groupName, messageContent, time)
+INSERT INTO 387_chat(roomId, groupMembers, groupName, messageContent, time)
 VALUES (23287, "123", "President-Chat", "Hey Bush, lets kill this john doe dude", 1410715030000);
 
-INSERT INTO georgeBush(roomId, groupMembers, groupName, messageContent, time)
+INSERT INTO 123_chat(roomId, groupMembers, groupName, messageContent, time)
 VALUES (23287, "387", "President-Chat", "Yea I agree", 1410715090000);
 
--- select from 
+
 USE simulation_db;
-SELECT * FROM georgeBush;
-SELECT * FROM johnDoe;
-SELECT * FROM obama123;
+SELECT * FROM users;
+SELECT * FROM 123_chat;
+SELECT * FROM 222_chat;
+SELECT * FROM 387_chat;
+SELECT * FROM chat_room;
+
+
+USE simulation_db;
+
+DELETE FROM users
+WHERE username = 'rickyhsu0101';
+USE simulation_db;
+DROP TABLE 392_chat;
+SELECT * FROM users;
+
+DROP TABLE 390_chat;
+DROP TABLE 391_chat;
+DROP TABLE georgebush_chat;
+DROP TABLE johndoe_chat;
+DROP TABLE obama123_chat;

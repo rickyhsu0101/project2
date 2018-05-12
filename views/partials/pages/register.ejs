@@ -1,6 +1,14 @@
-<div class = "container formDiv">
+<div class = "container formDiv blue-grey lighten-5">
     <div class = "row">
-        <form class = "col s12" method = "POST" action= "/api/register">
+        <% if(errors) {%>
+            <% for(var i = 0; i < errors.length; i++){%>
+                <div class = "col s12 error purple-text text-lighten-1">
+                    <%= errors[i].msg %>
+                    
+                </div>
+            <% } %>
+        <%}%>
+        <form class = "col s12" method = "POST" action= "/register">
             <div class="input-field col s12">
                 <input placeholder="Username" id="username" type="text" name="username">
                 <label for="username">Username</label>
@@ -17,7 +25,7 @@
                 <input placeholder="Re-enter Password" id="repassword" type="password" name="repassword">
                 <label for="repassword">Re-enter Password</label>
             </div>
-            <button class = "wave-effect waves-light btn submitButton" type = "submit"></button>
+            <button class = "wave-effect waves-light btn submitButton" type = "submit">Register</button>
         </form>
     </div>
 </div>

@@ -6,11 +6,11 @@ const connection = mysql.createConnection({
   port: process.env.DB_PORT,
   database: process.env.DB_DATABASE
 });
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) {
     throw err;
   }
   console.log('connected as id ' + connection.threadId);
 });
 
-export default connection;
+module.exports = connection;
