@@ -1,4 +1,5 @@
 node_modules/
 viewTest/
 test/
+config/configTest/
 .env
