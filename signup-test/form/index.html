@@ -3,7 +3,7 @@
 <head>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-  <link href="/assets/css/style.css" type="text/css" rel="stylesheet">
+  <link href="./assets/css/style.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -39,6 +39,13 @@
                 <input class='validate' type='password' name='password' id='password' />
                 <label for='password'>Enter your password</label>
               </div>
+              <div>
+                <center>
+                  <p id="passwordValidation" class="red-text"></p>
+                </center>
+
+              </div>
+
               <label style='float: right;'>
                 <a class='yellow-text text-darken-2' href='#!'>
                   <b>Forgot Password?</b>
@@ -49,7 +56,7 @@
             <br />
             <center>
               <div class='row'>
-                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect yellow'>Login</button>
+                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect yellow' id="btnLogin">Login</button>
               </div>
             </center>
           </form>
@@ -64,6 +71,7 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <script type="text/javascript" src="assets/js/scripts.js"></script>
 </body>
 
 </html>
