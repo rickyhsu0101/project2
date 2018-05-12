@@ -28,6 +28,11 @@ io.sockets.on('connection', function(socket) {
     // this sends the users message to the room they are in
     io.sockets.in(data.room).emit('message', data.msg);
   });
+
+  socket.on('change', function(data) {
+    socket.broadcast.to(data.room).emit('change', data.value);
+    // io.sockets.in(room).emit('change');
+  });
 });
 
 http.listen(3000, function() {
