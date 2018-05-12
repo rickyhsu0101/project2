@@ -1,5 +1,4 @@
-const orm = require("../config/orm.js");
-
+const orm = require("./orm.js");
 const userChatRules = [
     "messageId INT AUTO_INCREMENT",
     "roomId INT NOT NULL",
@@ -9,7 +8,6 @@ const userChatRules = [
     "time BIGINT NOT NULL",
     "PRIMARY KEY(messageId)"
 ];
-
 const users = {
     addUser: function (username, email, password, cb) {
         let keyValues = {
@@ -55,5 +53,4 @@ const users = {
         });
     }
 };
-
 module.exports = users;

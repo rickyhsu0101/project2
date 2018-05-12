@@ -1,37 +1,92 @@
 const express = require('express');
-const router = express.Router();
 const {
   validationResult
 } = require("express-validator/check");
-const objGenerator = require('./helper/templateObj.js');
+const objGenerator = require('../public/assets/js/helper/template/templateObj.js');
 const users = require("../models/users.js");
 const bcrypt = require("bcrypt");
 const async = require("async");
-const saltRounds = 10;
+const passport = require("passport");
 
+const router = express.Router();
+//number of words used for hash
+const saltRounds = 10;
+passport.serializeUser(function (userId, done) {
+  done(null, userId);
+});
+passport.deserializeUser(function (userId, done) {
+  done(null, userId);
+});
 router.get('/', function (req, res) {});
 router.get('/login', function (req, res) {
-  let obj = objGenerator();
-  obj.page = 'login';
-  res.render('index', obj);
+  //passport authentication
+  if (req.isAuthenticated()) {
+    res.redirect("/profile/" + req.user.userId);
+  } else {
+    let obj = objGenerator();
+    obj.page = 'login';
+    res.render('index', obj);
+  }
+
 });
 
 
 router.get('/profile/:id', function (req, res) {
+
+
   //to be completed
   res.end();
 });
 router.get('/register', function (req, res) {
-  let obj = objGenerator();
-  obj.page = "register";
-  res.render("index", obj);
+  if (req.isAuthenticated()) {
+    res.redirect("/profile/" + req.user.userId);
+  } else {
+    let obj = objGenerator();
+    obj.page = "register";
+    res.render("index", obj);
+  }
 });
-const checksLogin = require("./helper/validation/loginValidationCheck.js");
+const checksLogin = require("../public/assets/js/helper/validation/loginValidationCheck.js");
 router.post("/login", checksLogin, function (req, res) {
   //to be completed
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let errorsObj = errors.mapped();
+    let errorsKey = Object.keys(errorsObj);
+    let obj = objGenerator();
+    obj.page = "login";
+    obj.errors = [];
+    errorsKey.forEach(function (errorKey) {
+      obj.errors.push(errorsObj[errorKey]);
+    });
+    res.render("index", obj);
+  } else {
+    users.selectUserWithUsername(req.body.username, function (err, result) {
+      if (result.length == 0) {
+        let obj = objGenerator();
+        obj.page = "login";
+        obj.errors = ["No User with Username"];
+        res.render("index", obj);
+      } else {
+        let hash = result[0].password;
+        bcrypt.compare(req.body.password, hash, function (err, resBool) {
+          if (resBool) {
+            req.login(result[0].userId, function (err) {
+              res.redirect("/profile/" + result[0].userId);
+            });
+          } else {
+            let obj = objGenerator();
+            obj.page = "login";
+            obj.errors = ["Password Incorrect"];
+            res.render("index", obj);
+          }
+        });
+      }
+    });
+  }
 });
 
-const checksRegistration = require("./helper/validation/registerValidationCheck.js");
+const checksRegistration = require("../public/assets/js/helper/validation/registerValidationCheck.js");
 router.post("/register", checksRegistration, function (req, res) {
   //check for validation
   const errors = validationResult(req);
@@ -69,13 +124,14 @@ router.post("/register", checksRegistration, function (req, res) {
       } else {
         bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
           users.addUser(req.body.username, req.body.email, hash, function (error, result) {
-            res.redirect("/profile/" + result.userId);
+            req.login(result.userId, function (err) {
+              res.redirect("/profile/" + result.userId);
+            });
           });
         });
       }
     });
   }
 });
-
 
 module.exports = router;

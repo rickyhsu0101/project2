@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 module.exports = {
   entry: {
-    login: './dev-Public/assets/js/pages/login.js',
-    register: './dev-Public/assets/js/pages/register.js',
-    profile: './dev-Public/assets/js/pages/profile.js'
+    login: './public/assets/js/pages/login.js',
+    register: './public/assets/js/pages/register.js',
+    profile: './public/assets/js/pages/profile.js'
   },
   output: {
     path: path.join(__dirname, 'dist/js'),
@@ -30,6 +30,5 @@ module.exports = {
   },
   stats: {
     colors: true
-  },
-  devtool: 'source-map'
+  }
 };

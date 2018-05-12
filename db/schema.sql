@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS simulation_db;
 CREATE DATABASE simulation_db;
 USE simulation_db;
 
-DROP TABLE IF EXISTS users;
 CREATE TABLE users(
     userId INT AUTO_INCREMENT,
     username VARCHAR(100) NOT NULL,
@@ -11,7 +10,6 @@ CREATE TABLE users(
     friends TEXT,
     PRIMARY KEY(userId)
 );
-
 
 CREATE TABLE chat_room(
     roomId INT AUTO_INCREMENT,

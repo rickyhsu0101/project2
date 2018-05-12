@@ -1,6 +1,6 @@
-const connection = require("./connection.js");
-const conditional = require("./helper/conditional.js");
-const colValGenerator = require("./helper/colValGenerator.js");
+const connection = require("../config/connection.js");
+const conditional = require("../public/assets/js/helper/orm/conditional.js");
+const colValGenerator = require("../public/assets/js/helper/orm/colValGenerator.js");
 
 var orm = {
     createTable: function (tableName, rules, cb) {
@@ -22,23 +22,19 @@ var orm = {
             }
             cb(err, result);
         });
-
     },
     selectAllParam: function (table, where, cb) {
         let query = "SELECT * FROM ??";
         let values = [table];
-
-        let conditionalObj = conditional(where);
+        const conditionalObj = conditional(where);
         values = values.concat(conditionalObj.whereValues);
         query += " " + conditionalObj.whereQuery;
-
         connection.query(query, values, function (err, result) {
             if (err) {
                 throw err;
             }
             cb(err, result);
         });
-
     },
     selectMultipleAllParamWithOrder: function (tables, wheres, orderBy, cb) {
         query = "";
