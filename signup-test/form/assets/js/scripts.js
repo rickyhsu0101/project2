@@ -10,8 +10,18 @@ $(document).ready(function() {
     // Prevent event handler (e) from attempting to post
     // This may override materialize validation... need to validate
     //  behavior of user name
-    e.preventDefault();
     $('#passwordValidation').text('');
+    $('#emailValidation').text('');
+
+    e.preventDefault();
+    var iEmail = $('#email').val();
+    emailValidation = ValidateEmail(iEmail);
+    if (emailValidation != true) {
+      var errorText = 'You have entered an invalid email address!';
+      $('#emailValidation').html(errorText);
+      return;
+    }
+
     iPassword = $('#password').val();
 
     passValidation = iPassword.length < 8 ? false : true;
@@ -39,19 +49,23 @@ $(document).ready(function() {
           '<br/>At least one character in the password has to be numeric';
       }
       if (!upperValidation) {
-        errorText += '<br/>Pasworrd must contain one upper case character';
+        errorText += '<br/>Pasword must contain one upper case character';
       }
       if (!lowerValidation) {
-        errorText += '<br/>Pasworrd must contain one lower case character';
+        errorText += '<br/>Pasword must contain one lower case character';
       }
 
       if (!specValidation) {
         errorText +=
-          '<br/>Pasworrd must contain one special character (!@#$%^&*()?';
+          '<br/>Pasword must contain one special character (!@#$%^&*()?';
       }
 
       $('#passwordValidation').html(errorText);
+
+      return;
     } // End Password Validation
+
+    //
   });
 });
 
@@ -91,5 +105,17 @@ var hasSpecialChar = inputStr => {
       return true;
     }
   }
+  return false;
+};
+
+// Email validation... test for inclusion of @ sign
+// last end of string must contain .com, .io etc
+//function ValidateEmail(mail)
+var ValidateEmail = inputStr => {
+  //https://www.w3resource.com/javascript/form/email-validation.php
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputStr)) {
+    return true;
+  }
+
   return false;
 };

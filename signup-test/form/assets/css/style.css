@@ -33,8 +33,9 @@ body {
   border: 1px solid goldenrod;
 }
 
-#passwordValidation {
-  font-size: 0.5rem;
+#passwordValidation,
+#emailValidation {
+  font-size: 0.75rem;
   color: red;
   font-weight: bold;
   text-align: center;
