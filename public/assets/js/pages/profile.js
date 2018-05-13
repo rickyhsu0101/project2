@@ -1,8 +1,6 @@
-import {
-    headerInit
-} from '../general/header.js';
+import { headerInit } from '../general/header.js';
 
 import '../../css/style.css';
-$(document).ready(function () {
-    headerInit();
+$(document).ready(function() {
+  headerInit();
 });

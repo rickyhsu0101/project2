@@ -1,33 +1,33 @@
-<div class = "container formDiv blue-grey lighten-5">
-    <div class = "row">
-        <% if(errors) {%>
-            <% for(var i = 0; i < errors.length; i++){%>
-                <div class = "col s12 error purple-text text-lighten-1">
-                    <%= errors[i].msg %>
-                    
-                </div>
-            <% } %>
-        <%}%>
-        <form class = "col s12" method = "POST" action= "/register">
-            <div class="input-field col s12">
+<div class="container formDiv blue-grey lighten-5">
+  <div class="row">
+    <% if(errors) {%>
+      <% for(var i = 0; i < errors.length; i++) {%>
+        <div class="col s12 error purple-text text-lighten-1">
+          <%= errors[i].msg %>
+
+        </div>
+        <% } %>
+          <%}%>
+            <form class="col s12" method="POST" action="/register">
+              <div class="input-field col s12">
                 <input placeholder="Username" id="username" type="text" name="username">
                 <label for="username">Username</label>
-            </div>
-            <div class="input-field col s12">
+              </div>
+              <div class="input-field col s12">
                 <input placeholder="Email" id="email" type="email" name="email">
                 <label for="email">Email</label>
-            </div>
-            <div class="input-field col s12">
+              </div>
+              <div class="input-field col s12">
                 <input placeholder="Password" id="password" type="password" name="password">
                 <label for="password">Password</label>
-            </div>
-            <div class="input-field col s12">
+              </div>
+              <div class="input-field col s12">
                 <input placeholder="Re-enter Password" id="repassword" type="password" name="repassword">
                 <label for="repassword">Re-enter Password</label>
-            </div>
-            <button class = "wave-effect waves-light btn submitButton" type = "submit">Register</button>
-        </form>
-        <a href = "/login" id = "redirectAnchor">Already have an account? Login here!</a>
-        
-    </div>
+              </div>
+              <button class="wave-effect waves-light btn submitButton" type="submit">Register</button>
+            </form>
+            <a href="/login" id="redirectAnchor">Already have an account? Login here!</a>
+
+  </div>
 </div>

@@ -1,32 +1,39 @@
 <div class="navbar-fixed">
     <nav>
-        <div class="nav-wrapper">
+      <div class="nav-wrapper">
         <a href="#" class="brand-logo">Project 2</a>
         <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="/home">Home</a></li>
-            <% if (user){%>
-               <li><a href="/account">
-               <%= user.name %>
-               </a></li>
-            <% }else {%>
-                <li><a href="/login">
-                    Login
-                </a></li>
-            <%}%>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <% if (user){%>
+            <li>
+              <a href="/account"><%= user.name %></a>
+            </li>
+          <% }else {%>
+            <li>
+              <a href="/login">Login</a>
+            </li>
+            <li>
+              <a href="/register">Sign Up</a>
+            </li>
+          <%}%>
         </ul>
-        </div>
+      </div>
     </nav>
     <ul class="sidenav" id="mobile">
-        <li><a href="/home">Home</a></li>
-        <% if (user){%>
-            <li><a href="/account">
-            <%= user.name %>
-            </a></li>
-        <% }else {%>
-            <li><a href="/login">
-                Login
-            </a></li>
-        <%}%>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <% if (user){%>
+        <li><a href="/account">
+        <%= user.name %>
+        </a></li>
+      <% }else {%>
+        <li>
+          <a href="/login">Login</a>
+        </li>
+      <%}%>
     </ul>
 </div>
