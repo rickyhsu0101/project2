@@ -1,35 +1,26 @@
-const path = require('path');
 const express = require('express');
 const app = express();
-const multer = require('multer');
 const bodyParser = require('body-parser');
-
-// creates storage location and file name for a users avatar
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, './uploads');
-  },
-  filename: function(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ storage: storage });
+const upload = require('./upload');
+const avatar = upload.single('avatar');
 
 // Sets up Express to handle data parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 
-app.post('/profile', upload.single('avatar'), function(req, res) {
-  console.log(req.body);
-  console.log(req.file);
+// uploads the file to the server
+app.post('/profile', (req, res) => {
+  // checks for errors
+  avatar(req, res, err => {
+    if (err) {
+      return console.log('File size too large.');
+    }
+    console.log('file uploaded');
+    return true;
+  });
   res.redirect('/');
 });
 
-app.listen(3000, function() {
-  console.log('Listening on localhost:3000');
-});
+app.listen(3000, () => console.log('Listening on localhost:3000'));

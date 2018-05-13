@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
 const rfs = require('rotating-file-stream');
@@ -19,15 +19,11 @@ const PORT = 8080;
 // initialize chat connection
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const connectChat = require('./controllers/sockets/sockets');
-connectChat(io);
+const initChat = require('./controllers/sockets/sockets');
+initChat(io);
 
-// create a write stream to add log entries to access.log.
-// the object passed in opens the file for appending, and creates the file if it does not exist
-// 'combined' represents the format to write the log. This is the standard apache log format
-const accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/access.log'), {
-  flags: 'a'
-});
+// access log functions
+const accessLogStream = require('./middleware/morgan/accessLogStream');
 app.use(morgan('combined', { stream: accessLogStream }));
 
 // specify the view engine and file locations
@@ -59,5 +55,5 @@ app.use(passport.session());
 app.use(require('./controllers/html-routes.js'));
 //app.use('/api', require('./controllers/api-routes.js'));
 
-// start the server
+// start the server with http because socket.io is attached to it
 http.listen(PORT, () => console.log('listening on ' + PORT));
