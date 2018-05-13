@@ -47,6 +47,20 @@ router.get('/login', function(req, res) {
   }
 });
 
+// renders page to display groups
+router.get('/groups', (req, res) => {
+  const obj = objGenerator();
+  obj.page = 'groups';
+  res.render('index', obj);
+});
+
+// renders form to create a new group
+router.get('/newgroup', (req, res) => {
+  const obj = objGenerator();
+  obj.page = 'newgroup';
+  res.render('index', obj);
+});
+
 // renders sign up page
 router.get('/register', function(req, res) {
   //****IMAGE UPLOADS *****/

@@ -6,7 +6,9 @@ module.exports = {
     register: './public/assets/js/pages/register.js',
     profile: './public/assets/js/pages/profile.js',
     chat: './public/assets/js/pages/chat.js',
-    home: './public/assets/js/pages/home.js'
+    home: './public/assets/js/pages/home.js',
+    groups: './public/assets/js/pages/groups.js',
+    newgroup: './public/assets/js/pages/newgroup.js'
   },
   output: {
     path: path.join(__dirname, 'dist/js'),
