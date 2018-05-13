@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  // Note : We are using JS6 for this project
+  // Note : We are using ES6 for this project
   //Once the submit button is pressed, test for length of password.  //Require minimum of 8 characters
   //One must be upper
   //One must be lowere
@@ -30,13 +30,7 @@ $(document).ready(function() {
     lowerValidation = hasLowerCase(iPassword);
     specValidation = hasSpecialChar(iPassword);
 
-    if (
-      passValidation &&
-      numValidation &&
-      upperValidation &&
-      lowerValidation &&
-      specValidation
-    ) {
+    if (passValidation && numValidation && upperValidation && lowerValidation && specValidation) {
       // All Validations Passed
     } else {
       // Display message to user
@@ -45,8 +39,7 @@ $(document).ready(function() {
         var errorText = 'The minimum password length is 8 characters';
       }
       if (!numValidation) {
-        errorText +=
-          '<br/>At least one character in the password has to be numeric';
+        errorText += '<br/>At least one character in the password has to be numeric';
       }
       if (!upperValidation) {
         errorText += '<br/>Pasword must contain one upper case character';
@@ -56,8 +49,7 @@ $(document).ready(function() {
       }
 
       if (!specValidation) {
-        errorText +=
-          '<br/>Pasword must contain one special character (!@#$%^&*()?';
+        errorText += '<br/>Pasword must contain one special character (!@#$%^&*()?';
       }
 
       $('#passwordValidation').html(errorText);

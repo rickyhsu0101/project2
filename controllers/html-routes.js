@@ -6,6 +6,10 @@ const bcrypt = require('bcrypt');
 const async = require('async');
 const passport = require('passport');
 
+// image upload middleware
+const upload = require('../middleware/multer/upload');
+const avatar = upload.single('avatar');
+
 const router = express.Router();
 //number of words used for hash
 const saltRounds = 10;
@@ -45,6 +49,17 @@ router.get('/login', function(req, res) {
 
 // renders sign up page
 router.get('/register', function(req, res) {
+  //****IMAGE UPLOADS *****/
+  // uploads the file to the server when a user signs up
+  avatar(req, res, err => {
+    // checks for errors
+    if (err) {
+      return console.log('File size too large.');
+    }
+    console.log('file uploaded');
+    return true;
+  });
+
   if (req.isAuthenticated()) {
     res.redirect('/profile/' + req.user.userId);
   } else {

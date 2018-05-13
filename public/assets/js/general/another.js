@@ -1,3 +1,3 @@
-export function output(someString){
-    console.log(someString);
-};
+export function output(someString) {
+  console.log(someString);
+}

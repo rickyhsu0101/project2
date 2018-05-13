@@ -1,11 +1,11 @@
-const events = require('../helper/chat/events');
-const socket = io.connect();
+import events from '../helper/chat/events';
 import '../../css/chat.css';
 
 //********** CLIENT SIDE CHAT LOGIC *****************/
 //********** EMITS EVENTS TO THE SERVER *****************/
 //********** SERVER EMITS EVENTS BACK TO THE CLIENT TO EXECUTE LOGIC TO ALL CONNECTED CLIENTS *****************/
 //********** SOCKETS ARE CLIENTS ******************/
+const socket = io.connect();
 
 // creates a new connection
 socket.on(events.connection, () => {
