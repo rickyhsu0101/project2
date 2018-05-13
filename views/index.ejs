@@ -18,16 +18,21 @@
     </header>
     <main>
       <% if(page == "home") { %>
-          <%- include ./partials/pages/home %>
-      <%} else if (page == "chat") { %>
-        <%- include ./partials/pages/chat %>
-      <%} else if (page == "login"){%>
-        <%- include ./partials/pages/login %>
-      <%} else if (page == "register"){%>
-        <%- include ./partials/pages/register %>
-      <%} else if (page == "profile"){%>
-        <%- include ./partials/pages/profile %>
-      <%}%>
+            <%- include ./partials/pages/home %>
+        <%} else if (page == "chat") { %>
+          <%- include ./partials/pages/chat %>
+        <%} else if (page == "login"){%>
+          <%- include ./partials/pages/login %>
+        <%} else if (page == "register"){%>
+          <%- include ./partials/pages/register %>
+        <%} else if (page == "profile"){%>
+          <%- include ./partials/pages/profile %>
+        <%} else if (page == "groups"){%>
+          <%- include ./partials/pages/groups %>
+        <%} else if (page == "newgroup"){%>
+          <%- include ./partials/pages/newgroup %>
+        <%}
+      %>
     </main>
     
     <% include ./partials/general/footer%>
