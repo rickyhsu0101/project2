@@ -8,22 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
     <script src = "<%= '/js/' + page + '.js'%>"></script>
 </head>
 <body>
     <header>
-        <%- include ./partials/general/header%>
+      <%- include ./partials/general/header%>
     </header>
     <main>
-        <% if(page == "home") { %>
-            
+      <% if(page == "home") { %>
+            <%- include ./partials/pages/home %>
+        <%} else if (page == "chat") { %>
+          <%- include ./partials/pages/chat %>
         <%} else if (page == "login"){%>
-            <%- include ./partials/pages/login %>
+          <%- include ./partials/pages/login %>
         <%} else if (page == "register"){%>
-            <%- include ./partials/pages/register %>
+          <%- include ./partials/pages/register %>
         <%} else if (page == "profile"){%>
-            <%- include ./partials/pages/profile %>
-        <%}%>
+          <%- include ./partials/pages/profile %>
+        <%} else if (page == "groups"){%>
+          <%- include ./partials/pages/groups %>
+        <%} else if (page == "newgroup"){%>
+          <%- include ./partials/pages/newgroup %>
+        <%}
+      %>
     </main>
     
     <% include ./partials/general/footer%>

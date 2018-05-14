@@ -4,14 +4,19 @@ module.exports = {
   entry: {
     login: './public/assets/js/pages/login.js',
     register: './public/assets/js/pages/register.js',
-    profile: './public/assets/js/pages/profile.js'
+    profile: './public/assets/js/pages/profile.js',
+    chat: './public/assets/js/pages/chat.js',
+    home: './public/assets/js/pages/home.js',
+    groups: './public/assets/js/pages/groups.js',
+    newgroup: './public/assets/js/pages/newgroup.js'
   },
   output: {
     path: path.join(__dirname, 'dist/js'),
     filename: '[name].js'
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {

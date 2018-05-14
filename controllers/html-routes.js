@@ -1,17 +1,22 @@
 const express = require('express');
-const {
-  validationResult
-} = require("express-validator/check");
+const { validationResult } = require('express-validator/check');
 const objGenerator = require('../public/assets/js/helper/template/templateObj.js');
+
 const users = require("../models/users.js");
 const bcrypt = require("bcrypt");
 const async = require("async");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
+// image upload middleware
+const upload = require('../middleware/multer/upload');
+const avatar = upload.single('avatar');
+
+
 const router = express.Router();
 //number of words used for hash
 const saltRounds = 10;
+
 
 passport.use(new LocalStrategy(function (username, password, done) {
   console.log(username);
@@ -50,29 +55,83 @@ router.get('/profile/:id', function (req, res) {
   res.end();
 });
 
-router.get('/', function (req, res) {
-  res.end();
+
+
+// renders home page
+router.get('/', function(req, res) {
+  const obj = objGenerator();
+  obj.page = 'home';
+  res.render('index', obj);
 });
-router.get('/login', function (req, res) {
+
+// renders chat page
+router.get('/chat', function(req, res) {
+  const obj = objGenerator();
+  obj.page = 'chat';
+  res.render('index', obj);
+});
+
+// renders login page
+router.get('/login', function(req, res) {
+  //passport authentication
   if (req.isAuthenticated()) {
-    res.redirect("/profile/" + req.user.userId);
+    res.redirect('/profile/' + req.user.userId);
   } else {
     let obj = objGenerator();
     obj.page = 'login';
     res.render('index', obj);
   }
 });
+
+// renders page to display groups
+router.get('/groups', (req, res) => {
+  const obj = objGenerator();
+  obj.page = 'groups';
+  res.render('index', obj);
+});
+
+// renders form to create a new group
+router.get('/newgroup', (req, res) => {
+  const obj = objGenerator();
+  obj.page = 'newgroup';
+  res.render('index', obj);
+});
+
+// renders sign up page
+router.get('/register2', function(req, res) {
+  //****IMAGE UPLOADS *****/
+  // uploads the file to the server when a user signs up
+  avatar(req, res, err => {
+    // checks for errors
+    if (err) {
+      return console.log('File size too large.');
+    }
+    console.log('file uploaded');
+    return true;
+  });
+
 router.get('/register', function (req, res) {
   if (req.isAuthenticated()) {
-    res.redirect("/profile/" + req.user.userId);
+    res.redirect('/profile/' + req.user.userId);
   } else {
     let obj = objGenerator();
-    obj.page = "register";
-    res.render("index", obj);
+    obj.page = 'register';
+    res.render('index', obj);
   }
 });
-const checksLogin = require("../public/assets/js/helper/validation/loginValidationCheck.js");
-router.post("/login", checksLogin, function (req, res) {
+
+// renders user profile after signin
+router.get('/profile/:id', function(req, res) {
+  //to be completed
+  res.end();
+});
+
+//********** AUTHENTICATION STUFF? ***********/
+//********** MOVE LOGIC TO SEPARATE FILE**********/
+//Controller file should handle the logic because logic involves 
+//Manipulating the model and update the views/routes 
+const checksLogin = require('../public/assets/js/helper/validation/loginValidationCheck.js');
+router.post('/login', checksLogin, function(req, res) {
   //to be completed
   const errors = validationResult(req);
   //validation the form data
@@ -82,8 +141,9 @@ router.post("/login", checksLogin, function (req, res) {
     let errorsObj = errors.mapped();
     let errorsKey = Object.keys(errorsObj);
     let obj = objGenerator();
-    obj.page = "login";
+    obj.page = 'login';
     obj.errors = [];
+
     //append each error to the errors array property of template obj
     errorsKey.forEach(function (errorKey) {
       obj.errors.push(errorsObj[errorKey]);
@@ -107,6 +167,7 @@ router.post("/login", checksLogin, function (req, res) {
       } else {
         //if there is a result, get password
         let hash = result[0].password;
+
         //use bcrypt to check for pass
         bcrypt.compare(req.body.password, hash, function (err, resBool) {
           if (resBool) {
@@ -115,6 +176,7 @@ router.post("/login", checksLogin, function (req, res) {
               successRedirect: "/profile/" + result[0].userId,
               failureRedirect: "/login"
             })(req, res);
+
           } else {
             //if passwords don't match
             let obj = objGenerator();
@@ -130,8 +192,10 @@ router.post("/login", checksLogin, function (req, res) {
     });
   }
 });
+
 const checksRegistration = require("../public/assets/js/helper/validation/registerValidationCheck.js");
 router.post("/register", checksRegistration, function (req, res) {
+
   //check for validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -139,12 +203,12 @@ router.post("/register", checksRegistration, function (req, res) {
     let errorsObj = errors.mapped();
     let errorsKey = Object.keys(errorsObj);
     let obj = objGenerator();
-    obj.page = "register";
+    obj.page = 'register';
     obj.errors = [];
-    errorsKey.forEach(function (errorKey) {
+    errorsKey.forEach(function(errorKey) {
       obj.errors.push(errorsObj[errorKey]);
     });
-    res.render("index", obj);
+    res.render('index', obj);
   } else {
     //run two asynchronous function in series
     //one checks for email
@@ -183,10 +247,11 @@ router.post("/register", checksRegistration, function (req, res) {
               successRedirect: "/profile/" + result[0].userId,
               failureRedirect: "/login"
             })(req, res);
+
           });
-        });
+        }
       }
-    });
+    );
   }
 });
 

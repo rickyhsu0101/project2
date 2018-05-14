@@ -1,0 +1,27 @@
+.chat-container,
+form {
+  width: 95%;
+}
+
+.chat-msgs {
+  height: 500px;
+  overflow-y: auto;
+  background-color: white;
+  color: black !important;
+}
+
+#send-msg {
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-top: 1px solid rgb(207, 207, 207);
+  resize: none;
+}
+
+.chat-msgs div {
+  padding: 5px 10px;
+}
+
+.chat-msgs div:nth-child(odd) {
+  background: #eee;
+}
