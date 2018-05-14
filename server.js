@@ -41,13 +41,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // validation middleware
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(
-  session({
-    secret: 'afdhu19h3f0ph10f',
-    resave: false,
-    saveUninitialized: false
-  })
-);
+app.use(session({
+  secret: "afdhu19h3f0ph10f",
+  resave: false,
+  saveUninitialized: false
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
