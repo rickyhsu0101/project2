@@ -44,6 +44,7 @@ app.use(bodyParser.urlencoded({
 app.use(expressValidator());
 app.use(cookieParser());
 
+
 app.use(session({
   secret: "afdhu19h3f0ph10f",
   resave: false,

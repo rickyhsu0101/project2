@@ -17,13 +17,11 @@ const users = {
             friends: ""
         };
         orm.insertOneWithoutParams("users", keyValues, function (err, result) {
-            users.selectUserWithUsername(username, function (err, result) {
-                console.log(result);
-                let id = result[0].userId;
-                orm.createTable(id + "_chat", userChatRules, function (err, result) {
-                    cb(err, {
-                        userId: id
-                    });
+            users.selectUserWithUsername(username, function (err, resultUser) {
+
+                orm.createTable(resultUser[0].userId + "_chat", userChatRules, function (err, result) {
+                    //the result of the fuction is the user row just created
+                    cb(err, resultUser);
                 });
             });
         });
