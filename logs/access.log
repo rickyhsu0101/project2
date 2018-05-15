@@ -193,3 +193,13 @@
 ::ffff:127.0.0.1 - - [15/May/2018:05:33:14 +0000] "GET /chat HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
 ::ffff:127.0.0.1 - - [15/May/2018:05:33:14 +0000] "GET /js/chat.js HTTP/1.1" 200 8744 "http://localhost:8080/chat" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
 
+::1 - - [15/May/2018:23:07:47 +0000] "GET /1111 HTTP/1.1" 404 143 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:10:33 +0000] "GET /group/1111 HTTP/1.1" 500 2804 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:12:02 +0000] "GET /group/1111 HTTP/1.1" 500 2804 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:13:15 +0000] "GET /group/1111 HTTP/1.1" 200 2849 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:13:16 +0000] "GET /js/group.js HTTP/1.1" 404 150 "http://localhost:8080/group/1111" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:13:16 +0000] "GET /assets/img/121.jpg HTTP/1.1" 304 - "http://localhost:8080/group/1111" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:13:16 +0000] "GET /js/group.js HTTP/1.1" 404 150 "http://localhost:8080/group/1111" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:20:50 +0000] "GET /group/1111 HTTP/1.1" 200 2861 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:20:50 +0000] "GET /assets/img/121.jpg HTTP/1.1" 304 - "http://localhost:8080/group/1111" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+::1 - - [15/May/2018:23:20:50 +0000] "GET /js/group.js HTTP/1.1" 200 6697 "http://localhost:8080/group/1111" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"

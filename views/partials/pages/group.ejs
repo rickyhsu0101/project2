@@ -1,0 +1,68 @@
+
+<% var member = false; %>
+<% var power = "none"; %>
+<% if(user) {%>
+  <% var groupMembers = group.groupMembers.split(","); %>
+  <% for(var i = 0; i < groupMembers.length; i++){ %>
+    <% if(user.userId == parseInt(groupMembers[i])){ %>
+      <% member = true; %>
+      <% for(var j= 0; j < group.info.length; j++){ %>
+          <%if(group.info[j].member == user.userId){%>
+            <%power = group.info[j].position;%>
+          <%}%>
+      <%}%>
+    <%}%>
+  <%}%>
+<%}%>
+<div class = "container">
+    <div class = "row">
+        <div class = "col s12 m4" id = "profileColumn">
+            <img id = "groupProfileImg" src = "
+                /assets/img/121.jpg
+            ">
+            <h2>
+                <%= group.groupName %>
+            </h2>
+            <% if (power == "admin"){ %>
+                
+              <a class = "wave-effect waves-light btn profileButtons">Change Group Avatar</a>
+              <a class = "wave-effect waves-light btn profileButtons">Edit Group</a>
+                
+            <% } %>
+        </div>
+        <div class = "col s12 m8" id = "tasksColumn">
+            <% for(var k = 0; k < group.tasks.length; k++){ %>
+              <div class = "container taskContainer">
+                <div class = "task">
+                  <h3>
+                    <%= group.tasks[k].taskName %>
+                  <h3>
+                  <h4>Reward: 
+                    <%= group.tasks[k].taskPoints %>
+                  <h4>
+                  <p>
+                    <%= group.tasks[k].taskDesc %>
+                  </p>
+                </div>
+                <div class = "completedMembers">
+                  <%= group.tasks[k].completedMembers %>
+                </div>
+              </div>
+            <% } %>
+            <%if(group.tasks.length == 0){%>
+              <% if(power=="admin"){%>
+                <div>
+                    <a href = "/search" class= "wave-effect waves-light btn">Add new Task</a>
+                </div>
+              <% }else{%>
+                <div>
+                    <h3>No tasks yet!</h3>
+                </div>
+              <%}%>
+            <%}%>
+        </div>
+
+           
+    
+    </div>
+</div>

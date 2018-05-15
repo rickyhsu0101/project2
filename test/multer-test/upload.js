@@ -5,10 +5,11 @@ const path = require('path');
 
 // creates storage location and file name for a users avatar
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, './uploads');
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
+    console.log(file);
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
@@ -17,11 +18,13 @@ const storage = multer.diskStorage({
 // fileFilter checks the extension type
 module.exports = multer({
   storage: storage,
-  fileFilter: function(req, file) {
+  fileFilter: function (req, file) {
     const ext = path.extname(file.originalname);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
       return console.log('Only images are allowed');
     }
   },
-  limits: { fileSize: 1000000 }
+  limits: {
+    fileSize: 100000000
+  }
 });

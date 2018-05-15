@@ -8,6 +8,7 @@ module.exports = {
     chat: './public/assets/js/pages/chat.js',
     home: './public/assets/js/pages/home.js',
     groups: './public/assets/js/pages/groups.js',
+    group: './public/assets/js/pages/group.js',
     newgroup: './public/assets/js/pages/newgroup.js'
   },
   output: {
@@ -15,8 +16,7 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js$/,
         loader: 'babel-loader',
         query: {

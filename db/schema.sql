@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS simulation_db;
-CREATE DATABASE simulation_db;
-USE simulation_db;
+DROP DATABASE IF EXISTS olqeekbcp7xt59wu;
+CREATE DATABASE olqeekbcp7xt59wu;
+USE olqeekbcp7xt59wu;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users(
@@ -13,7 +13,7 @@ CREATE TABLE users(
     PRIMARY KEY(userId)
 );
 
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 DROP TABLE IF EXISTS chat_room;
 CREATE TABLE chat_room(
     roomId INT AUTO_INCREMENT,
@@ -22,10 +22,11 @@ CREATE TABLE chat_room(
     PRIMARY KEY(roomId)
 );
 
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 DROP TABLE IF EXISTS groups;
 CREATE TABLE groups(
     groupId INT AUTO_INCREMENT,
+    groupDesc TEXT,
     groupName VARCHAR(255),
     groupMembers TEXT,
     chatId INT NOT NULL,
