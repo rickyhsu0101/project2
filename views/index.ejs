@@ -9,8 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="/socket.io/socket.io.js"></script>
-    <script src = "<%= '/js/' + page + '.js'%>"></script>
+    
+    
 </head>
 <body>
     <header>
@@ -21,6 +21,8 @@
             <%- include ./partials/pages/home %>
         <%} else if (page == "chat") { %>
           <%- include ./partials/pages/chat %>
+        <%} else if (page == "chat2") { %>  
+          <%- include ./partials/pages/chat2 %>
         <%} else if (page == "login"){%>
           <%- include ./partials/pages/login %>
         <%} else if (page == "register"){%>
@@ -36,7 +38,11 @@
     </main>
     
     <% include ./partials/general/footer%>
-   
+    <script src = "<%= '/js/' + page + '.js'%>"></script>
+    <% if (page == "group" || page == "chat" || page == "chat2"){ %>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/assets/js/pages/chatStatic.js"></script>
+    <%}%>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 const orm = require('./orm.js');
+const chat = require('./chat.js');
 const userChatRules = [
     'messageId INT AUTO_INCREMENT',
     'roomId INT NOT NULL',
@@ -18,11 +19,26 @@ const users = {
         };
         orm.insertOneWithoutParams("users", keyValues, function (err, result) {
             users.selectUserWithUsername(username, function (err, resultUser) {
-
-                orm.createTable(resultUser[0].userId + "_chat", userChatRules, function (err, result) {
-                    //the result of the fuction is the user row just created
+                chat.createUserChat(resultUser[0].userId, function (err, result) {
                     cb(err, resultUser);
                 });
+            });
+        });
+    },
+    addUserGroup: function (userId, groupId, cb) {
+        users.selectUserWithId(userId, function (err, result) {
+            let currentGroups = result[0].groups;
+            if (currentGroups.length > 0) {
+                currentGroups += "," + groupId
+            } else {
+                currentGroups = groupId;
+            }
+            orm.updateSingleRow("users", {
+                groups: currentGroups
+            }, {
+                userId: userId
+            }, function (err, result) {
+                cb(err, result);
             });
         });
     },

@@ -1,9 +1,10 @@
 const events = require('../../public/assets/js/helper/chat/events');
-
-module.exports = function(io) {
+console.log("events worked");
+module.exports = function (io) {
   // a socket is a user. connects a user to a room
   return io.sockets.on(events.connection, socket => {
     // when the 'room' event is emitted from the client, the user joins their specified room
+    console.log('a user connected');
     socket.on(events.room, room => socket.join(room));
 
     // when the 'message' event is emitted from the client, the message gets emitted to all sockets in the room
