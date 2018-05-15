@@ -62,6 +62,9 @@ router.get('/profile/:id', function (req, res) {
 // renders home page
 router.get('/', function (req, res) {
   const obj = objGenerator();
+  if (res.isAuthenticated()) {
+    obj.user = req.user;
+  }
   obj.page = 'home';
   res.render('index', obj);
 });
@@ -69,7 +72,18 @@ router.get('/', function (req, res) {
 // renders chat page
 router.get('/chat', function (req, res) {
   const obj = objGenerator();
+  if (req.isAuthenticated()) {
+    obj.user = req.user;
+  }
   obj.page = 'chat';
+  res.render('index', obj);
+});
+router.get('/chat2', function (req, res) {
+  const obj = objGenerator();
+  if (req.isAuthenticated()) {
+    obj.user = req.user;
+  }
+  obj.page = 'chat2';
   res.render('index', obj);
 });
 
@@ -130,8 +144,6 @@ router.get('/profile/:id', function (req, res) {
 
 //********** AUTHENTICATION STUFF? ***********/
 //********** MOVE LOGIC TO SEPARATE FILE**********/
-//Controller file should handle the logic because logic involves 
-//Manipulating the model and update the views/routes 
 const checksLogin = require('../public/assets/js/helper/validation/loginValidationCheck.js');
 router.post('/login', checksLogin, function (req, res) {
   //to be completed

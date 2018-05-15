@@ -4,13 +4,19 @@ var app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 
-var users = require("../users.js");
-var chat = require("../chat.js");
+var users = require("../../models/users.js");
+var chat = require("../../models/chat.js");
+var groups = require("../../models/group.js");
+
 app.get("/", function (req, res) {
-    chat.getChatById(23141, function (err, result) {
+    groups.addGroup("Test 101", 123, function (err, result) {
         console.log(result);
         res.end();
     });
+    // chat.getChatById(23141, function (err, result) {
+    //     console.log(result);
+    //     res.end();
+    // });
     /*
     users.selectUser(222, function (err, result) {
         console.log(result);

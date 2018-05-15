@@ -1,5 +1,6 @@
 const connection = require("../config/connection.js");
 const conditional = require("../public/assets/js/helper/orm/conditional.js");
+const set = require("../public/assets/js/helper/orm/set.js");
 const colValGenerator = require("../public/assets/js/helper/orm/colValGenerator.js");
 
 
@@ -84,6 +85,29 @@ var orm = {
             cb(err, result);
         });
     },
+    updateSingleRow: function (table, sett, where, cb) {
+        let query = "UPDATE ?? ";
+        let values = [table];
+
+        const setObj = set(sett);
+        const conditionalObj = conditional(where);
+        query += setObj.setQuery + " ";
+        query += conditionalObj.whereQuery;
+        console.log(values);
+        console.log(setObj.setValues);
+        console.log(conditionalObj.whereValues);
+        values = values.concat(setObj.setValues, conditionalObj.whereValues);
+        query += ";"
+        console.log(query);
+        console.log(values);
+        console.log(values.length);
+        connection.query(query, values, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(err, result);
+        });
+    },
     //modify below and change to update
     insertOneWithParams: function (table, colValue, where, cb) {
         let query = "INSERT INTO ??";
@@ -104,7 +128,6 @@ var orm = {
             }
             cb(err, result);
         });
-
     }
 
 };

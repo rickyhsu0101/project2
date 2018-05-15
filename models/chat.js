@@ -1,23 +1,37 @@
 const orm = require('./orm.js');
 const users = require('./users.js');
+const userChatRules = [
+  'messageId INT AUTO_INCREMENT',
+  'roomId INT NOT NULL',
+  'groupMembers TEXT NOT NULL',
+  'groupName VARCHAR(30)',
+  'messageContent TEXT NOT NULL',
+  'time BIGINT NOT NULL',
+  'PRIMARY KEY(messageId)'
+];
 const chat = {
-  getChatById: function(chatId, cb) {
+  createUserChat: function (userId, cb) {
+    orm.createTable(userId + "_chat", userChatRules, function (err, result) {
+      cb(err, result);
+    });
+  },
+  getChatById: function (chatId, cb) {
     //where clause for id
     let where = {
       roomId: chatId
     };
-    orm.selectAllParam('chat_room', where, function(err, result) {
+    orm.selectAllParam('chat_room', where, function (err, result) {
       if (result.length > 0) {
         let stringIdArr = result[0].members.split(',');
         let userChats = [];
         let whereMultiple = {};
-        stringIdArr.forEach(function(val) {
+        stringIdArr.forEach(function (val) {
           userChats.push(val + '_chat');
           whereMultiple[val + '_chat'] = {
             roomId: chatId
           };
         });
-        orm.selectMultipleAllParamWithOrder(userChats, whereMultiple, 'time', function(
+        orm.selectMultipleAllParamWithOrder(userChats, whereMultiple, 'time', function (
           err,
           result
         ) {
@@ -28,10 +42,10 @@ const chat = {
       }
     });
   },
-  getAllChatIds: function(id, cb) {
+  getAllChatIds: function (id, cb) {
     let chatRooms = [];
-    orm.selectAll(id + '_chat', function(err, result) {
-      result.forEach(function(row) {
+    orm.selectAll(id + '_chat', function (err, result) {
+      result.forEach(function (row) {
         if (chatRooms.indexOf(row.roomId) != -1) {
           chatRooms.push(row.roomId);
         }
@@ -39,6 +53,44 @@ const chat = {
       cb(err, chatRooms);
     });
   },
-  addChat: function(username, cb) {}
+  appendUserChat: function (userId, roomId, message, time, cb) {
+    chat.getChatInfoByRoomId(roomId, function (err, result) {
+      const values = {
+        groupMembers: result[0].members,
+        groupName: result[0].roomName,
+        messageContent: message,
+        time: time
+      };
+      orm.insertOneWithoutParams(userId + "_chat", values, function (err, result) {
+        cb(err, result);
+      });
+    });
+
+  },
+  creatChatRoom: function (userId, roomName, cb) {
+    const values = {
+      roomName: roomName,
+      members: "" + userId
+    }
+    orm.insertOneWithoutParams("chat_room", values, function (err, result) {
+      chat.getChatInfoByRoomName(roomName, function (err, result) {
+        cb(err, result);
+      });
+    });
+  },
+  getChatInfoByRoomName: function (roomName, cb) {
+    orm.selectAllParam("chat_room", {
+      roomName: roomName
+    }, function (err, result) {
+      cb(err, result);
+    });
+  },
+  getChatInfoByRoomId: function (roomId, cb) {
+    orm.selectAllParam("chat_room", {
+      roomId: roomId
+    }, function (err, result) {
+      cb(err, result);
+    });
+  }
 };
 module.exports = chat;
