@@ -21,8 +21,6 @@
             <%- include ./partials/pages/home %>
         <%} else if (page == "chat") { %>
           <%- include ./partials/pages/chat %>
-        <%} else if (page == "chat2") { %>  
-          <%- include ./partials/pages/chat2 %>
         <%} else if (page == "login"){%>
           <%- include ./partials/pages/login %>
         <%} else if (page == "register"){%>
@@ -39,7 +37,7 @@
     
     <% include ./partials/general/footer%>
     <script src = "<%= '/js/' + page + '.js'%>"></script>
-    <% if (page == "group" || page == "chat" || page == "chat2"){ %>
+    <% if (page == "group" || page == "chat"){ %>
       <script src="/socket.io/socket.io.js"></script>
       <script src="/assets/js/pages/chatStatic.js"></script>
     <%}%>

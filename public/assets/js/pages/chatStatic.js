@@ -5,12 +5,12 @@ const events = {
   change: 'change'
 };
 
-
 const socket = io.connect();
 console.log(socket);
 console.log(events.connection);
+
 // creates a new connection
-socket.on('connect', function () {
+socket.on('connect', function() {
   // grabs the room id to connect to the correct room
   var room = $('#send-msg').attr('data-room');
 
@@ -19,19 +19,9 @@ socket.on('connect', function () {
   // sends the 'room' event to the client to log the user into their room
   socket.emit('room', room);
 });
-/*
-socket.on(events.connection, () => {
-  // grabs the room id to connect to the correct room
-  console.log("Connected")
-  var room = $('#send-msg').attr('data-room');
-  console.log('connect from room:', room);
 
-  // sends the 'room' event to the client to log the user into their room
-  socket.emit(events.room, room);
-});
-*/
 // get message value to emit to all connected clients
-$('#send-msg').on('keyup', function (e) {
+$('#send-msg').on('keyup', function(e) {
   if (e.keyCode === 13) {
     // gets the users message, and room to send to the correct room
     const info = {
@@ -47,7 +37,7 @@ $('#send-msg').on('keyup', function (e) {
 });
 
 // change detects any kind of change to the '#send-msg' element, such as a click
-$('#send-msg').on('change', function () {
+$('#send-msg').on('change', function() {
   const info = {
     room: $('#send-msg').attr('data-room'),
     value: $('#send-msg').val()
