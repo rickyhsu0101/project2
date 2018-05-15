@@ -3,6 +3,7 @@
 // done this way to easily manage the events
 
 module.exports = {
+  connect: 'connect',
   connection: 'connection',
   message: 'message',
   room: 'room',
