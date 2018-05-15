@@ -16,6 +16,11 @@ const groupRules = [
   'PRIMARY KEY(taskId)'
 ]
 const group = {
+  //add new group to groups table
+  //add new chat to chat_room table
+  //append new groupId to users table row
+  //add group info and task tables
+  //nothing is returned
   addGroup: function (groupName, userId, cb) {
     chat.creatChatRoom(userId, groupName + " Chat", function (err, result) {
       const chatId = result[0].roomId;
@@ -55,6 +60,8 @@ const group = {
       });
     });
   },
+  //select group by group name
+  //result[0] for the row obj
   selectGroupWithGroupName: function (groupName, cb) {
     const values = {
       groupName: groupName

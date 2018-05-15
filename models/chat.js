@@ -10,11 +10,13 @@ const userChatRules = [
   'PRIMARY KEY(messageId)'
 ];
 const chat = {
+  //create a user chat table
   createUserChat: function (userId, cb) {
     orm.createTable(userId + "_chat", userChatRules, function (err, result) {
       cb(err, result);
     });
   },
+  //get all chat from all user
   getChatById: function (chatId, cb) {
     //where clause for id
     let where = {
@@ -53,6 +55,7 @@ const chat = {
       cb(err, chatRooms);
     });
   },
+  //add chat message to user chat
   appendUserChat: function (userId, roomId, message, time, cb) {
     chat.getChatInfoByRoomId(roomId, function (err, result) {
       const values = {
@@ -67,6 +70,7 @@ const chat = {
     });
 
   },
+  //create the chat_room by adding row to the table
   creatChatRoom: function (userId, roomName, cb) {
     const values = {
       roomName: roomName,
@@ -78,6 +82,7 @@ const chat = {
       });
     });
   },
+  //get chat row from chat_room table by room name
   getChatInfoByRoomName: function (roomName, cb) {
     orm.selectAllParam("chat_room", {
       roomName: roomName
@@ -85,6 +90,7 @@ const chat = {
       cb(err, result);
     });
   },
+  //get chat row from chat_room table by room id
   getChatInfoByRoomId: function (roomId, cb) {
     orm.selectAllParam("chat_room", {
       roomId: roomId

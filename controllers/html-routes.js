@@ -16,49 +16,36 @@ const router = express.Router();
 //number of words used for hash
 const saltRounds = 10;
 
-passport.use(
-  new LocalStrategy(function(username, password, done) {
-    console.log(username);
-    console.log(password);
-    users.selectUserWithUsername(username, function(err, result) {
-      if (result.length == 0) {
-        return done(null, false, {
-          message: 'Incorrect Username'
-        });
-      } else {
-        bcrypt.compare(password, result[0].password, function(err, correct) {
-          if (correct) {
-            return done(null, result[0]);
-          } else {
-            return done(null, false, {
-              message: 'Incorrect Password'
-            });
-          }
-        });
+
+require("../public/assets/js/helper/authentication/localStrategy.js")(passport, LocalStrategy);
+
+router.get('/profile/:id', function (req, res) {
+  users.selectUserWithId(req.params.id, function (err, result) {
+    if (result.length == 0) {
+      router.redirect("/profile/notFound");
+    } else {
+      let obj = objGenerator();
+      obj.page = "profile";
+      delete result[0].password;
+      obj.profile = result[0];
+      if (req.isAuthenticated()) {
+        let localUser = req.user;
+        delete localUser.password;
+        obj.user = localUser;
       }
-    });
-  })
-);
-//serialize user session cookie
-passport.serializeUser(function(userId, done) {
-  done(null, userId);
+      res.render("index", obj);
+    }
+  });
 });
-//deserialize user session cookie
-passport.deserializeUser(function(userId, done) {
-  done(null, userId);
-});
+router.get('/profile/notFound', function (req, res) {
+  res.end("profile not found");
 
-router.get('/profile/:id', function(req, res) {
-  console.log(req.user);
-
-  //to be completed
-  res.end();
 });
 
 // renders home page
 router.get('/', function(req, res) {
   const obj = objGenerator();
-  if (res.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     obj.user = req.user;
   }
   obj.page = 'home';
@@ -122,12 +109,6 @@ router.get('/register', function(req, res) {
     obj.page = 'register';
     res.render('index', obj);
   }
-});
-
-// renders user profile after signin
-router.get('/profile/:id', function(req, res) {
-  //to be completed
-  res.end();
 });
 
 //********** AUTHENTICATION STUFF? ***********/

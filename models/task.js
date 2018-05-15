@@ -12,11 +12,13 @@ const groupTaskRules = [
   'PRIMARY KEY(taskId)'
 ];
 const task = {
+  //add a group task table
   addGroupTaskTable: function (groupId, cb) {
     orm.createTable("group_" + groupId + "_task", groupTaskRules, function (err, result) {
       cb(err, result);
     });
   },
+  //add a task to the group task table
   addTask: function (groupId, taskName, taskDesc, taskPoints, retry, cb) {
     const values = {
       groupId: groupId,
