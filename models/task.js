@@ -21,7 +21,6 @@ const task = {
   //add a task to the group task table
   addTask: function (groupId, taskName, taskDesc, taskPoints, retry, cb) {
     const values = {
-      groupId: groupId,
       taskName: taskName,
       taskDesc: taskDesc,
       taskPoints: taskPoints,
@@ -32,6 +31,11 @@ const task = {
       retry: retry
     }
     orm.insertOneWithoutParams("group_" + groupId + "_task", values, function (err, result) {
+      cb(err, result);
+    });
+  },
+  getTasksWithGroupId: function (groupId, cb) {
+    orm.selectAll("group_" + groupId + "_task", function (err, result) {
       cb(err, result);
     });
   }

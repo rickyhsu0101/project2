@@ -21,11 +21,12 @@ const group = {
   //append new groupId to users table row
   //add group info and task tables
   //nothing is returned
-  addGroup: function (groupName, userId, cb) {
+  addGroup: function (groupName, groupDesc, userId, cb) {
     chat.creatChatRoom(userId, groupName + " Chat", function (err, result) {
       const chatId = result[0].roomId;
       const values = {
         groupName: groupName,
+        groupDesc: groupDesc,
         groupMembers: "" + userId,
         chatId: chatId
       };
@@ -67,6 +68,19 @@ const group = {
       groupName: groupName
     }
     orm.selectAllParam("groups", values, function (err, result) {
+      cb(err, result);
+    });
+  },
+  selectGroupWithId: function (groupId, cb) {
+    const values = {
+      groupId: groupId
+    };
+    orm.selectAllParam("groups", values, function (err, result) {
+      cb(err, result);
+    });
+  },
+  selectGroupMembersWithGroupId: function (groupId, cb) {
+    orm.selectAll("group_" + groupId + "_info", function (err, result) {
       cb(err, result);
     });
   }

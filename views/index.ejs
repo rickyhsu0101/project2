@@ -29,7 +29,9 @@
           <%- include ./partials/pages/groups %>
         <%} else if (page == "newgroup"){%>
           <%- include ./partials/pages/newgroup %>
-        <%}%>
+        <%} else if (page == "group"){%>
+          <%- include ./partials/pages/group %>
+        <% } %>
     </main>
     
     <%- include ./partials/general/footer%>

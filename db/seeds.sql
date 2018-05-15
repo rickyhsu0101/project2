@@ -1,5 +1,5 @@
 -- populate users table with premade data
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 INSERT INTO users(userId, username, email, password, friends, groups)
 VALUES(222, "johnDoe", "johnDoe@gmail.com", "defaultPass","123,387", "1111");
 
@@ -10,7 +10,7 @@ INSERT INTO users(userId, username, email, password, friends, groups)
 VALUES(387, "obama123", "obama@gmail.com", "defaultPass","123,222", "1111,1112");
 
 -- create chat table for each user
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 CREATE TABLE 222_chat(
     messageId INT AUTO_INCREMENT,
     roomId INT NOT NULL,
@@ -42,14 +42,16 @@ CREATE TABLE 387_chat(
 );
 
 -- add groups to groups table
-USE simulation_db;
-INSERT INTO groups(groupId, groupName, groupMembers, chatId)
-VALUES(1111, "Random Group", "123,222,387", 23141);
-INSERT INTO groups(groupId, groupName, groupMembers, chatId)
-VALUES(1112, "Presdient Group", "123,387", 23287);
+USE olqeekbcp7xt59wu;
+INSERT INTO groups(groupId, groupDesc, groupName, groupMembers, chatId)
+VALUES(1111, "Cool Group for Everyone!","Random Group", "123,222,387", 23141);
+INSERT INTO groups(groupId, groupDesc, groupName, groupMembers, chatId)
+VALUES(1112, "Group only for Presdents. Members of this group all made major impact on human history","Presdient Group", "123,387", 23287);
 
+USE olqeekbcp7xt59wu;
+SELECT * FROM groups;
 -- create group info and tasks table
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 DROP TABLE IF EXISTS group_1111_info;
 DROP TABLE IF EXISTS group_1112_info;
 CREATE TABLE group_1111_info(
@@ -65,7 +67,7 @@ CREATE TABLE group_1112_info(
     level BIGINT NOT NULL
 );
 -- create tasks tables
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 DROP TABLE IF EXISTS group_1111_task;
 DROP TABLE IF EXISTS group_1112_task;
 CREATE TABLE group_1111_task(
@@ -94,7 +96,7 @@ CREATE TABLE group_1112_task(
 );
 
 -- populate premade info
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 INSERT INTO group_1111_info(member, position, points, level)
 VALUES (222, "admin", 1000, 20);
 INSERT INTO group_1111_info(member, position, points, level)
@@ -102,13 +104,13 @@ VALUES (123, "member", 500, 10);
 INSERT INTO group_1111_info(member, position, points, level)
 VALUES (387, "member", 400, 8);
 
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 INSERT INTO group_1112_info(member, position, points, level)
 VALUES (123, "admin", 2000, 40);
 INSERT INTO group_1112_info(member, position, points, level)
 VALUES (387, "member", 400, 8);
 
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 INSERT INTO chat_room(roomId, roomName, members)
 VALUES (23141, "Rando-Chat", "123,222,387");
 
@@ -116,11 +118,11 @@ INSERT INTO chat_room(roomId, roomName, members)
 VALUES (23287, "President-Chat","123,387");
 
 -- populate premade tasks
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 INSERT INTO group_1111_task(taskName, taskDesc, taskPoints, completedMembers, successMembers, failureMembers, submitTime, retry)
 VALUES ("Introduction", "Introduce yourself to other members of the group", 1000, "123,222,387", "123,222,387", "", "1410715000000,1410715060000,1410715080000", true);
 
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 INSERT INTO group_1112_task(taskName, taskDesc, taskPoints, completedMembers, successMembers, failureMembers, submitTime, retry)
 VALUES ("Kill doe", "Somehow Kill John Doe", 2000, "", "", "", "", true);
 -- populate premade messages for all users
@@ -142,7 +144,7 @@ INSERT INTO 123_chat(roomId, groupMembers, groupName, messageContent, time)
 VALUES (23287, "387", "President-Chat", "Yea I agree", 1410715090000);
 
 
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 SELECT * FROM group_1111_info;
 SELECT * FROM group_1112_info;
 SELECT * FROM group_1111_task;
