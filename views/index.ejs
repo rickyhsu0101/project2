@@ -15,7 +15,7 @@
       <%- include ./partials/general/header%>
     </header>
     <main>
-      <% if(page == "home") { %>
+        <% if(page == "home") { %>
             <%- include ./partials/pages/home %>
         <%} else if (page == "chat") { %>
           <%- include ./partials/pages/chat %>
@@ -29,15 +29,13 @@
           <%- include ./partials/pages/groups %>
         <%} else if (page == "newgroup"){%>
           <%- include ./partials/pages/newgroup %>
-        <%}
-      %>
+        <%}%>
     </main>
     
-    <% include ./partials/general/footer%>
+    <%- include ./partials/general/footer%>
     <script src = "<%= '/js/' + page + '.js'%>"></script>
     <% if (page == "group" || page == "chat"){ %>
       <script src="/socket.io/socket.io.js"></script>
-      
     <%}%>
 </body>
 

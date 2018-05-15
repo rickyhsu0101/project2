@@ -192,3 +192,4 @@
 ::1 - - [15/May/2018:05:32:17 +0000] "GET /js/chat.js HTTP/1.1" 200 8681 "http://localhost:8080/chat" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
 ::ffff:127.0.0.1 - - [15/May/2018:05:33:14 +0000] "GET /chat HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
 ::ffff:127.0.0.1 - - [15/May/2018:05:33:14 +0000] "GET /js/chat.js HTTP/1.1" 200 8744 "http://localhost:8080/chat" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36"
+

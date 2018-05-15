@@ -10,6 +10,8 @@ const userChatRules = [
     'PRIMARY KEY(messageId)'
 ];
 const users = {
+    //add new user to users
+    //create new user chat table
     addUser: function (username, email, password, cb) {
         let keyValues = {
             username: username,
@@ -25,6 +27,7 @@ const users = {
             });
         });
     },
+    //append groupId to groups in user row
     addUserGroup: function (userId, groupId, cb) {
         users.selectUserWithId(userId, function (err, result) {
             let currentGroups = result[0].groups;
