@@ -82,6 +82,14 @@ router.get('/login', function (req, res) {
 
 // renders page to display groups
 router.post("/newGroup", function (req, res) {
+  avatar(req, res, err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(sucess);
+      res.redirect("/");
+    }
+  });
 
 });
 router.get('/group/:id', function (req, res) {
