@@ -18,10 +18,12 @@ const storage = multer.diskStorage({
 // fileFilter checks the extension type
 module.exports = multer({
   storage: storage,
-  fileFilter: function (req, file) {
+  fileFilter: function (req, file, cb) {
     const ext = path.extname(file.originalname);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      return console.log('Only images are allowed');
+      cb(new Error("Only images are allowed"));
+    } else {
+      cb(null, true);
     }
   },
   limits: {

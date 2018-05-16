@@ -78,12 +78,24 @@ router.get('/login', function(req, res) {
   }
 });
 
+// renders page to display groups
+router.post("/newGroup", function (req, res) {
+  avatar(req, res, err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(sucess);
+      res.redirect("/");
+    }
+  });
+
 // renders form to create a new group
 router.get('/newgroup', (req, res) => {
   const obj = objGenerator();
   obj.page = 'newgroup';
   res.render('index', obj);
 });
+
 
 // renders page to display groups
 router.get('/groups', (req, res) => {
