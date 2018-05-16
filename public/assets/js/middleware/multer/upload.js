@@ -2,13 +2,15 @@ const multer = require('multer');
 const path = require('path');
 
 //*** FILE UPLOAD LOGIC ****/
+
 // creates storage location and file name for a users avatar
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, __dirname + '../../../images/uploads');
+  destination: function (req, file, cb) {
+    cb(null, './public/assets/img/uploads');
   },
-  filename: function(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    const fileName = file.fieldname + '-' + Date.now();
+    cb(null, fileName + path.extname(file.originalname));
   }
 });
 
@@ -16,11 +18,15 @@ const storage = multer.diskStorage({
 // fileFilter checks the extension type
 module.exports = multer({
   storage: storage,
-  fileFilter: function(req, file) {
+  fileFilter: function (req, file, cb) {
     const ext = path.extname(file.originalname);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      return console.log('Only images are allowed');
+      cb(new Error("Only images are allowed"));
+    } else {
+      cb(null, true);
     }
   },
-  limits: { fileSize: 1000000 }
+  limits: {
+    fileSize: 100000000
+  }
 });

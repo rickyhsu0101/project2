@@ -1,5 +1,5 @@
-USE simulation_db;
+USE olqeekbcp7xt59wu;
 SELECT * FROM users;
-
-DELETE FROM users
-WHERE userId = 395;
+SELECT * FROM user_388_upload;
+SELECT * FROM groups;
+SELECT * FROM group_1113_upload;

@@ -12,7 +12,7 @@ const userChatRules = [
 const chat = {
   //create a user chat table
   createUserChat: function (userId, cb) {
-    orm.createTable(userId + "_chat", userChatRules, function (err, result) {
+    orm.createTable("user_" + userId + "_chat", userChatRules, function (err, result) {
       cb(err, result);
     });
   },
@@ -28,8 +28,8 @@ const chat = {
         let userChats = [];
         let whereMultiple = {};
         stringIdArr.forEach(function (val) {
-          userChats.push(val + '_chat');
-          whereMultiple[val + '_chat'] = {
+          userChats.push("user_" + val + '_chat');
+          whereMultiple["user_" + val + '_chat'] = {
             roomId: chatId
           };
         });
@@ -46,7 +46,7 @@ const chat = {
   },
   getAllChatIds: function (id, cb) {
     let chatRooms = [];
-    orm.selectAll(id + '_chat', function (err, result) {
+    orm.selectAll("user_" + id + '_chat', function (err, result) {
       result.forEach(function (row) {
         if (chatRooms.indexOf(row.roomId) != -1) {
           chatRooms.push(row.roomId);
@@ -64,7 +64,7 @@ const chat = {
         messageContent: message,
         time: time
       };
-      orm.insertOneWithoutParams(userId + "_chat", values, function (err, result) {
+      orm.insertOneWithoutParams("user_" + userId + "_chat", values, function (err, result) {
         cb(err, result);
       });
     });
