@@ -7,3 +7,4 @@ controllers/controllerTest/
 projectProposal.txt
 dist/
 logs/
+logs/access.log
