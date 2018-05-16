@@ -2,6 +2,7 @@ const orm = require("./orm.js");
 const chat = require("./chat.js");
 const task = require("./task.js");
 const users = require("./users.js");
+const upload = require("./upload.js");
 const async = require("async");
 const groupRules = [
   'taskId INT AUTO_INCREMENT',
@@ -38,6 +39,7 @@ const group = {
           level: 0
         };
         group.selectGroupWithGroupName(groupName, function (err, result) {
+          const groupId = result[0].groupId;
           async.series([
             function (callback) {
               orm.createTable("group_" + result[0].groupId + "_info", groupRules, function (err, result) {
@@ -53,9 +55,14 @@ const group = {
               users.addUserGroup(userId, result[0].groupId, function (err, result) {
                 callback(err, result);
               });
+            },
+            function (callback) {
+              upload.createGroupUploadTable(result[0].groupId, function (err, result) {
+                callback(err, result);
+              });
             }
           ], function (err, result) {
-            cb(err, result);
+            cb(err, groupId);
           });
         });
       });
@@ -81,6 +88,13 @@ const group = {
   },
   selectGroupMembersWithGroupId: function (groupId, cb) {
     orm.selectAll("group_" + groupId + "_info", function (err, result) {
+      cb(err, result);
+    });
+  },
+  getAvatarById: function (groupId, cb) {
+    console.log(groupId);
+    upload.getFileByType(groupId, "group", "avatar", function (err, result) {
+      console.log(result);
       cb(err, result);
     });
   }

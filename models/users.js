@@ -1,5 +1,7 @@
 const orm = require('./orm.js');
 const chat = require('./chat.js');
+const upload = require("./upload.js");
+const async = require("async");
 const userChatRules = [
     'messageId INT AUTO_INCREMENT',
     'roomId INT NOT NULL',
@@ -17,12 +19,24 @@ const users = {
             username: username,
             email: email,
             password: password,
-            friends: ""
+            friends: "",
+            groups: ""
         };
         orm.insertOneWithoutParams("users", keyValues, function (err, result) {
             users.selectUserWithUsername(username, function (err, resultUser) {
-                chat.createUserChat(resultUser[0].userId, function (err, result) {
-                    cb(err, resultUser);
+                async.series([
+                    function (callback) {
+                        chat.createUserChat(resultUser[0].userId, function (err, result) {
+                            callback(err, resultUser);
+                        });
+                    },
+                    function (callback) {
+                        upload.createUserUploadTable(resultUser[0].userId, function (err, result) {
+                            callback(err, result);
+                        });
+                    }
+                ], function (err, result) {
+                    cb(err, result[0]);
                 });
             });
         });

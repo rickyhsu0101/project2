@@ -45,6 +45,7 @@ app.post('/profile', (req, res) => {
       return console.log('File size too large.');
     }
     console.log('file uploaded');
+    console.log(req.body);
     return true;
   });
   res.redirect('/');
