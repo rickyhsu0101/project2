@@ -11,7 +11,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 // image upload middleware
-const upload = require('../middleware/multer/upload');
+const upload = require('../public/assets/js/middleware/multer/upload');
 const avatar = upload.single('avatar');
 
 const router = express.Router();
@@ -85,11 +85,15 @@ router.get('/newgroup', (req, res) => {
   res.render('index', obj);
 });
 
-// renders page to display groups
 router.get('/groups', (req, res) => {
-  const obj = objGenerator();
-  obj.page = 'groups';
-  res.render('index', obj);
+  if (req.isAuthenticated()) {
+    const obj = objGenerator();
+    obj.page = 'groups';
+    let localUser = req.user;
+    delete localUser.password;
+    obj.user = localUser;
+    res.render('index', obj);
+  }
 });
 
 router.get('/group/:id', function(req, res) {
