@@ -85,17 +85,10 @@ router.get('/newgroup', (req, res) => {
   res.render('index', obj);
 });
 
-// renders page to display groups
-router.get('/groups', (req, res) => {
-  const obj = objGenerator();
-  obj.page = 'groups';
-  res.render('index', obj);
-});
-
 router.get('/groups', (req, res) => {
   if (req.isAuthenticated()) {
     const obj = objGenerator();
-    obj.page = 'group';
+    obj.page = 'groups';
     let localUser = req.user;
     delete localUser.password;
     obj.user = localUser;
