@@ -1,40 +1,43 @@
-<div class = "container">
-    <div class = "row">
-        <div class = "col s12 m4" id = "profileColumn">
-            <img id = "profileImg" src = "
-                /assets/img/121.jpg
-            ">
-            <h2>
-                <%= profile.username %>
-            </h2>
-            <% if (user){ %>
-                <% if(user.userId == profile.userId) {%>
-                    <a class = "wave-effect waves-light btn profileButtons">Change Avatar</a>
-                    <a class = "wave-effect waves-light btn profileButtons">Create Group</a>
-                <% } %>
-            <% } %>
-        </div>
-        <div class = "col s12 m8" id = "groupsColumn">
-            <div class = "row">
-                <% if(groups){%>
-                    <% for(var i =0; i < groups.length; i++){ %>
-                        <div class = "col s12 m6">
-                            <div class = "group">
-                                <a href = "<%= '/group/' + groups[i].id %>">
-                                    <%= groups[i].name %>
-                                </a>
-                                <div class = "shortDesc">
-                                    <%= groups[i].shortDesc%>
-                                </div>
-                            </div>
-                        </div>
-                    <%}%>
-                <%} else {%>
-                    <div>
-                        <a href = "/search" class= "wave-effect waves-light btn">Join Some Groups!</a>
-                    </div>
-                <%}%>
-            </div>
-        </div>
+<div class="mt container">
+  <div class="row">
+    <div class="col s12 m4" id = "profileColumn">
+      <img id="profileImg" src = "/assets/img/121.jpg">
+      <h2>
+        <%= profile.username %>
+      </h2>
+      <% if (user){ %>
+        <% if(user.userId == profile.userId) {%>
+          <a class ="wave-effect waves-light btn profileButtons">Change Avatar</a>
+          <a href="/newgroup" class ="wave-effect waves-light btn profileButtons">Create Group</a>
+        <% } %>
+      <% } %>
     </div>
+    <div class = "col s12 m8" id = "groupsColumn">
+      <div class = "row">
+        <% if(groups){%>
+        <% for(var i =0; i < groups.length; i++){ %>
+          <div class = "col s12 m6">
+              <div class = "group">
+                <a href = "<%= '/group/' + groups[i].id %>">
+                  <%= groups[i].name %>
+                </a>
+                <div class = "shortDesc">
+                  <%= groups[i].shortDesc%>
+                </div>
+              </div>
+            </div>
+          <%}%>
+        <%} else {%>
+          <div>
+            <a href = "/groups" class= "wave-effect waves-light btn">Join Some Groups!</a>
+          </div>
+          <div id="bio">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo quibusdam soluta, magni nobis ipsam labore dolorem est similique. Qui quis illo cum repellendus quos eius debitis omnis similique distinctio sit.
+            </p>
+          </div>
+        <%}%>
+      </div>
+    </div>
+  </div>
 </div>
