@@ -1,23 +1,33 @@
-<div class = "container formDiv blue-grey lighten-5">
-    <div class = "row">
+<div class="container formDiv blue-grey lighten-5">
+    <div class="row">
         <% if(errors) {%>
             <% for(var i = 0; i < errors.length; i++){%>
-                <div class = "col s12 error purple-text text-lighten-1">
+                <div class="col s12 error purple-text text-lighten-1">
                     <%= errors[i].msg %>
                 </div>
-            <% } %>
-        <%}%>
-        <form class = "col s12" method = "POST" action= "/login">
-            <div class="input-field col s12">
-                <input placeholder="Username" id="username" type="text" name="username" autocomplete="off">
-                <label for="username">Username</label>
-            </div>
-            <div class="input-field col s12">
-                <input placeholder="Password" id="password" type="password" name="password" autocomplete="off">
-                <label for="password">Password</label>
-            </div>
-            <button class = "wave-effect waves-light btn submitButton" type = "submit">Sign In</button>
-        </form>
-        <a href = "/register" id = "redirectAnchor">Don't have an account? Register here!</a>
+                <% } %>
+                    <%}%>
+                        <form class="col s12" method="POST" action="/login">
+                            <div class="input-field col s12">
+                                <input placeholder="Username" id="username" type="text" name="username" autocomplete="off">
+                                <label for="username">Username</label>
+                                <div>
+                                    <center>
+                                        <p id="emailValidation" class="red-text"></p>
+                                    </center>
+                                </div>
+                            </div>
+                            <div class="input-field col s12">
+                                <input placeholder="Password" id="password" type="password" name="password" autocomplete="off">
+                                <label for="password">Password</label>
+                                <div>
+                                    <center>
+                                        <p id="passwordValidation" class="red-text"></p>
+                                    </center>
+                                </div>
+                            </div>
+                            <button class="wave-effect waves-light btn submitButton" type="submit" id="btnSignIn">Sign In</button>
+                        </form>
+                        <a href="/register" id="redirectAnchor">Don't have an account? Register here!</a>
     </div>
 </div>
