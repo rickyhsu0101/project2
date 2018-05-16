@@ -9,7 +9,6 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    console.log(file);
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
@@ -18,15 +17,15 @@ const storage = multer.diskStorage({
 // fileFilter checks the extension type
 module.exports = multer({
   storage: storage,
-  fileFilter: function (req, file, cb) {
+  fileFilter: function (req, file) {
     const ext = path.extname(file.originalname);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      cb(new Error("Only images are allowed"));
+      cb(new Error("Only images allowded"));
     } else {
       cb(null, true);
     }
   },
   limits: {
-    fileSize: 100000000
+    fileSize: 1000000
   }
 });
