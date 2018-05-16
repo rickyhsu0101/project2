@@ -36,7 +36,7 @@
     
     <%- include ./partials/general/footer%>
     <script src = "<%= '/js/' + page + '.js'%>"></script>
-    <% if (page == "group" || page == "chat"){ %>
+    <% if ( page == "chat"){ %>
       <script src="/socket.io/socket.io.js"></script>
     <%}%>
 </body>
