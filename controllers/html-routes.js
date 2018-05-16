@@ -43,7 +43,7 @@ router.get('/profile/notFound', function(req, res) {
 });
 
 router.get('/group/notFound', function(req, res) {
-  res.end('group ');
+  res.end('group');
 });
 
 // renders home page
@@ -83,6 +83,11 @@ router.get('/newgroup', (req, res) => {
   const obj = objGenerator();
   obj.page = 'newgroup';
   res.render('index', obj);
+});
+
+router.post('/newgroup', (req, res) => {
+  console.log(req.body);
+  res.redirect('/newgroup');
 });
 
 router.get('/groups', (req, res) => {
@@ -240,7 +245,7 @@ router.post('/register', checksRegistration, function(req, res) {
   } else {
     //run two asynchronous function in series
     //one checks for email
-    //other chdecks for username
+    //other checks for username
     async.series(
       [
         function(callback) {
