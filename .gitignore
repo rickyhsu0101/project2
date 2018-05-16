@@ -6,3 +6,4 @@ controllers/controllerTest/
 .env
 projectProposal.txt
 dist/
+logs/
