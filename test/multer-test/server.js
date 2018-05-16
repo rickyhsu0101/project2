@@ -3,8 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const upload = require('./upload');
 const avatar = upload.single('avatar');
-const multer = require("multer");
-const path = require("path");
+const multer = require('multer');
+const path = require('path');
 
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -29,9 +29,7 @@ const path = require("path");
 // }).single('avatar');
 
 // Sets up Express to handle data parsing
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));

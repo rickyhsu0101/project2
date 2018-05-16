@@ -23,7 +23,7 @@ const initChat = require('./controllers/sockets/sockets');
 initChat(io);
 
 // access log functions
-const accessLogStream = require('./middleware/morgan/accessLogStream');
+const accessLogStream = require('./public/assets/js/middleware/morgan/accessLogStream');
 app.use(morgan('combined', { stream: accessLogStream }));
 
 // specify the view engine and file locations
