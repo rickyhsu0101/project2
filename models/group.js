@@ -15,7 +15,13 @@ const groupRules = [
   'submitTime TEXT',
   'retry BOOL DEFAULT true',
   'PRIMARY KEY(taskId)'
-]
+];
+const groupInfoRules = [
+  'member INT NOT NULL',
+  'position VARCHAR(100)',
+  'points BIGINT NOT NULL',
+  'level BIGINT NOT NULL'
+];
 const group = {
   //add new group to groups table
   //add new chat to chat_room table
@@ -33,7 +39,7 @@ const group = {
       };
       orm.insertOneWithoutParams("groups", values, function (err, result) {
         const values = {
-          member: "" + userId,
+          member: userId,
           position: "admin",
           points: 0,
           level: 0
@@ -42,7 +48,7 @@ const group = {
           const groupId = result[0].groupId;
           async.series([
             function (callback) {
-              orm.createTable("group_" + result[0].groupId + "_info", groupRules, function (err, result) {
+              orm.createTable("group_" + result[0].groupId + "_info", groupInfoRules, function (err, result) {
                 callback(err, result);
               });
             },
@@ -60,7 +66,12 @@ const group = {
               upload.createGroupUploadTable(result[0].groupId, function (err, result) {
                 callback(err, result);
               });
-            }
+            },
+            function (callback) {
+              orm.insertOneWithoutParams("group_" + result[0].groupId + "_info", values, function (err, result) {
+                callback(err, result);
+              });
+            },
           ], function (err, result) {
             cb(err, groupId);
           });
@@ -95,6 +106,11 @@ const group = {
     console.log(groupId);
     upload.getFileByType(groupId, "group", "avatar", function (err, result) {
       console.log(result);
+      cb(err, result);
+    });
+  },
+  getAllGroups: function (cb) {
+    orm.selectAll("groups", function (err, result) {
       cb(err, result);
     });
   }
