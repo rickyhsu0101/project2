@@ -34,3 +34,30 @@
     <%= group.tasks[k].completedMembers %>
   </div>
 </div>
+
+<!-- Profile Page-->
+
+<div class="col s12 m8" id = "groupsColumn">
+  <div class="row">
+    <% if(user) { %>
+    <% if(groups){%>
+    <% for(var i =0; i < groups.length; i++){ %>
+      <div class="col s12 m6">
+        <div class="group">
+          <a href="<%='/group/' + groups[i].groupId %>">
+            <%= groups[i].groupName %>
+          </a>
+          <div class = "shortDesc">
+            <%= groups[i].groupDesc%>
+          </div>
+        </div>
+      </div>
+      <%}%>
+    <%} else {%>
+      <div>
+        <a href ="/groups" id="join-groups" class="wave-effect waves-light btn">Join Some Groups!</a>
+      </div>
+    <%}%>
+    <%}%>
+  </div>
+</div>
