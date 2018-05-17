@@ -24,13 +24,10 @@
             </div>
             <div class="card-action">
               <%if(userGroups.indexOf(groups[i].groupId)!=-1){%>
-                <h4>You are in this group!</h4>
+                <h4 class="joined white-text">You are in this group!</h4>
               <%}else{%>
-                <a href="
-                  <%= '/group/' + groups[i].groupId %> 
-                ">Join Group</a>
+                <a href="<%='/group/'+groups[i].groupId %>">Join Group</a>
               <%}%>
-              
             </div>
           </div>
         <%}%>

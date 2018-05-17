@@ -1,6 +1,7 @@
 <div class="mt container">
   <div class="row">
     <div class="col s12 m4" id ="profileColumn">
+
       <% if (profile.profileAvatar){%>
         <img class="z-depth-3" id="profileImg" src = "
           <%='/assets/img/uploads/' + profile.profileAvatar %>
@@ -10,6 +11,7 @@
           /assets/img/defaultAvatar.png
         ">
       <%}%>
+
       <h2>
         <%= profile.username %>
       </h2>
@@ -44,7 +46,7 @@
           <%}%>
         <%} else {%>
           <div>
-            <a href = "/groups" id="join-groups" class="wave-effect waves-light btn">Join Some Groups!</a>
+            <a href ="/groups" id="join-groups" class="wave-effect waves-light btn">Join Some Groups!</a>
           </div>
         <%}%>
         <%}%>

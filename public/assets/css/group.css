@@ -1,9 +1,11 @@
-#profileImg {
+#groupProfileImg {
   width: 100%;
 }
 
-.mt {
-  margin-top: 15px;
+#new-task {
+  display: block;
+  width: 200px;
+  margin: 0 auto;
 }
 
 h2 {
@@ -12,10 +14,8 @@ h2 {
   text-align: center;
 }
 
-#join-groups {
-  display: block;
-  width: 200px;
-  margin: 0 auto;
+.mt {
+  margin-top: 15px;
 }
 
 #profileColumn {

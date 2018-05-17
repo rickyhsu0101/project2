@@ -12,12 +12,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 // image upload middleware
-
 const upload = require('../public/assets/js/middleware/multer/upload.js');
-
 const avatar = upload.single('avatar');
-
 const router = express.Router();
+
 //number of words used for hash
 const saltRounds = 10;
 
@@ -26,12 +24,13 @@ require('../public/assets/js/helper/authentication/localStrategy.js')(passport, 
 router.get('/profile/:id', function(req, res) {
   users.selectUserWithId(req.params.id, function(err, result) {
     if (result.length == 0) {
-      res.redirect('/profile/notFound');
+      res.redirect('/404');
     } else {
       let obj = objGenerator();
       obj.page = 'profile';
       delete result[0].password;
       obj.profile = result[0];
+
       uploads.getFileByType(result[0].userId, "user", "avatar", function(err, result){
         if(result.length>0){
           obj.profile.profileAvatar = result[0].fileName;
@@ -47,42 +46,16 @@ router.get('/profile/:id', function(req, res) {
             res.render("index", obj);
           });
         }else{
-          obj.page = "home";
+          obj.page = "404";
           res.render("index", obj);
         }
       });
     }
   });
 });
-router.get('/profile/notFound', function(req, res) {
-  res.end('profile not found');
-});
-router.get('/profile/unauthorized')
-router.post('/profile/:id', function(req, res){
-  avatar(req, res, err => {
-    if (err) {
-      res.redirect('/profile/' + req.params.id);
-      return console.log(err);
-    } else {
-      if (req.isAuthenticated()) {
-        if (req.params.id == req.user.userId) {
-          uploads.updateAvatar(req.user.userId, "user", "avatar", req.file.filename, function(err, result){
-            res.render("/profile/" + req.user.userId);
-          });
-          return true;
-        }
-      } else {
-        res.render("/profile/" + req.user.userId);
-        return console.log("Unauthorized");
-      }
-    }
-  });
-  
-});
 
-router.get('/group/notFound', function (req, res) {
-  res.end('group');
-});
+
+
 
 // renders home page
 router.get('/', function(req, res) {
@@ -99,8 +72,10 @@ router.get('/chat', function(req, res) {
   const obj = objGenerator();
   if (req.isAuthenticated()) {
     obj.user = req.user;
+    obj.page = 'chat';
+  } else {
+    obj.page = '404';
   }
-  obj.page = 'chat';
   res.render('index', obj);
 });
 
@@ -123,8 +98,11 @@ router.post('/newGroup', function(req, res) {
       return console.log(err);
     } else {
       //logic to check group's existence
-      groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function (err, resultId) {
-        uploads.addFile(resultId, req.file.filename, "avatar", "group", function (err, result) {
+      groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(
+        err,
+        resultId
+      ) {
+        uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function(err, result) {
           console.log(resultId);
           res.redirect('/group/' + resultId);
         });
@@ -142,10 +120,10 @@ router.get('/newgroup', (req, res) => {
     delete localUser.password;
     obj.user = localUser;
     obj.page = 'newgroup';
-    res.render('index', obj);
   } else {
-    res.render('index', obj);
+    obj.page = '404';
   }
+  res.render('index', obj);
 });
 
 // removes the users session and sends them to the home page
@@ -157,27 +135,24 @@ router.get('/logout', function(req, res) {
 router.get('/groups', (req, res) => {
   const obj = objGenerator();
   obj.page = 'groups';
-  
-  groups.getAllGroups(function (err, result) {
+
+  groups.getAllGroups(function(err, result) {
     obj.groups = result;
     if (req.isAuthenticated()) {
-      users.selectUserWithId(req.user.userId, function(err, result){
+      users.selectUserWithId(req.user.userId, function(err, result) {
         obj.user = result[0];
-        res.render('index', obj)
       });
-
-    }else{
-      res.render('index', obj);
+    } else {
+      obj.page = '404';
     }
-   
+    res.render('index', obj);
   });
-
 });
 
 router.get('/group/:id', function(req, res) {
   groups.selectGroupWithId(req.params.id, function(err, result) {
     if (result.length == 0) {
-      res.redirect('/group/notFound');
+      res.redirect('/404');
     } else {
       const obj = objGenerator();
       obj.page = 'group';
@@ -185,20 +160,20 @@ router.get('/group/:id', function(req, res) {
       obj.group = group;
 
       let asyncFunctions = [
-        function (callback) {
-          tasks.getTasksWithGroupId(result[0].groupId, function (err, result) {
+        function(callback) {
+          tasks.getTasksWithGroupId(result[0].groupId, function(err, result) {
             console.log(result);
             callback(err, result);
           });
         },
-        function (callback) {
-          groups.selectGroupMembersWithGroupId(result[0].groupId, function (err, result) {
+        function(callback) {
+          groups.selectGroupMembersWithGroupId(result[0].groupId, function(err, result) {
             console.log(result);
             callback(err, result);
           });
         },
-        function (callback) {
-          groups.getAvatarById(result[0].groupId, function (err, result) {
+        function(callback) {
+          groups.getAvatarById(result[0].groupId, function(err, result) {
             callback(err, result);
           });
         }
@@ -207,39 +182,26 @@ router.get('/group/:id', function(req, res) {
         let localUser = req.user;
         delete localUser.password;
         obj.user = localUser;
-        asyncFunctions.push(function(callback){
-          users.selectUserWithId(obj.user.userId, function(err, result){
+        asyncFunctions.push(function(callback) {
+          users.selectUserWithId(obj.user.userId, function(err, result) {
             callback(err, result);
           });
         });
-      }
-      async.series(
-        asyncFunctions,
-        function (err, result) {
+        async.series(asyncFunctions, function(err, result) {
           obj.group['tasks'] = result[0];
           obj.group['info'] = result[1];
           obj.group['groupAvatar'] = result[2][0].fileName;
           obj.user = result[3][0];
           res.render('index', obj);
-        }
-      );
+        });
+      } else {
+        obj.page = '404';
+        res.render('index', obj);
+      }
     }
   });
 });
 
-// renders sign up page
-router.get('/register2', function(req, res) {
-  //****IMAGE UPLOADS *****/
-  // uploads the file to the server when a user signs up
-  avatar(req, res, err => {
-    // checks for errors
-    if (err) {
-      return console.log('File size too large.');
-    }
-    console.log('file uploaded');
-    return true;
-  });
-});
 router.get('/register', function(req, res) {
   if (req.isAuthenticated()) {
     res.redirect('/profile/' + req.user.userId);
@@ -255,7 +217,7 @@ router.get('/register', function(req, res) {
 const checksLogin = require('../public/assets/js/helper/validation/loginValidationCheck.js');
 router.post('/login', checksLogin, function(req, res) {
   //to be completed
-  console.log("hello");
+  console.log('hello');
   const errors = validationResult(req);
   //validation the form data
   if (!errors.isEmpty()) {
@@ -376,6 +338,12 @@ router.post('/register', checksRegistration, function(req, res) {
       }
     );
   }
+});
+
+router.get('*', function(req, res) {
+  let obj = objGenerator();
+  obj.page = '404';
+  res.render('index', obj);
 });
 
 module.exports = router;
