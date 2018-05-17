@@ -30,17 +30,32 @@ router.get('/profile/:id', function(req, res) {
       obj.page = 'profile';
       delete result[0].password;
       obj.profile = result[0];
-      if (req.isAuthenticated()) {
-        let localUser = req.user;
-        delete localUser.password;
-        obj.user = localUser;
-      } else {
-        obj.page = '404';
-      }
-      res.render('index', obj);
+
+      uploads.getFileByType(result[0].userId, "user", "avatar", function(err, result){
+        if(result.length>0){
+          obj.profile.profileAvatar = result[0].fileName;
+        }
+        
+        if (req.isAuthenticated()) {
+          let localUser = req.user;
+          delete localUser.password;
+          obj.user = localUser;
+          groups.getMultipleGroups(obj.profile.groups.split(","), function(err, result){
+            obj.groups = result;
+            console.log(result);
+            res.render("index", obj);
+          });
+        }else{
+          obj.page = "404";
+          res.render("index", obj);
+        }
+      });
     }
   });
 });
+
+
+
 
 // renders home page
 router.get('/', function(req, res) {
