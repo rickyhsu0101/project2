@@ -1,7 +1,15 @@
 <div class="mt container">
   <div class="row">
     <div class="col s12 m4" id ="profileColumn">
-      <img class="z-depth-3" id="profileImg" src = "/assets/img/121.jpg">
+      <% if (profile.profileAvatar){%>
+        <img class="z-depth-3" id="profileImg" src = "
+          <%='/assets/img/uploads/' + profile.profileAvatar %>
+        ">
+      <%}else{%>
+        <img class="z-depth-3" id="profileImg" src = "
+          /assets/img/defaultAvatar.png
+        ">
+      <%}%>
       <h2>
         <%= profile.username %>
       </h2>
@@ -9,7 +17,7 @@
         <% if(user.userId == profile.userId) {%>
           <div class="row">
             <div class="col s6 center-align">
-              <a class="wave-effect waves-light btn profile-btns">Change Avatar</a>
+              <a class="wave-effect waves-light btn profile-btns" href = "#modalProfile">Change Avatar</a>
             </div>
             <div class="col s6 center-align">
               <a href="/newgroup" class ="wave-effect waves-light btn profile-btns">Create Group</a>
@@ -20,15 +28,16 @@
     </div>
     <div class = "col s12 m8" id = "groupsColumn">
       <div class = "row">
+        <% if(user) { %>
         <% if(groups){%>
         <% for(var i =0; i < groups.length; i++){ %>
           <div class = "col s12 m6">
             <div class="group">
-              <a href="<%='/group/' + groups[i].id %>">
-                <%= groups[i].name %>
+              <a href="<%='/group/' + groups[i].groupId %>">
+                <%= groups[i].groupName %>
               </a>
               <div class = "shortDesc">
-                <%= groups[i].shortDesc%>
+                <%= groups[i].groupDesc%>
               </div>
             </div>
           </div>
@@ -38,7 +47,36 @@
             <a href = "/groups" id="join-groups" class="wave-effect waves-light btn">Join Some Groups!</a>
           </div>
         <%}%>
+        <%}%>
       </div>
     </div>
   </div>
 </div>
+
+
+<!--Modals-->
+<!-- Modal Structure -->
+<% if(user){%>
+  <% if(user.userId == profile.userId){%>
+    <div id="modalProfile" class="modal">
+      <div class="modal-content">
+        <form class="col s12" method="POST" action="
+        <%= '/profile/' + user.userId %>
+        " enctype= "multipart/form-data">
+          <div class="row file-field input-field">
+            <div class="col s12">
+              <div class="btn">
+                <span>Upload Avatar</span>
+                <input type="file" name = "avatar" multiple>
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" name= "fileName" placeholder="Upload an image">
+              </div>
+            </div>
+          </div>
+          <button class="wave-effect waves-light btn submitButton" type="submit">Upload Image</button>
+        </form>
+      </div>
+    </div>
+  <%}%>
+<%}%>

@@ -5,4 +5,5 @@ import '../../css/profile.css';
 
 $(document).ready(function() {
   headerInit();
+  $('.modal').modal();
 });

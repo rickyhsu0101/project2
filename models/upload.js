@@ -7,8 +7,7 @@ const uploadRule = [
   'public BOOL DEFAULT true',
   'PRIMARY KEY(fileId)'
 ];
-
-module.exports = {
+const upload = {
   createGroupUploadTable: function (groupId, cb) {
     orm.createTable("group_" + groupId + "_upload", uploadRule, function (err, result) {
       cb(err, result);
@@ -39,5 +38,25 @@ module.exports = {
       console.log(result);
       cb(err, result);
     });
+  },
+  updateAvatar: function (id, modelType, fileType, fileName, cb){
+    upload.getFileByType(id, modelType, fileType, function(err, result){
+      if(result.length == 0){
+        upload.addFile(id, fileName, fileType, modelType, function(err, result){
+          cb(err, result);
+        });
+      }else{
+        const where = {
+          fileType: fileType
+        };
+        const values = {
+          fileName: fileName
+        };
+        orm.updateSingleRow(modelType + "_" + id + "_upload", values, where, function (err, result) {
+          cb(err, result);
+        });
+      }
+    }); 
   }
 }
+module.exports = upload;

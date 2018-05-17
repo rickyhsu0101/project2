@@ -32,19 +32,53 @@ router.get('/profile/:id', function(req, res) {
       obj.page = 'profile';
       delete result[0].password;
       obj.profile = result[0];
-      if (req.isAuthenticated()) {
-        let localUser = req.user;
-        delete localUser.password;
-        obj.user = localUser;
-      }
-      res.render('index', obj);
+      uploads.getFileByType(result[0].userId, "user", "avatar", function(err, result){
+        if(result.length>0){
+          obj.profile.profileAvatar = result[0].fileName;
+        }
+        
+        if (req.isAuthenticated()) {
+          let localUser = req.user;
+          delete localUser.password;
+          obj.user = localUser;
+          groups.getMultipleGroups(obj.profile.groups.split(","), function(err, result){
+            obj.groups = result;
+            console.log(result);
+            res.render("index", obj);
+          });
+        }else{
+          obj.page = "home";
+          res.render("index", obj);
+        }
+      });
     }
   });
 });
 router.get('/profile/notFound', function(req, res) {
   res.end('profile not found');
 });
-
+router.get('/profile/unauthorized')
+router.post('/profile/:id', function(req, res){
+  avatar(req, res, err => {
+    if (err) {
+      res.redirect('/profile/' + req.params.id);
+      return console.log(err);
+    } else {
+      if (req.isAuthenticated()) {
+        if (req.params.id == req.user.userId) {
+          uploads.updateAvatar(req.user.userId, "user", "avatar", req.file.filename, function(err, result){
+            res.render("/profile/" + req.user.userId);
+          });
+          return true;
+        }
+      } else {
+        res.render("/profile/" + req.user.userId);
+        return console.log("Unauthorized");
+      }
+    }
+  });
+  
+});
 
 router.get('/group/notFound', function (req, res) {
   res.end('group');
@@ -86,7 +120,7 @@ router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
     if (err) {
       res.redirect('/');
-      return console.log('File size too large.');
+      return console.log(err);
     } else {
       //logic to check group's existence
       groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function (err, resultId) {

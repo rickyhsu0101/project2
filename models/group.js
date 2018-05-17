@@ -113,6 +113,19 @@ const group = {
     orm.selectAll("groups", function (err, result) {
       cb(err, result);
     });
+  },
+  getMultipleGroups: function(groupIds, cb){
+    let asyncFunctions = [];
+    groupIds.forEach(function(id){
+      asyncFunctions.push(function(callback){
+        group.selectGroupWithId(id, function(err, result){
+          callback(err, result[0]);
+        });
+      });
+    });
+    async.series(asyncFunctions, function(err, result){
+      cb(err, result);
+    });
   }
 };
 module.exports = group;
