@@ -45,7 +45,8 @@ router.get('/profile/notFound', function(req, res) {
   res.end('profile not found');
 });
 
-router.get('/group/notFound', function(req, res) {
+
+router.get('/group/notFound', function (req, res) {
   res.end('group');
 });
 
@@ -87,11 +88,9 @@ router.post('/newGroup', function(req, res) {
       res.redirect('/');
       return console.log('File size too large.');
     } else {
-      groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(
-        err,
-        resultId
-      ) {
-        uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function(err, result) {
+      //logic to check group's existence
+      groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function (err, resultId) {
+        uploads.addFile(resultId, req.file.filename, "avatar", "group", function (err, result) {
           console.log(resultId);
           res.redirect('/group/' + resultId);
         });
@@ -122,14 +121,23 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/groups', (req, res) => {
-  if (req.isAuthenticated()) {
-    const obj = objGenerator();
-    obj.page = 'groups';
-    let localUser = req.user;
-    delete localUser.password;
-    obj.user = localUser;
-    res.render('index', obj);
-  }
+  const obj = objGenerator();
+  obj.page = 'groups';
+  
+  groups.getAllGroups(function (err, result) {
+    obj.groups = result;
+    if (req.isAuthenticated()) {
+      users.selectUserWithId(req.user.userId, function(err, result){
+        obj.user = result[0];
+        res.render('index', obj)
+      });
+
+    }else{
+      res.render('index', obj);
+    }
+   
+  });
+
 });
 
 router.get('/group/:id', function(req, res) {
@@ -141,35 +149,43 @@ router.get('/group/:id', function(req, res) {
       obj.page = 'group';
       const group = result[0];
       obj.group = group;
+
+      let asyncFunctions = [
+        function (callback) {
+          tasks.getTasksWithGroupId(result[0].groupId, function (err, result) {
+            console.log(result);
+            callback(err, result);
+          });
+        },
+        function (callback) {
+          groups.selectGroupMembersWithGroupId(result[0].groupId, function (err, result) {
+            console.log(result);
+            callback(err, result);
+          });
+        },
+        function (callback) {
+          groups.getAvatarById(result[0].groupId, function (err, result) {
+            callback(err, result);
+          });
+        }
+      ];
       if (req.isAuthenticated()) {
         let localUser = req.user;
         delete localUser.password;
         obj.user = localUser;
+        asyncFunctions.push(function(callback){
+          users.selectUserWithId(obj.user.userId, function(err, result){
+            callback(err, result);
+          });
+        });
       }
       async.series(
-        [
-          function(callback) {
-            tasks.getTasksWithGroupId(result[0].groupId, function(err, result) {
-              console.log(result);
-              callback(err, result);
-            });
-          },
-          function(callback) {
-            groups.selectGroupMembersWithGroupId(result[0].groupId, function(err, result) {
-              console.log(result);
-              callback(err, result);
-            });
-          },
-          function(callback) {
-            groups.getAvatarById(result[0].groupId, function(err, result) {
-              callback(err, result);
-            });
-          }
-        ],
-        function(err, result) {
+        asyncFunctions,
+        function (err, result) {
           obj.group['tasks'] = result[0];
           obj.group['info'] = result[1];
           obj.group['groupAvatar'] = result[2][0].fileName;
+          obj.user = result[3][0];
           res.render('index', obj);
         }
       );
@@ -205,6 +221,7 @@ router.get('/register', function(req, res) {
 const checksLogin = require('../public/assets/js/helper/validation/loginValidationCheck.js');
 router.post('/login', checksLogin, function(req, res) {
   //to be completed
+  console.log("hello");
   const errors = validationResult(req);
   //validation the form data
   if (!errors.isEmpty()) {
