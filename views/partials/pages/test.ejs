@@ -1,0 +1,36 @@
+<!--GROUPS PAGE-->
+<div class="card blue-grey darken-1">
+  <div class="card-content white-text">
+    <span class="card-title">
+      <%= groups[i].groupName %>
+    </span>
+    <p>
+      <%= groups[i].groupDesc %>
+    </p>
+  </div>
+  <div class="card-action">
+    <%if(userGroups.indexOf(groups[i].groupId)!=-1){%>
+      <h4 class="joined white-text">You are in this group!</h4>
+    <%}else{%>
+      <a href="<%='/group/'+groups[i].groupId %>">Join Group</a>
+    <%}%>
+  </div>
+</div>
+
+<!--GROUP PAGE-->
+<div class="container taskContainer">
+  <div class="task">
+    <h3>
+      <%= group.tasks[k].taskName %>
+    <h3>
+    <h4>Reward: 
+      <%= group.tasks[k].taskPoints %>
+    <h4>
+    <p>
+      <%= group.tasks[k].taskDesc %>
+    </p>
+  </div>
+  <div class="completedMembers">
+    <%= group.tasks[k].completedMembers %>
+  </div>
+</div>

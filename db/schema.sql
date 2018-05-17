@@ -13,7 +13,6 @@ CREATE TABLE users(
     PRIMARY KEY(userId)
 );
 
-USE olqeekbcp7xt59wu;
 DROP TABLE IF EXISTS chat_room;
 CREATE TABLE chat_room(
     roomId INT AUTO_INCREMENT,
@@ -22,7 +21,6 @@ CREATE TABLE chat_room(
     PRIMARY KEY(roomId)
 );
 
-USE olqeekbcp7xt59wu;
 DROP TABLE IF EXISTS groups;
 CREATE TABLE groups(
     groupId INT AUTO_INCREMENT,
