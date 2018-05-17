@@ -7,11 +7,41 @@
 }
 
 h2 {
-  margin: 5px 0;
+  font-size: 20px;
+  margin: 10px 0;
+  text-align: center;
 }
 
 #join-groups {
   display: block;
   width: 200px;
   margin: 0 auto;
+}
+
+#profileColumn {
+  margin-bottom: 10px;
+}
+
+/* .profile-btns {
+  display: inline-block;
+  width: 200px;
+} */
+
+@media (min-width: 576px) {
+  h2 {
+    font-size: 40px;
+    text-align: left;
+  }
+  #profileColumn {
+    margin-bottom: 0px;
+  }
+
+  /* .profile-btns {
+    display: inline-block;
+    width: 150px;
+  }
+
+  .profile-btns:first-child {
+    padding-right: 8px;
+  } */
 }

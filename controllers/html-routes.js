@@ -1,7 +1,5 @@
 const express = require('express');
-const {
-  validationResult
-} = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const objGenerator = require('../public/assets/js/helper/template/templateObj.js');
 
 const users = require('../models/users.js');
@@ -25,8 +23,8 @@ const saltRounds = 10;
 
 require('../public/assets/js/helper/authentication/localStrategy.js')(passport, LocalStrategy);
 
-router.get('/profile/:id', function (req, res) {
-  users.selectUserWithId(req.params.id, function (err, result) {
+router.get('/profile/:id', function(req, res) {
+  users.selectUserWithId(req.params.id, function(err, result) {
     if (result.length == 0) {
       res.redirect('/profile/notFound');
     } else {
@@ -43,7 +41,7 @@ router.get('/profile/:id', function (req, res) {
     }
   });
 });
-router.get('/profile/notFound', function (req, res) {
+router.get('/profile/notFound', function(req, res) {
   res.end('profile not found');
 });
 
@@ -53,7 +51,7 @@ router.get('/group/notFound', function (req, res) {
 });
 
 // renders home page
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
   const obj = objGenerator();
   if (req.isAuthenticated()) {
     obj.user = req.user;
@@ -63,7 +61,7 @@ router.get('/', function (req, res) {
 });
 
 // renders chat page
-router.get('/chat', function (req, res) {
+router.get('/chat', function(req, res) {
   const obj = objGenerator();
   if (req.isAuthenticated()) {
     obj.user = req.user;
@@ -73,7 +71,7 @@ router.get('/chat', function (req, res) {
 });
 
 // renders login page
-router.get('/login', function (req, res) {
+router.get('/login', function(req, res) {
   //passport authentication
   if (req.isAuthenticated()) {
     res.redirect('/profile/' + req.user.userId);
@@ -84,18 +82,17 @@ router.get('/login', function (req, res) {
   }
 });
 
-
-router.post("/newGroup", function (req, res) {
+router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
     if (err) {
-      res.redirect("/");
+      res.redirect('/');
       return console.log('File size too large.');
     } else {
       //logic to check group's existence
       groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function (err, resultId) {
         uploads.addFile(resultId, req.file.filename, "avatar", "group", function (err, result) {
           console.log(resultId);
-          res.redirect("/group/" + resultId);
+          res.redirect('/group/' + resultId);
         });
       });
       return true;
@@ -115,9 +112,13 @@ router.get('/newgroup', (req, res) => {
   } else {
     res.render('index', obj);
   }
-
 });
 
+// removes the users session and sends them to the home page
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 router.get('/groups', (req, res) => {
   const obj = objGenerator();
@@ -139,8 +140,8 @@ router.get('/groups', (req, res) => {
 
 });
 
-router.get('/group/:id', function (req, res) {
-  groups.selectGroupWithId(req.params.id, function (err, result) {
+router.get('/group/:id', function(req, res) {
+  groups.selectGroupWithId(req.params.id, function(err, result) {
     if (result.length == 0) {
       res.redirect('/group/notFound');
     } else {
@@ -193,7 +194,7 @@ router.get('/group/:id', function (req, res) {
 });
 
 // renders sign up page
-router.get('/register2', function (req, res) {
+router.get('/register2', function(req, res) {
   //****IMAGE UPLOADS *****/
   // uploads the file to the server when a user signs up
   avatar(req, res, err => {
@@ -205,7 +206,7 @@ router.get('/register2', function (req, res) {
     return true;
   });
 });
-router.get('/register', function (req, res) {
+router.get('/register', function(req, res) {
   if (req.isAuthenticated()) {
     res.redirect('/profile/' + req.user.userId);
   } else {
@@ -218,7 +219,7 @@ router.get('/register', function (req, res) {
 //********** AUTHENTICATION STUFF? ***********/
 //********** MOVE LOGIC TO SEPARATE FILE**********/
 const checksLogin = require('../public/assets/js/helper/validation/loginValidationCheck.js');
-router.post('/login', checksLogin, function (req, res) {
+router.post('/login', checksLogin, function(req, res) {
   //to be completed
   console.log("hello");
   const errors = validationResult(req);
@@ -233,7 +234,7 @@ router.post('/login', checksLogin, function (req, res) {
     obj.errors = [];
 
     //append each error to the errors array property of template obj
-    errorsKey.forEach(function (errorKey) {
+    errorsKey.forEach(function(errorKey) {
       obj.errors.push(errorsObj[errorKey]);
     });
     //render file
@@ -241,7 +242,7 @@ router.post('/login', checksLogin, function (req, res) {
   } else {
     //if no validation errors
     //try finding a user row with the username
-    users.selectUserWithUsername(req.body.username, function (err, result) {
+    users.selectUserWithUsername(req.body.username, function(err, result) {
       if (result.length == 0) {
         //if there is no result
         let obj = objGenerator();
@@ -257,7 +258,7 @@ router.post('/login', checksLogin, function (req, res) {
         let hash = result[0].password;
 
         //use bcrypt to check for pass
-        bcrypt.compare(req.body.password, hash, function (err, resBool) {
+        bcrypt.compare(req.body.password, hash, function(err, resBool) {
           if (resBool) {
             //if plaintext matches hash password, login(passport)
             passport.authenticate('local', {
@@ -281,7 +282,7 @@ router.post('/login', checksLogin, function (req, res) {
 });
 
 const checksRegistration = require('../public/assets/js/helper/validation/registerValidationCheck.js');
-router.post('/register', checksRegistration, function (req, res) {
+router.post('/register', checksRegistration, function(req, res) {
   //check for validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -291,7 +292,7 @@ router.post('/register', checksRegistration, function (req, res) {
     let obj = objGenerator();
     obj.page = 'register';
     obj.errors = [];
-    errorsKey.forEach(function (errorKey) {
+    errorsKey.forEach(function(errorKey) {
       obj.errors.push(errorsObj[errorKey]);
     });
     res.render('index', obj);
@@ -301,14 +302,14 @@ router.post('/register', checksRegistration, function (req, res) {
     //other checks for username
     async.series(
       [
-        function (callback) {
+        function(callback) {
           users.selectUserWithEmail(req.body.email, callback);
         },
-        function (callback) {
+        function(callback) {
           users.selectUserWithUsername(req.body.username, callback);
         }
       ],
-      function (err, result) {
+      function(err, result) {
         let obj = objGenerator();
         obj.page = 'register';
         //if either result of both mysql query has some results then email or username exists
@@ -327,9 +328,9 @@ router.post('/register', checksRegistration, function (req, res) {
           res.render('index', obj);
         } else {
           //if username and email are both new, hash the password
-          bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+          bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
             //add the user to the users table
-            users.addUser(req.body.username, req.body.email, hash, function (error, result) {
+            users.addUser(req.body.username, req.body.email, hash, function(error, result) {
               //use passport login for user session cookie
               passport.authenticate('local', {
                 successRedirect: '/profile/' + result[0].userId,

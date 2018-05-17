@@ -3,7 +3,6 @@ const path = require('path');
 const ejs = require('ejs');
 const rfs = require('rotating-file-stream');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -14,17 +13,13 @@ dotenv.config();
 
 // create the server
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // initialize chat connection
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const initChat = require('./controllers/sockets/sockets');
 initChat(io);
-
-// access log functions
-const accessLogStream = require('./public/assets/js/middleware/morgan/accessLogStream');
-app.use(morgan('combined', { stream: accessLogStream }));
 
 // specify the view engine and file locations
 app.set('views', path.join(__dirname, '/views'));

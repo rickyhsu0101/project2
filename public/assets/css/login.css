@@ -1,6 +1,13 @@
 .formDiv {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 40px;
+  padding: 15px 10px !important;
+}
+
+label,
+input,
+button,
+#redirectAnchor {
+  font-size: 12px !important;
 }
 
 .error {
@@ -15,7 +22,6 @@
 
 main {
   margin-top: 40px;
-  padding: 20px;
 }
 
 #redirectAnchor {
@@ -23,4 +29,24 @@ main {
   width: 100%;
   margin-top: 20px;
   text-align: center;
+}
+
+@media (min-width: 576px) {
+  label,
+  input,
+  span,
+  button,
+  #redirectAnchor {
+    font-size: 16px !important;
+  }
+
+  main {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 960px !important;
+  }
 }
