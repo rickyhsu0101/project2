@@ -48,7 +48,7 @@ const users = {
             if (currentGroups.length > 0) {
                 currentGroups += "," + groupId
             } else {
-                currentGroups = groupId;
+                currentGroups = ""+ groupId;
             }
             orm.updateSingleRow("users", {
                 groups: currentGroups
