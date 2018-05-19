@@ -31,3 +31,10 @@ h2 {
     margin-bottom: 0px;
   }
 }
+#memberDiv a{
+  text-decoration: none;
+}
+.member{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

@@ -20,7 +20,32 @@ const router = express.Router();
 const saltRounds = 10;
 
 require('../public/assets/js/helper/authentication/localStrategy.js')(passport, LocalStrategy);
-
+router.post('/profile/:id', function(req, res){
+  avatar(req, res, function(err){
+    if(err){
+      res.redirect("/profile/" + req.params.id);
+      return console.log(err);
+    }else{
+      if (req.isAuthenticated()) {
+        users.selectUserWithId(req.params.id, function(err, result){
+          if(result.length >0){
+            if(result[0].userId == req.user.userId){
+              uploads.updateAvatar(req.user.userId, "user", "avatar", req.file.filename, function(err, result){
+                res.redirect("/profile/" + req.user.userId);
+              });
+            }
+          }else{
+            res.redirect("/404");
+          }
+        });
+      } else {
+        res.redirect("/404");
+      }
+    }
+    
+  });
+  
+});
 router.get('/profile/:id', function(req, res) {
   users.selectUserWithId(req.params.id, function(err, result) {
     if (result.length == 0) {
@@ -36,6 +61,7 @@ router.get('/profile/:id', function(req, res) {
           obj.profile.profileAvatar = result[0].fileName;
         }
 
+
         if (req.isAuthenticated()) {
           let localUser = req.user;
           delete localUser.password;
@@ -48,7 +74,7 @@ router.get('/profile/:id', function(req, res) {
           });
         } else {
           obj.page = '404';
-          res.render('index', obj);
+          res.redirect("/404");
         }
       });
     }
@@ -71,10 +97,10 @@ router.get('/chat', function(req, res) {
   if (req.isAuthenticated()) {
     obj.user = req.user;
     obj.page = 'chat';
+    res.render('index', obj);
   } else {
-    obj.page = '404';
+    res.redirect("/404");
   }
-  res.render('index', obj);
 });
 
 // renders login page
@@ -95,17 +121,23 @@ router.post('/newGroup', function(req, res) {
       res.redirect('/');
       return console.log(err);
     } else {
-      //logic to check group's existence
-      groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(
-        err,
-        resultId
-      ) {
-        uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function(err, result) {
-          console.log(resultId);
-          res.redirect('/group/' + resultId);
+      if(req.isAuthenticated()){
+        groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function (
+          err,
+          resultId
+        ) {
+          uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function (err, result) {
+            console.log(resultId);
+            res.redirect('/group/' + resultId);
+          });
         });
-      });
-      return true;
+        return true;
+      }else{
+        res.redirect("/404");
+        return false;
+      }
+      //logic to check group's existence
+      
     }
   });
 });
@@ -118,15 +150,18 @@ router.get('/newgroup', (req, res) => {
     delete localUser.password;
     obj.user = localUser;
     obj.page = 'newgroup';
+    res.render('index', obj);
   } else {
-    obj.page = '404';
+    res.redirect("/404");
   }
-  res.render('index', obj);
+  
 });
 
 // removes the users session and sends them to the home page
 router.get('/logout', function(req, res) {
-  req.logout();
+  if(req.isAuthenticated()){
+    req.logout();
+  }
   res.redirect('/');
 });
 
@@ -142,8 +177,7 @@ router.get('/groups', (req, res) => {
         res.render('index', obj);
       });
     } else {
-      obj.page = '404';
-      res.render('index', obj);
+      res.redirect("/404");
     }
   });
 });
@@ -194,8 +228,7 @@ router.get('/group/:id', function(req, res) {
           res.render('index', obj);
         });
       } else {
-        obj.page = '404';
-        res.render('index', obj);
+        res.redirect("/404");
       }
     }
   });
@@ -337,12 +370,6 @@ router.post('/register', checksRegistration, function(req, res) {
       }
     );
   }
-});
-
-router.get('*', function(req, res) {
-  let obj = objGenerator();
-  obj.page = '404';
-  res.render('index', obj);
 });
 
 module.exports = router;
