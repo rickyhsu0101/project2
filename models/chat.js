@@ -1,5 +1,5 @@
 const orm = require('./orm.js');
-const users = require('./users.js');
+// const users = require('./users.js');
 const userChatRules = [
   'messageId INT AUTO_INCREMENT',
   'username VARCHAR(30)',
@@ -12,7 +12,7 @@ const userChatRules = [
 ];
 const chat = {
   //create a chat for each group
-  createUserChat: function(groupId, cb) {
+  createGroupChat: function(groupId, cb) {
     orm.createTable('groupchat_' + groupId, userChatRules, function(err, result) {
       cb(err, result);
     });
@@ -37,11 +37,12 @@ const chat = {
       cb(err, result);
     });
   },
-  // createUserChat: function (userId, cb) {
-  //   orm.createTable("user_" + userId + "_chat", userChatRules, function (err, result) {
-  //     cb(err, result);
-  //   });
-  // },
+
+  createUserChat: function(userId, cb) {
+    orm.createTable('user_' + userId + '_chat', userChatRules, function(err, result) {
+      cb(err, result);
+    });
+  },
   //get all chat from all user
   getChatById: function(chatId, cb) {
     //where clause for id

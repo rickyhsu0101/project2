@@ -46,7 +46,9 @@ router.get('/profile/:id', function(req, res) {
           delete localUser.password;
           obj.user = localUser;
           groups.getMultipleGroups(obj.profile.groups.split(','), function(err, result) {
-            obj.groups = result;
+            if (result[0] !== undefined) {
+              obj.groups = result;
+            }
             res.render('index', obj);
           });
         } else {
@@ -118,7 +120,8 @@ router.post('/newGroup', function(req, res) {
         resultId
       ) {
         // creates a chat room for the group
-        groupChat.createUserChat(resultId, function() {
+        console.log('TESTING:', resultId);
+        groupChat.createGroupChat(resultId, function() {
           // uploads the groups image after the group and chat are made
           uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function(err, result) {
             res.redirect('/group/' + resultId);
@@ -127,7 +130,6 @@ router.post('/newGroup', function(req, res) {
       });
 
       // create a new chat room for the new group
-      // groupChat.createUserChat()
 
       return true;
     }
@@ -213,7 +215,6 @@ router.get('/group/:id', function(req, res) {
           obj.group['info'] = result[1];
           obj.group['groupAvatar'] = result[2][0].fileName;
           obj.user = result[3][0];
-          // console.log('checking: ', obj);
           res.render('index', obj);
         });
       } else {
