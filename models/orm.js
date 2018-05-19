@@ -99,6 +99,20 @@ var orm = {
       cb(err, result);
     });
   },
+  deleteRowWithParams: function(table, where, cb){
+    let query = 'DELETE FROM ?? ';
+    let values = [table];
+    const conditionalObj = conditional(where);
+    query += conditionalObj.whereQuery;
+    values = values.concat(conditionalObj.whereValues);
+    query += ";";
+    connection.query(query, values, function(err,result){
+      if(err){
+        throw err;
+      }
+      cb(err, result);
+    });
+  },
   //modify below and change to update
   insertOneWithParams: function(table, colValue, where, cb) {
     let query = 'INSERT INTO ??';
