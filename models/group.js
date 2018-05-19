@@ -127,14 +127,55 @@ const group = {
       cb(err, result);
     });
   },
-  groupAddPendingUser: function(groupId, userId, cb ){
+  groupAddUser: function(groupId, userId, cb ){
     const values = {
       member: parseInt(userId),
-      position: "Pending",
+      position: "member",
       points: 0,
       level: 0,
     }
-    orm.insertOneWithoutParams("group_" + groupId + "_info", values, cb);
+    orm.insertOneWithoutParams("group_" + groupId + "_info", values, function(err, result){
+      group.selectGroupWithId(groupId, function(err, result){
+        const set = {
+          groupMembers: result[0].groupMembers + "," + userId
+        };
+        const where = {
+          groupId: groupId
+        };
+        orm.updateSingleRow("groups", set, where, cb);
+      });
+    });
+  },
+  groupDeleteUser: function(groupId, userId, cb){
+    const asyncFunctions = [
+      function(callback){
+        orm.deleteRowWithParams("group_" + userId + "_info", {
+          member: userId
+        }, callback);
+      },
+      function(callback){
+        users.removeUserGroup(groupId, userId, callback);
+      },
+      function(callback){
+        group.selectGroupWithId(groupId, function(err, result){
+          members = result[0].groupMembers.split(",");
+          for(let i = 0; i < members.length; i++){
+            if(members[i]==userId){
+              members.splice(i,1);
+              break;
+            }
+          }
+          const set = {
+            groupMembers: members.toString()
+          };
+          const where = {
+            groupId: groupId
+          };
+          orm.updateSingleRow("groups", set, where, callback);
+        });
+      }
+    ];
+    async.series(asyncFunctions, cb);
   }
 };
 module.exports = group;

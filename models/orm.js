@@ -90,16 +90,24 @@ var orm = {
     const conditionalObj = conditional(where);
     query += setObj.setQuery + ' ';
     query += conditionalObj.whereQuery;
-    console.log(values);
-    console.log(setObj.setValues);
-    console.log(conditionalObj.whereValues);
     values = values.concat(setObj.setValues, conditionalObj.whereValues);
     query += ';';
-    console.log(query);
-    console.log(values);
-    console.log(values.length);
     connection.query(query, values, function(err, result) {
       if (err) {
+        throw err;
+      }
+      cb(err, result);
+    });
+  },
+  deleteRowWithParams: function(table, where, cb){
+    let query = 'DELETE FROM ?? ';
+    let values = [table];
+    const conditionalObj = conditional(where);
+    query += conditionalObj.whereQuery;
+    values = values.concat(conditionalObj.whereValues);
+    query += ";";
+    connection.query(query, values, function(err,result){
+      if(err){
         throw err;
       }
       cb(err, result);
