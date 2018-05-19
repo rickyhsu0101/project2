@@ -45,23 +45,30 @@
         </div>
       <%}else{%>
         <div class = "row hide" id = "leaveGroupRow">
-          <div class="col s6 center-align">
-            <a class="wave-effect waves-light btn profile-btns" href="<%= '/leavegroup/' + group.groupId%>">Leave Group</a>
+          <div class="col s12 center-align">
+            <a class="wave-effect waves-light btn profile-btns" href = "#" id = "leaveGroupButton">Leave Group</a>
           </div>
         </div>
-        <div class="col s6 center-align" id = "joinGroupDiv">
-          <a href="" class="wave-effect waves-light btn profile-btns" data-user="<%= user.userId %>" data-group="<%= group.groupId %>" id="joinGroup">Join Group</a>
+        <div class = "row" id = "joinGroupRow">
+        <div class="col s12 center-align" id = "joinGroupDiv">
+          <a href="" class="wave-effect waves-light btn profile-btns" data-user="<%= user.userId %>" data-group = "<%= group.groupId %>" id = "joinGroup">Join Group</a>
+
+        </div>
         </div>
       <%}%>
 
       <ul class="collapsible">
         <li>
           <div class="collapsible-header">Show Members</div>
-          <div class="collapsible-body"></div>
+          <div class="collapsible-body" id = "membersDiv" data-group="<%= group.groupId %>" data-power = "<%= power %>" data-userId = "<%= user.userId %>">
+            <ul>
+
+            </ul>
+          </div>
         </li>
       </ul>
       
-      <div id = "membersDiv" data-group="<%= group.groupId %>" data-power = "<%= power %>" data-userId = "<%= user.userId %>"></div>
+     
     </div>
     <div class="col s12 m8" id = "tasksColumn">
       <% for(var k = 0; k < group.tasks.length; k++) { %>

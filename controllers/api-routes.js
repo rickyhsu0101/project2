@@ -20,7 +20,6 @@ router.get('/group/:id/join/:userId', function(req, res) {
           ];
           async.series(asyncFunctions, function(err, result){
             apiResponse.msg = "Group Added! Currently Status: Added";
-            console.log(apiResponse);
             res.json(apiResponse);
           });
         }else{
@@ -55,7 +54,6 @@ router.get('/group/:id/members', function(req, res){
         }
         async.series(asyncFunctions, function(err, result){
           apiResponse.data = [result,resultMembers] ;
-          console.log(apiResponse.data);
           res.json(apiResponse);
         });
       }else{
@@ -72,21 +70,33 @@ router.get('/group/:id/members', function(req, res){
 });
 router.delete("/group/:id/delete/:memberId", function(req, res){
   let apiResponse = apiObjGenerator();
+  
   if(req.isAuthenticated()){
     let currentUser = req.user.userId;
-    let isAdmin = false;
+    let allowed = false;
+    console.log(req.user.userId);
+    console.log(req.params.id);
+    console.log(req.params.memberId);
     if(req.params.id){
       groups.selectGroupMembersWithGroupId(req.params.id, function (err, result) {
         for(let i =0; i < result.length; i++){
        //   if(parseInt(req.params.id)==)
+          console.log(req.user.userId);
+          console.log(result[i]);
           if(req.user.userId == result[i].member && result[i].position == "admin"){
-            isAdmin = true;
+            allowed = true;
+            break;
+          }else if(req.user.userId == memberId && req.user.userId == result[i].member) {
+            allowd = true;
             break;
           }
         }
-        if(isAdmin){
-          //delete member from group
-          
+        if(allowed){
+          groups.groupDeleteUser(req.params.id, req.params.memberId, function(err, result){
+            console.log("delete");
+            apiResponse.msg = "Successfully Removed";
+            res.json(apiResponse);
+          });
         }else{
            apiResponse.error = true;
            apiResponse.msg = "Not Authorized";
@@ -102,13 +112,6 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
     apiResponse.error = true;
     apiResponse.msg = "Not Authorized";
     res.json(apiResponse);
-  }
-});
-router.put("/group/:id/accept/:memberId", function(req, res){
-  let apiResponse = apiObjGenerator();
-  if (req.isAuthenticated()) {
-    let currentUser = req.user.userId;
-    
   }
 });
 /*
