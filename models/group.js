@@ -126,6 +126,15 @@ const group = {
     async.series(asyncFunctions, function(err, result){
       cb(err, result);
     });
+  },
+  groupAddPendingUser: function(groupId, userId, cb ){
+    const values = {
+      member: parseInt(userId),
+      position: "Pending",
+      points: 0,
+      level: 0,
+    }
+    orm.insertOneWithoutParams("group_" + groupId + "_info", values, cb);
   }
 };
 module.exports = group;
