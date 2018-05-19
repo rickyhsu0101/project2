@@ -94,10 +94,12 @@
         <% if(power=="admin"){%>
           <div>
             <a href="/search" id="new-task" class="wave-effect waves-light btn">Add new Task</a>
+            <a href="/chat/<%= group.groupId %>" data-room="<%= group.groupId %>" id="chat" class="wave-effect waves-light btn">Group Chat</a>
           </div>
         <% }else{%>
           <div>
             <h3>No tasks yet!</h3>
+            <a href="/chat/<%= group.groupId %>" data-room="<%= group.groupId %>" id="chat" class="wave-effect waves-light btn">Group Chat</a>
           </div>
         <%}%>
       <%}%>

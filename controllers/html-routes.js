@@ -1,23 +1,28 @@
 const express = require('express');
-const { validationResult } = require('express-validator/check');
+
+// ejs object template
 const objGenerator = require('../public/assets/js/helper/template/templateObj.js');
 
+// models
 const users = require('../models/users.js');
 const groups = require('../models/group.js');
 const uploads = require('../models/upload.js');
 const tasks = require('../models/task.js');
+const groupChat = require('../models/chat');
+
+// authentication
+const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcrypt');
 const async = require('async');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+//number of words used for hash
+const saltRounds = 10;
 
 // image upload middleware
 const upload = require('../public/assets/js/middleware/multer/upload.js');
 const avatar = upload.single('avatar');
 const router = express.Router();
-
-//number of words used for hash
-const saltRounds = 10;
 
 require('../public/assets/js/helper/authentication/localStrategy.js')(passport, LocalStrategy);
 router.post('/profile/:id', function(req, res){
@@ -92,12 +97,26 @@ router.get('/', function(req, res) {
 });
 
 // renders chat page
-router.get('/chat', function(req, res) {
+router.get('/chat/:id', function(req, res) {
   const obj = objGenerator();
   if (req.isAuthenticated()) {
-    obj.user = req.user;
-    obj.page = 'chat';
-    res.render('index', obj);
+
+    // gets all messages from a group chat when a user connects
+    groupChat.getMessages(req.params.id, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        obj.user = req.user;
+        obj.page = 'chat';
+
+        // connects the user to the chat associated with the group
+        obj.chatPage = req.params.id;
+
+        // contains all the messages from the chat. Gets loaded when a user connects
+        obj.chatMessages = result;
+        res.render('index', obj);
+      }
+    });
   } else {
     res.redirect("/404");
   }
@@ -115,29 +134,30 @@ router.get('/login', function(req, res) {
   }
 });
 
+// creates a new group
 router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
     if (err) {
       res.redirect('/');
-      return console.log(err);
-    } else {
-      if(req.isAuthenticated()){
-        groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function (
-          err,
-          resultId
-        ) {
-          uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function (err, result) {
-            console.log(resultId);
+      
+      // checks if the group exists
+      groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(
+        err,
+        resultId
+      ) {
+        // creates a chat room for the group
+        console.log('TESTING:', resultId);
+        groupChat.createGroupChat(resultId, function() {
+          // uploads the groups image after the group and chat are made
+          uploads.addFile(resultId, req.file.filename, 'avatar', 'group', function(err, result) {
             res.redirect('/group/' + resultId);
           });
         });
-        return true;
-      }else{
-        res.redirect("/404");
-        return false;
-      }
-      //logic to check group's existence
-      
+      });
+
+      // create a new chat room for the new group
+
+      return true;
     }
   });
 });
@@ -195,13 +215,11 @@ router.get('/group/:id', function(req, res) {
       let asyncFunctions = [
         function(callback) {
           tasks.getTasksWithGroupId(result[0].groupId, function(err, result) {
-            console.log(result);
             callback(err, result);
           });
         },
         function(callback) {
           groups.selectGroupMembersWithGroupId(result[0].groupId, function(err, result) {
-            console.log(result);
             callback(err, result);
           });
         },
@@ -244,12 +262,9 @@ router.get('/register', function(req, res) {
   }
 });
 
-//********** AUTHENTICATION STUFF? ***********/
-//********** MOVE LOGIC TO SEPARATE FILE**********/
 const checksLogin = require('../public/assets/js/helper/validation/loginValidationCheck.js');
 router.post('/login', checksLogin, function(req, res) {
   //to be completed
-  console.log('hello');
   const errors = validationResult(req);
   //validation the form data
   if (!errors.isEmpty()) {
@@ -346,7 +361,6 @@ router.post('/register', checksRegistration, function(req, res) {
           obj.errors.push({
             msg: 'Email is already in use'
           });
-          console.log(obj);
           res.render('index', obj);
         } else if (result[1].length > 0) {
           obj.errors = [];
