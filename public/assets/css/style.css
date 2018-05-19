@@ -11,3 +11,10 @@ main {
 .page-footer {
   padding: 10px !important;
 }
+
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}

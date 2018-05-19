@@ -29,8 +29,8 @@
     <div class="col s12 m8" id = "groupsColumn">
       <div class="row">
         <% if(user) { %>
-
           <% if(groups){%>
+            <h4 class="center-align">Your Groups</h4>
             <% for(var i =0; i < groups.length; i++){ %>
               <a href="<%='/group/' + groups[i].groupId %>" class="card-title">
                 <div class="col s12 m6">

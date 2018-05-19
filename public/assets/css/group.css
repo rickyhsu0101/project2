@@ -31,16 +31,15 @@ h2 {
     margin-bottom: 0px;
   }
 }
-#memberDiv a{
+#memberDiv a {
   text-decoration: none;
 }
-.member{
-  margin-top: 50px;
-  margin-bottom: 50px;
+.member {
+  margin: 10px 0;
 }
-.member .s8{
+.member .s8 {
   padding-left: 40px;
 }
-.member .s4{
+.member .s4 {
   padding-right: 40px;
 }
