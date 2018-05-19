@@ -2,10 +2,15 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-color: #eeeeee;
 }
 
 main {
   flex: 1 0 auto;
+}
+
+.btn {
+  background-color: #4caf50 !important;
 }
 
 .page-footer {
@@ -17,4 +22,8 @@ h3,
 h4,
 h5 {
   margin: 0;
+}
+
+.navbar-fixed {
+  margin-bottom: 15px;
 }
