@@ -79,20 +79,39 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
       groups.selectGroupMembersWithGroupId(req.params.id, function (err, result) {
         for(let i =0; i < result.length; i++){
        //   if(parseInt(req.params.id)==)
+          if(req.user.userId == result[i].member && result[i].position == "admin"){
+            isAdmin = true;
+            break;
+          }
         }
-        
+        if(isAdmin){
+          //delete member from group
+          
+        }else{
+           apiResponse.error = true;
+           apiResponse.msg = "Not Authorized";
+           res.json(apiResponse);
+        }
       });
+    }else{
+       apiResponse.error = true;
+       apiResponse.msg = "Not Authorized";
+       res.json(apiResponse);
     }
-    
   }else{
     apiResponse.error = true;
     apiResponse.msg = "Not Authorized";
     res.json(apiResponse);
   }
 });
-router.get("/group/accept/:memberId", function(req, res){
+/*
+router.put("/group/:id/accept/:memberId", function(req, res){
+  let apiResponse = apiObjGenerator();
+  if (req.isAuthenticated()) {
 
+  }
 });
+*/
 router.get('/chat/:userId/:chatId', function(req, res) {});
 
 module.exports = router;
