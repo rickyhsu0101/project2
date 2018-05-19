@@ -4,10 +4,10 @@
   "description": "RPG-like social media",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./server.js",
     "webpack": "webpack --config webpack.config.js",
-    "startWithWebpack": "webpack --config webpack.config.js && node server.js"
+    "startWithWebpack": "webpack --config webpack.config.js && node server.js",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -41,7 +41,7 @@
     "chai": "^4.1.2",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
-    "mocha": "^5.1.1",
+    "mocha": "^5.2.0",
     "nightmare": "^3.0.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.8.3",
