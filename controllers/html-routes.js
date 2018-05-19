@@ -153,11 +153,13 @@ router.post('/newGroup', function(req, res) {
             res.redirect('/group/' + resultId);
           });
         });
-      });
 
-      // create a new chat room for the new group
+        return true;
+      }else{
+        res.redirect("/404");
+        return false;
+      }
 
-      return true;
     }
   });
 });
