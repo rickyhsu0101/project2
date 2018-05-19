@@ -12,8 +12,6 @@ module.exports = function(io) {
     // when the 'message' event is emitted from the client, the message gets emitted to all sockets in the room
     // each time this event occurs the users room, name, and message is passed in as the data param
     socket.on(events.message, data => {
-      console.log(data);
-
       // saves each message to the chat table for the group
       groupChat.postMessage(data, (err, result) => {
         if (err) {
