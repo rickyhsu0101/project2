@@ -56,34 +56,30 @@ router.get('/profile/:id', function(req, res) {
       delete result[0].password;
       obj.profile = result[0];
 
-      uploads.getFileByType(result[0].userId, "user", "avatar", function(err, result){
-        if(result.length>0){
+      uploads.getFileByType(result[0].userId, 'user', 'avatar', function(err, result) {
+        if (result.length > 0) {
           obj.profile.profileAvatar = result[0].fileName;
         }
-        
-        if (req.isAuthenticated() ) {
+
+
+        if (req.isAuthenticated()) {
           let localUser = req.user;
           delete localUser.password;
           obj.user = localUser;
-          if(obj.profile.groups!= ""){
-            groups.getMultipleGroups(obj.profile.groups.split(","), function(err, result){
+          groups.getMultipleGroups(obj.profile.groups.split(','), function(err, result) {
+            if (result[0] !== undefined) {
               obj.groups = result;
-              console.log(result);
-              res.render("index", obj);
-            });
-          } else{
-            res.render("index", obj);
-          }
-        }else{
+            }
+            res.render('index', obj);
+          });
+        } else {
+          obj.page = '404';
           res.redirect("/404");
         }
       });
     }
   });
 });
-
-
-
 
 // renders home page
 router.get('/', function(req, res) {
@@ -183,7 +179,6 @@ router.get('/groups', (req, res) => {
     } else {
       res.redirect("/404");
     }
-    
   });
 });
 

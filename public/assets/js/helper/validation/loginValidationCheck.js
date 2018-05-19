@@ -10,9 +10,9 @@ module.exports = [
     .withMessage('Username Cannot be Empty')
     .isLength({
       min: 6,
-      max: 50
+      max: 25
     })
-    .withMessage('Username Must be between 6 and 50 Characters Inclusive'),
+    .withMessage('Username Must be between 6 and 25 Characters Inclusive'),
   body('password')
     .custom(emptyString)
     .withMessage('Password Cannot be Empty')
