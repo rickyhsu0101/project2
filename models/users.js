@@ -59,6 +59,26 @@ const users = {
             });
         });
     },
+    removeUserGroup: function(userId, groupId, cb){
+        users.selectUserWithId(userId, function(err, result){
+            let currentGroups = result[0].groups.split(",");
+            for(let i = 0; i < currentGroups.length; i++){
+                if(currentGroups[i]==groupId){
+                    currentGroups.splice(i,1);
+                    break;
+                }
+            }
+            let where = {
+                userId: userId
+            };
+            let set = {
+                groups: currentGroups.toString()
+            };
+            orm.updateSingleRow('users', set, where, function(err, result){
+                cb(err, result);
+            });
+        });
+    },
     selectUserWithId: function (id, cb) {
         let where = {
             userId: id

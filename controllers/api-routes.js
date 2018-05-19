@@ -15,11 +15,11 @@ router.get('/group/:id/join/:userId', function(req, res) {
               users.addUserGroup(req.params.userId, req.params.id, callback);
             }, 
             function(callback){
-              groups.groupAddPendingUser(req.params.id, req.params.userId, callback);
+              groups.groupAddUser(req.params.id, req.params.userId, callback);
             }
           ];
           async.series(asyncFunctions, function(err, result){
-            apiResponse.msg = "Group Added! Currently Status: Pending";
+            apiResponse.msg = "Group Added! Currently Status: Added";
             console.log(apiResponse);
             res.json(apiResponse);
           });
@@ -104,12 +104,16 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
     res.json(apiResponse);
   }
 });
-/*
 router.put("/group/:id/accept/:memberId", function(req, res){
   let apiResponse = apiObjGenerator();
   if (req.isAuthenticated()) {
-
+    let currentUser = req.user.userId;
+    
   }
+});
+/*
+router.put("/group/:id/accept/:memberId", function(req, res){
+  
 });
 */
 router.get('/chat/:userId/:chatId', function(req, res) {});
