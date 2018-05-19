@@ -6,4 +6,7 @@ import '../../css/profile.css';
 $(document).ready(function() {
   headerInit();
   $('.modal').modal();
+  $("#changeAvatar").on("click", function(){
+    $('.modal').modal('open');
+  });
 });

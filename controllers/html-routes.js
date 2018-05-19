@@ -25,7 +25,32 @@ const avatar = upload.single('avatar');
 const router = express.Router();
 
 require('../public/assets/js/helper/authentication/localStrategy.js')(passport, LocalStrategy);
-
+router.post('/profile/:id', function(req, res){
+  avatar(req, res, function(err){
+    if(err){
+      res.redirect("/profile/" + req.params.id);
+      return console.log(err);
+    }else{
+      if (req.isAuthenticated()) {
+        users.selectUserWithId(req.params.id, function(err, result){
+          if(result.length >0){
+            if(result[0].userId == req.user.userId){
+              uploads.updateAvatar(req.user.userId, "user", "avatar", req.file.filename, function(err, result){
+                res.redirect("/profile/" + req.user.userId);
+              });
+            }
+          }else{
+            res.redirect("/404");
+          }
+        });
+      } else {
+        res.redirect("/404");
+      }
+    }
+    
+  });
+  
+});
 router.get('/profile/:id', function(req, res) {
   users.selectUserWithId(req.params.id, function(err, result) {
     if (result.length == 0) {
@@ -41,6 +66,7 @@ router.get('/profile/:id', function(req, res) {
           obj.profile.profileAvatar = result[0].fileName;
         }
 
+
         if (req.isAuthenticated()) {
           let localUser = req.user;
           delete localUser.password;
@@ -53,7 +79,7 @@ router.get('/profile/:id', function(req, res) {
           });
         } else {
           obj.page = '404';
-          res.render('index', obj);
+          res.redirect("/404");
         }
       });
     }
@@ -74,6 +100,7 @@ router.get('/', function(req, res) {
 router.get('/chat/:id', function(req, res) {
   const obj = objGenerator();
   if (req.isAuthenticated()) {
+
     // gets all messages from a group chat when a user connects
     groupChat.getMessages(req.params.id, (err, result) => {
       if (err) {
@@ -91,8 +118,7 @@ router.get('/chat/:id', function(req, res) {
       }
     });
   } else {
-    obj.page = '404';
-    res.render('index', obj);
+    res.redirect("/404");
   }
 });
 
@@ -113,7 +139,7 @@ router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
     if (err) {
       res.redirect('/');
-    } else {
+      
       // checks if the group exists
       groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(
         err,
@@ -144,15 +170,18 @@ router.get('/newgroup', (req, res) => {
     delete localUser.password;
     obj.user = localUser;
     obj.page = 'newgroup';
+    res.render('index', obj);
   } else {
-    obj.page = '404';
+    res.redirect("/404");
   }
-  res.render('index', obj);
+  
 });
 
 // removes the users session and sends them to the home page
 router.get('/logout', function(req, res) {
-  req.logout();
+  if(req.isAuthenticated()){
+    req.logout();
+  }
   res.redirect('/');
 });
 
@@ -168,8 +197,7 @@ router.get('/groups', (req, res) => {
         res.render('index', obj);
       });
     } else {
-      obj.page = '404';
-      res.render('index', obj);
+      res.redirect("/404");
     }
   });
 });
@@ -218,8 +246,7 @@ router.get('/group/:id', function(req, res) {
           res.render('index', obj);
         });
       } else {
-        obj.page = '404';
-        res.render('index', obj);
+        res.redirect("/404");
       }
     }
   });
@@ -357,12 +384,6 @@ router.post('/register', checksRegistration, function(req, res) {
       }
     );
   }
-});
-
-router.get('*', function(req, res) {
-  let obj = objGenerator();
-  obj.page = '404';
-  res.render('index', obj);
 });
 
 module.exports = router;
