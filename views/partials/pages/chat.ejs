@@ -1,11 +1,17 @@
 <div class="container chat-container">
   <h2 class="chat-h2">Group Chat</h2>
   <div class="chat-msgs">
-    <!-- span for name -->
-    <!-- span for msg -->
+    <% if (chatMessages.length > 0) {%>
+      <% for (var i = 0; i < chatMessages.length; i++) {%>
+        <div class="messages">
+          <span><strong><%= chatMessages[i].username %></strong>: </span>
+          <span><%= chatMessages[i].messageContent %></span>
+        </div>
+      <%}%>
+    <%}%>
   </div>
   <div class="bg-white">
     <!--ADD CHAT ID LOGIC-->
-    <textarea name="input" data-room="0" id="send-msg" cols="0" rows="2" placeholder="New Message"></textarea>
+    <textarea name="input" data-name="<%= user.username %>" data-room="<%= chatPage %>" id="send-msg" cols="0" rows="2" placeholder="New Message"></textarea>
   </div>
 </div>
