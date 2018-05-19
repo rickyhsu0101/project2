@@ -136,8 +136,6 @@ router.post('/newGroup', function(req, res) {
         res.redirect("/404");
         return false;
       }
-      //logic to check group's existence
-      
     }
   });
 });
