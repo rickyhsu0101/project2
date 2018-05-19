@@ -1,7 +1,7 @@
 <div class="navbar-fixed">
   <nav>
     <div class="container nav-wrapper">
-      <a href="#" class="brand-logo">Project 2</a>
+      <a href="/" class="brand-logo">Project 2</a>
       <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li>
@@ -9,24 +9,24 @@
         </li>
         <% if (user){%>
           <li>
-            <a href="<%='/profile/' + user.userId %>">
-            <%=user.username%>
+            <a href="<%='/profile/' + user.userId %>" id="userID">
+              <%=user.username%>
             </a>
           </li>
-          <li >
-            <a href="/groups">Find Groups</a>
+          <li>
+            <a href="/groups" id="findGroups">Find Groups</a>
           </li>
           <li>
-            <a href="/logout">Logout</a>
+            <a href="/logout" id="logout">Logout</a>
           </li>
-        <% }else {%>
-          <li>
-            <a href="/login">Login</a>
-          </li>
-          <li>
-            <a href="/register">Sign Up</a>
-          </li>
-        <%}%>
+          <% }else {%>
+            <li>
+              <a href="/login">Login</a>
+            </li>
+            <li>
+              <a href="/register">Sign Up</a>
+            </li>
+            <%}%>
       </ul>
     </div>
   </nav>
@@ -35,16 +35,18 @@
       <a href="/">Home</a>
     </li>
     <% if (user){%>
-      <li><a href="/account">
-      <%= user.username %>
-      </a></li>
-    <% }else {%>
       <li>
-        <a href="/login">Login</a>
+        <a href="/account">
+          <%= user.username %>
+        </a>
       </li>
-      <li>
-        <a href="/register">Sign up</a>
-      </li>
-    <%}%>
+      <% }else {%>
+        <li>
+          <a href="/login">Login</a>
+        </li>
+        <li>
+          <a href="/register">Sign up</a>
+        </li>
+        <%}%>
   </ul>
 </div>
