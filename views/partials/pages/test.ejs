@@ -42,16 +42,18 @@
     <% if(user) { %>
     <% if(groups){%>
     <% for(var i =0; i < groups.length; i++){ %>
+    <a href="<%='/group/' + groups[i].groupId %>" class="card-title">
       <div class="col s12 m6">
-        <div class="group">
-          <a href="<%='/group/' + groups[i].groupId %>">
+        <div class="card blue-grey darken-1 group">
+          <div class="card-content white-text">
             <%= groups[i].groupName %>
-          </a>
-          <div class = "shortDesc">
-            <%= groups[i].groupDesc%>
+            <p>
+              <%= groups[i].groupDesc %>
+            </p>
           </div>
         </div>
       </div>
+      </a>
       <%}%>
     <%} else {%>
       <div>

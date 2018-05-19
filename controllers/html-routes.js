@@ -41,8 +41,9 @@ router.get('/profile/:id', function(req, res) {
           delete localUser.password;
           obj.user = localUser;
           groups.getMultipleGroups(obj.profile.groups.split(','), function(err, result) {
-            obj.groups = result;
-            console.log(result);
+            if (result[0] !== undefined) {
+              obj.groups = result;
+            }
             res.render('index', obj);
           });
         } else {
