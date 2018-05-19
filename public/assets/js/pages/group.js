@@ -3,19 +3,14 @@ import { headerInit } from '../general/header.js';
 import '../../css/style.css';
 import '../../css/group.css';
 
-
 $(document).ready(function() {
   headerInit();
-
-  $(document).ready(function() {
-    $('.collapsible').collapsible();
-  });
-
-
-function updateMembers(){
-  $("#membersDiv").empty();
-  let membersQuery = "/api/group/" + $("#membersDiv").data("group").trim() + "/members";
-
+  let membersQuery =
+    '/api/group/' +
+    $('#membersDiv')
+      .data('group')
+      .trim() +
+    '/members';
   $.ajax({
     method: 'GET',
     url: membersQuery
@@ -32,11 +27,17 @@ function updateMembers(){
       var data = response.data;
       for (var i = 0; i < data[0].length; i++) {
         let memberHTML = $("<div class = 'member row'></div>");
-        memberHTML.append("<div class = 'col s8'><a class= 'memberInfo' href = " +
-          "'/profile/" + data[0][i].userId +
-          "' data-id='" + data[0][i].userId + "'><h4>" +
-          data[0][i].username + "</h4></a></div>");
-        if (power == "admin") {
+        memberHTML.append(
+          "<div class = 'col s8'><a class= 'memberInfo' href = " +
+            "'/profile/" +
+            data[0][i].userId +
+            "' data-id='" +
+            data[0][i].userId +
+            "'><h4>" +
+            data[0][i].username +
+            '</h4></a></div>'
+        );
+        if (power == 'admin') {
           if (data[0][i].userId != currentUserId) {
             memberHTML.append(
               "<div class = 'col s4'><a class = 'wave-effect waves-light btn' href = '#'>" +
@@ -49,11 +50,7 @@ function updateMembers(){
       }
     }
   });
-}
-$(document).ready(function() {
-  headerInit();
-  updateMembers();
-  $("#joinGroup").on("click", function(e){
+  $('#joinGroup').on('click', function(e) {
     e.preventDefault();
     var userId = $(this)
       .data('user')
@@ -65,11 +62,9 @@ $(document).ready(function() {
     $.ajax({
       method: 'GET',
       url: query
-    }).done(function(data){
-      if(!data.error){
-        $("#joinGroupDiv").remove();
-        updateMembers();
-        $("#leaveGroupRow").removeClass("hide");
+    }).done(function(data) {
+      if (!data.error) {
+        $('#joinGroupDiv').remove();
       }
     });
   });
