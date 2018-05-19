@@ -70,6 +70,29 @@ router.get('/group/:id/members', function(req, res){
     res.json(apiResponse);
   }
 });
+router.delete("/group/:id/delete/:memberId", function(req, res){
+  let apiResponse = apiObjGenerator();
+  if(req.isAuthenticated()){
+    let currentUser = req.user.userId;
+    let isAdmin = false;
+    if(req.params.id){
+      groups.selectGroupMembersWithGroupId(req.params.id, function (err, result) {
+        for(let i =0; i < result.length; i++){
+       //   if(parseInt(req.params.id)==)
+        }
+        
+      });
+    }
+    
+  }else{
+    apiResponse.error = true;
+    apiResponse.msg = "Not Authorized";
+    res.json(apiResponse);
+  }
+});
+router.get("/group/accept/:memberId", function(req, res){
+
+});
 router.get('/chat/:userId/:chatId', function(req, res) {});
 
 module.exports = router;
