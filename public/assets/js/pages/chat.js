@@ -7,31 +7,29 @@ $(document).ready(function() {
   headerInit();
 
   const socket = io.connect();
-  console.log(socket);
-  console.log(events.connection);
+
+  // info about the connected user. Gets sent to the server on each message
+  const userObj = {
+    name: $('#send-msg').attr('data-name'),
+    room: $('#send-msg').attr('data-room'),
+    message: null
+  };
 
   // creates a new connection
   socket.on(events.connect, () => {
     // grabs the room id to connect to the correct room
-    var room = $('#send-msg').attr('data-room');
-
-    console.log('connect from room:', room);
 
     // sends the 'room' event to the client to log the user into their room
-    socket.emit('room', room);
+    socket.emit('room', userObj.room);
   });
 
   // get message value to emit to all connected clients
   $('#send-msg').on('keyup', function(e) {
     if (e.keyCode === 13) {
-      // gets the users message, and room to send to the correct room
-      const info = {
-        room: $('#send-msg').attr('data-room'),
-        msg: $(this).val()
-      };
+      userObj.message = $(this).val();
 
       // emits the 'message' event to the server to send to users in the same room
-      socket.emit(events.message, info);
+      socket.emit(events.message, userObj);
       $(this).val('');
       return false;
     }
@@ -65,12 +63,12 @@ $(document).ready(function() {
   });
 
   // runs when the server emits the 'message' event back to the client. Creates a new message to users in the room
-  socket.on(events.message, msg => {
-    console.log(msg);
+  socket.on(events.message, data => {
     // var nameSpan = $('span');
     $('.chat-msgs').append(`
     <div class="messages">
-      <span>${msg}</span>
+      <span><strong>${data.name}</strong>: </span>
+      <span>${data.message}</span>
     </div>
   `);
   });

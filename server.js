@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
-const templateObjGenerator = require("./public/assets/js/helper/template/templateObj.js");
+const templateObjGenerator = require('./public/assets/js/helper/template/templateObj.js');
 dotenv.config();
 
 // create the server
@@ -50,10 +50,10 @@ app.use(passport.session());
 // require all routes
 app.use(require('./controllers/html-routes.js'));
 app.use('/api', require('./controllers/api-routes.js'));
-app.get("*", function(req, res){
+app.get('*', function(req, res) {
   let templateObj = templateObjGenerator();
   templateObj.page = '404';
-  res.render("index", templateObj);
-})
+  res.render('index', templateObj);
+});
 // start the server with http because socket.io is attached to it
 http.listen(PORT, () => console.log('listening on ' + PORT));
