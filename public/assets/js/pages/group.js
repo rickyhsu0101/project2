@@ -61,7 +61,9 @@ $(document).ready(function () {
     var groupId = $("#joinGroup").data("group");
     console.log(userId);
     console.log(groupId);
+    
     var query = "/api/group/" + groupId + "/delete/" + userId;
+    console.log(query);
     $.ajax({
       method: "DELETE",
       url: query

@@ -156,12 +156,12 @@ const group = {
   groupDeleteUser: function(groupId, userId, cb){
     const asyncFunctions = [
       function(callback){
-        orm.deleteRowWithParams("group_" + userId + "_info", {
+        orm.deleteRowWithParams("group_" + groupId + "_info", {
           member: userId
         }, callback);
       },
       function(callback){
-        users.removeUserGroup(groupId, userId, callback);
+        users.removeUserGroup(userId, groupId, callback);
       },
       function(callback){
         group.selectGroupWithId(groupId, function(err, result){
