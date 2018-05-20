@@ -43,6 +43,7 @@ function updateMembers() {
 $(document).ready(function () {
   headerInit();
   $(".collapsible").collapsible();
+  $(".modal").modal();
   updateMembers();
   $("#joinGroup").on("click", function (e) {
 
@@ -60,6 +61,9 @@ $(document).ready(function () {
         $("#leaveGroupRow").removeClass("hide");
       }
     });
+  });
+  $("#avatarChange").on("click", function(e){
+    $("#modalGroup").modal('open');
   });
   $("#leaveGroupButton").on("click", function(e){
     e.preventDefault();
