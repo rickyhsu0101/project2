@@ -42,6 +42,9 @@
           <div class="col s12 center-align">
             <a class="wave-effect waves-light btn profile-btns" href = "#" id = "leaveGroupButton">Leave Group</a>
           </div>
+          <div class="col s12 center-align">
+            <a href="/chat/<%= group.groupId %>" data-room="<%= group.groupId %>" id="chat" class="wave-effect waves-light btn profile-btns">Group Chat</a>
+          </div>
         </div>
         <div class = "row hide" id = "joinGroupRow">
           <div class="col s12 center-align" id = "joinGroupDiv">
@@ -52,6 +55,9 @@
         <div class = "row hide" id = "leaveGroupRow">
           <div class="col s12 center-align">
             <a class="wave-effect waves-light btn profile-btns" href = "#" id = "leaveGroupButton">Leave Group</a>
+          </div>
+          <div class="col s12 center-align">
+            <a href="/chat/<%= group.groupId %>" data-room="<%= group.groupId %>" id="chat" class="wave-effect waves-light btn profile-btns">Group Chat</a>
           </div>
         </div>
         <div class = "row" id = "joinGroupRow">

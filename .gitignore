@@ -1,10 +1,4 @@
 node_modules/
-viewTest/
-config/configTest/
-models/modelTest/
-controllers/controllerTest/
 .env
 projectProposal.txt
 dist/
-logs/
-logs/access.log
