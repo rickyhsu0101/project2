@@ -72,7 +72,9 @@ $(document).ready(function() {
   $("#avatarChange").on("click", function(e){
     $("#modalGroup").modal('open');
   });
-  
+  $("#new-task").on("click", function(e){
+    $("#modal-task").modal('open');
+  });
   $("#leaveGroupButton").on("click", function(e){
     e.preventDefault();
     var userId = $('#joinGroup').data('user');

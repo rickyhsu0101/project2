@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const groups = require("../models/group.js");
 const users = require("../models/users.js");
+const tasks = require("../models/task.js");
 const async = require("async");
 const apiObjGenerator = require("../public/assets/js/helper/template/apiObj.js");
 router.get('/group/:id/join/:userId', function(req, res) {
@@ -74,15 +75,9 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
   if(req.isAuthenticated()){
     let currentUser = req.user.userId;
     let allowed = false;
-    console.log(req.user.userId);
-    console.log(req.params.id);
-    console.log(req.params.memberId);
     if(req.params.id){
       groups.selectGroupMembersWithGroupId(req.params.id, function (err, result) {
         for(let i =0; i < result.length; i++){
-       //   if(parseInt(req.params.id)==)
-          console.log(req.user.userId);
-          console.log(result[i]);
           if(req.user.userId == result[i].member && result[i].position == "admin"){
             allowed = true;
             break;
@@ -93,7 +88,6 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
         }
         if(allowed){
           groups.groupDeleteUser(req.params.id, req.params.memberId, function(err, result){
-            console.log("delete");
             apiResponse.msg = "Successfully Removed";
             res.json(apiResponse);
           });
@@ -110,6 +104,20 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
     }
   }else{
     apiResponse.error = true;
+    apiResponse.msg = "Not Authorized";
+    res.json(apiResponse);
+  }
+});
+router.post("/group/:groupId/task/:taskId", function(req, res){
+  let apiResponse = apiObjGenerator();
+  if(req.isAuthenticated()){
+    groups.selectGroupWithId(req.params.groupId, function(err, result){
+      if(result.length > 0 ){
+        
+      }
+    });
+  }else{
+    apiResponse.errapiResponse.error = true;
     apiResponse.msg = "Not Authorized";
     res.json(apiResponse);
   }
