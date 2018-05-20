@@ -5,6 +5,5 @@ models/modelTest/
 controllers/controllerTest/
 .env
 projectProposal.txt
-dist/
 logs/
 logs/access.log
