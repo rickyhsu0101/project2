@@ -47,13 +47,9 @@ function updateMembers() {
 $(document).ready(function() {
   headerInit();
 
-  $('.modal').modal();
-  $('#new-task').on('click', function() {
-    $('.modal').modal('open');
-  });
-
-  $('.collapsible').collapsible();
-
+  $(".collapsible").collapsible();
+  $(".modal").modal();
+  
   updateMembers();
 
   $('#joinGroup').on('click', function(e) {
@@ -73,13 +69,20 @@ $(document).ready(function() {
     });
   });
 
-  $('#leaveGroupButton').on('click', function(e) {
+  $("#avatarChange").on("click", function(e){
+    $("#modalGroup").modal('open');
+  });
+  
+  $("#leaveGroupButton").on("click", function(e){
     e.preventDefault();
     var userId = $('#joinGroup').data('user');
     var groupId = $('#joinGroup').data('group');
     console.log(userId);
     console.log(groupId);
-    var query = '/api/group/' + groupId + '/delete/' + userId;
+    
+    var query = "/api/group/" + groupId + "/delete/" + userId;
+    console.log(query);
+
     $.ajax({
       method: 'DELETE',
       url: query

@@ -40,7 +40,12 @@
       <% } else if (member){%>
         <div class = "row" id = "leaveGroupRow">
           <div class="col s6 center-align">
-            <a class="wave-effect waves-light btn profile-btns" href = "<%= '/leavegroup/' + group.groupId%>">Leave Group</a>
+            <a class="wave-effect waves-light btn profile-btns" href = "#" id = "leaveGroupButton">Leave Group</a>
+          </div>
+        </div>
+        <div class = "row hide" id = "joinGroupRow">
+          <div class="col s12 center-align" id = "joinGroupDiv">
+            <a href="" class="wave-effect waves-light btn profile-btns" data-user="<%= user.userId %>" data-group = "<%= group.groupId %>" id = "joinGroup">Join Group</a>
           </div>
         </div>
       <%}else{%>
@@ -96,11 +101,13 @@
         <% } else{%>
           <div>
             <h3 class="center-align">No tasks yet!</h3>
+          </div>
         <%}%>
       <%}%>
     </div>
   </div>
 </div>
+
 
 <!--Modals-->
 <!-- Modal Structure -->
@@ -127,3 +134,27 @@
     </form>
   </div>
 </div>
+
+<% if(user){%>
+  <% if(power == "admin"){%>
+    <div id="modalGroup" class="modal">
+      <div class="modal-content">
+        <form class="col s12" method="POST" action="<%= '/group/avatar/' + group.groupId %>" enctype= "multipart/form-data">
+          <div class="row file-field input-field">
+            <div class="col s12">
+              <div class="btn">
+                <span>Upload Avatar</span>
+                <input type="file" name = "avatar" multiple>
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" name= "fileName" placeholder="Upload an image">
+              </div>
+            </div>
+          </div>
+          <button class="wave-effect waves-light btn submitButton" type="submit">Upload Image</button>
+        </form>
+      </div>
+    </div>
+  <%}%>
+<%}%>
+

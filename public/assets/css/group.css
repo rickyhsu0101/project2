@@ -38,9 +38,8 @@ h2 {
   padding-right: 40px;
 }
 
-#joinGroup #leaveGroupButton {
+#joinGroup, #leaveGroupButton{
   display: block;
-  width: 100%;
   margin-bottom: 50px;
 }
 
@@ -64,4 +63,12 @@ h2 {
   h2 {
     font-size: 30px;
   }
+}
+
+#membersDiv{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#membersDiv .col.s8{
+  padding-left: 0px; 
 }
