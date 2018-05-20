@@ -245,7 +245,6 @@ router.get('/group/:id', function(req, res) {
           obj.group['info'] = result[1];
           obj.group['groupAvatar'] = result[2][0].fileName;
           obj.user = result[3][0];
-          console.log('TEST:', obj);
           res.render('index', obj);
         });
       } else {
@@ -254,32 +253,35 @@ router.get('/group/:id', function(req, res) {
     }
   });
 });
-router.post('/group/avatar/:id', function(req, res){
-  avatar(req, res, function (err) {
+router.post('/group/avatar/:id', function(req, res) {
+  avatar(req, res, function(err) {
     if (err) {
       res.redirect('/group/' + req.params.id);
     } else {
       if (req.isAuthenticated()) {
-        groups.selectGroupWithId(req.params.id, function(err, result){
-          if(result.length > 0){
-            groups.selectGroupMembersWithGroupId(req.params.id, function(err, result){
+        groups.selectGroupWithId(req.params.id, function(err, result) {
+          if (result.length > 0) {
+            groups.selectGroupMembersWithGroupId(req.params.id, function(err, result) {
               let isAdmin = false;
-              for(let i = 0; i < result.length; i++){
-                if(result[i].member == req.user.userId && result[i].position == "admin"){
+              for (let i = 0; i < result.length; i++) {
+                if (result[i].member == req.user.userId && result[i].position == 'admin') {
                   isAdmin = true;
                   break;
                 }
               }
-              if(isAdmin){
-                uploads.updateAvatar(req.params.id, "group", "avatar", req.file.filename, function(err, result){
+              if (isAdmin) {
+                uploads.updateAvatar(req.params.id, 'group', 'avatar', req.file.filename, function(
+                  err,
+                  result
+                ) {
                   res.redirect('/group/' + req.params.id);
                 });
-              }else{
-                res.redirect('/404')
+              } else {
+                res.redirect('/404');
               }
             });
-          }else{
-            res.redirect("/404");
+          } else {
+            res.redirect('/404');
           }
         });
       } else {
