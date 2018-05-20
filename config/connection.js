@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+
 const connection = mysql.createConnection({
   host: 's0znzigqvfehvff5.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
   user: 'l7r4ow0c94bi4r8f',
@@ -12,4 +13,5 @@ connection.connect(function (err) {
   }
   console.log('connected as id ' + connection.threadId);
 });
+
 module.exports = connection;
