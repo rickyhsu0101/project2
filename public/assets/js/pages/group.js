@@ -5,9 +5,11 @@ import {
 import '../../css/style.css';
 import '../../css/group.css';
 
+
 function updateMembers() {
   $("#membersDiv ul").empty();
   let membersQuery = "/api/group/" + $("#membersDiv").data("group") + "/members";
+
   $.ajax({
     method: "GET",
     url: membersQuery
@@ -19,12 +21,14 @@ function updateMembers() {
       console.log(response.data);
       var data = response.data;
       for (var i = 0; i < data[0].length; i++) {
+
         let memberHTML = $("<li class = 'member row'></li>");
         memberHTML.append("<div class = 'col s8'><a class= 'memberInfo' href = " +
           "'/profile/" + data[0][i].userId +
           "' data-id='" + data[0][i].userId + "'><h6>" +
           data[0][i].username + "</h6></a></div>");
         if (power == "admin") {
+
           if (data[0][i].userId != currentUserId) {
             memberHTML.append("<div class = 'col s4'><a class = 'wave-effect waves-light btn deleteButton' href = '#'>" + "Remove" + "</a></div>");
           }
@@ -34,12 +38,14 @@ function updateMembers() {
     }
 
   });
+
 }
 $(document).ready(function () {
   headerInit();
   $(".collapsible").collapsible();
   updateMembers();
   $("#joinGroup").on("click", function (e) {
+
     e.preventDefault();
     var userId = $(this).data("user");
     var groupId = $(this).data("group");

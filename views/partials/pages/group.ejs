@@ -17,7 +17,7 @@
   <%}%>
 <%}%>
  
-<div class="mt container">
+<div class="container">
   <div class="row">
     <div class="col s12 m4" id ="profileColumn">
       <% if(group.groupAvatar){%>
@@ -30,11 +30,11 @@
       <h2><%= group.groupName %></h2>
       <% if (power == "admin"){ %>
         <div class="row">
-          <div class="col s6 center-align">
-            <a class="wave-effect waves-light btn profile-btns" id = "avatarChange">Change Avatar</a>
+          <div class="col s12 center-align">
+            <a class="wave-effect waves-light btn profile-btns" id="avatarChange">Change Avatar</a>
           </div>
-          <div class="col s6 center-align">
-            <a href="/chat/<%= group.groupId %>" data-room="<%= group.groupId %>" id="chat" class="wave-effect waves-light btn">Group Chat</a>
+          <div class="col s12 center-align">
+            <a href="/chat/<%= group.groupId %>" data-room="<%= group.groupId %>" id="chat" class="wave-effect waves-light btn profile-btns">Group Chat</a>
           </div>
         </div>
       <% } else if (member){%>
@@ -57,6 +57,7 @@
         <div class = "row" id = "joinGroupRow">
         <div class="col s12 center-align" id = "joinGroupDiv">
           <a href="" class="wave-effect waves-light btn profile-btns" data-user="<%= user.userId %>" data-group = "<%= group.groupId %>" id = "joinGroup">Join Group</a>
+
         </div>
         </div>
       <%}%>
