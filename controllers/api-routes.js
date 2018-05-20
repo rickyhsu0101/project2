@@ -86,8 +86,8 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
           if(req.user.userId == result[i].member && result[i].position == "admin"){
             allowed = true;
             break;
-          }else if(req.user.userId == memberId && req.user.userId == result[i].member) {
-            allowd = true;
+          }else if(req.user.userId == req.params.memberId && req.user.userId == result[i].member && result[i].position != 'admin') {
+            allowed = true;
             break;
           }
         }
