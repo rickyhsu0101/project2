@@ -61,9 +61,7 @@
         <li>
           <div class="collapsible-header">Show Members</div>
           <div class="collapsible-body" id = "membersDiv" data-group="<%= group.groupId %>" data-power = "<%= power %>" data-userId = "<%= user.userId %>">
-            <ul>
-
-            </ul>
+            <ul></ul>
           </div>
         </li>
       </ul>
@@ -74,12 +72,13 @@
       <% for(var k = 0; k < group.tasks.length; k++) { %>
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
-            <span class="card-title">
-              <%= group.tasks[k].taskName %>
-            </span>
-            <h4>Reward: 
+            <p class="card-title">
+             <strong><%= group.tasks[k].taskName %></strong> 
+            </p>
+            <p>
               <%= group.tasks[k].taskPoints %>
-            <h4>
+              Points
+            </p>
             <p>
               <%= group.tasks[k].taskDesc %>
             </p>
@@ -92,7 +91,7 @@
       <%if(group.tasks.length == 0){%>
         <% if(power=="admin"){%>
           <div>
-            <a href="/search" id="new-task" class="wave-effect waves-light btn">Add new Task</a>
+            <a id="new-task" class="wave-effect waves-light btn">Add new Task</a>
           </div>
         <% } else{%>
           <div>
@@ -100,5 +99,31 @@
         <%}%>
       <%}%>
     </div>
+  </div>
+</div>
+
+<!--Modals-->
+<!-- Modal Structure -->
+<div id="modal-task" class="modal">
+  <div class="modal-content">
+    <form class="col s12" method="POST" action="<%= '/newtask/'+group.groupId %>">
+      <div class="row file-field input-field">
+        <div class="col s12">
+          <div class="input-field">
+            <input name="task-name" id="task-name" type="text" class="validate">
+            <label for="task-name">Task name</label>
+          </div>
+          <div class="input-field">
+            <input name="task-desc" id="task-desc" type="text" class="validate">
+            <label for="task-desc">Task Description</label>
+          </div>
+          <div class="input-field">
+            <input name="task-points" id="task-points" type="number" class="validate">
+            <label for="task-points">Task Points</label>
+          </div>
+        </div>
+      </div>
+      <button class="wave-effect waves-light btn submit-task" type="submit">Create Task</button>
+    </form>
   </div>
 </div>

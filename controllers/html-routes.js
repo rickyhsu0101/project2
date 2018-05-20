@@ -131,6 +131,16 @@ router.get('/login', function(req, res) {
   }
 });
 
+router.post('/newtask/:id', function(req, res) {
+  const groupId = req.params.id;
+  const taskName = req.body['task-name'];
+  const taskDesc = req.body['task-desc'];
+  const taskPoints = req.body['task-points'];
+  tasks.addTask(groupId, taskName, taskDesc, taskPoints, false, () => {
+    res.redirect('/group/' + groupId);
+  });
+});
+
 // creates a new group
 router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
@@ -235,6 +245,7 @@ router.get('/group/:id', function(req, res) {
           obj.group['info'] = result[1];
           obj.group['groupAvatar'] = result[2][0].fileName;
           obj.user = result[3][0];
+          console.log('TEST:', obj);
           res.render('index', obj);
         });
       } else {
