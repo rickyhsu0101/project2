@@ -13,6 +13,10 @@ h2 {
   margin-bottom: 15px;
 }
 
+.collapsible-body {
+  padding: 0 !important;
+}
+
 #new-task {
   width: 100%;
 }
@@ -33,11 +37,11 @@ h2 {
 .member .s4 {
   padding-right: 40px;
 }
+
 #joinGroup, #leaveGroupButton{
   display: block;
   margin-bottom: 50px;
 }
-
 
 @media (min-width: 576px) {
   h2 {
