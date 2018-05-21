@@ -2,7 +2,8 @@
 ======================
 Project is a simulation framework.  At time of completion, the goal will be a social study of behavior when applied to completion of everyday tasks.  Focus of this study will be how the completion of task is related to the perception of the value received.
 
-([link](https://docs.google.com/document/d/10IqDIRzSWmF7BDJJiWpJ5Ma5JCNU81roGJ4cHwPvKoc/edit?usp=sharing)
+[link](https://drive.google.com/file/d/1DlABFfgM6XXlF4PChSa2z9lueKi2J8ST/view)
+
 
 ## Description
 Once the user has registered as a member, the user will be allowed a number of groups where other users have indicated similar interests..  The features include:  
