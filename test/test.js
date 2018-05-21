@@ -14,7 +14,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080')
+        .goto('https://murmuring-bastion-45956.herokuapp.com')
         .end()
         .then(function(result) {
           done();
@@ -28,7 +28,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/login')
         .end()
         .then(function(result) {
           done();
@@ -41,7 +41,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/register')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/register')
         .end()
         .then(function(result) {
           done();
@@ -54,7 +54,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/login')
         .insert('#username', 'seangnewman')
         .insert('#password', 'Il@v5MyM^st1ng')
         .click('#btnSignIn')
@@ -72,7 +72,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/login')
         .insert('#username', 'seangnewman')
         .insert('#password', 'Il@v5MyM^st1ng')
         .click('#btnSignIn')
@@ -92,7 +92,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/login')
         .insert('#username', 'seangnewman')
         .insert('#password', 'Il@v5MyM^st1ng')
         .click('#btnSignIn')
@@ -113,7 +113,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/login')
         .insert('#username', 'seangnewman')
         .insert('#password', 'Il@v5MyM^st1ng')
         .click('#btnSignIn')
@@ -148,7 +148,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com/login')
         .insert('#username', 'seangnewman')
         .insert('#password', 'Il@v5MyM^st1ng')
         .click('#btnSignIn')
@@ -186,7 +186,7 @@ describe('Testing Routes', function() {
     it('should load without error', done => {
       // your actual testing urls will likely be `http://localhost:port/path`
       nightmare
-        .goto('http://localhost:8080/login')
+        .goto('https://murmuring-bastion-45956.herokuapp.com//login')
         .insert('#username', 'seangnewman')
         .insert('#password', 'Il@v5MyM^st1ng')
         .click('#btnSignIn')
