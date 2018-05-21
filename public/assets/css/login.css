@@ -46,7 +46,7 @@ main {
 }
 
 @media (min-width: 992px) {
-  .container {
+  .w960 {
     width: 960px !important;
   }
 }

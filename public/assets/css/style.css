@@ -1,6 +1,7 @@
 * {
-  font-family: 'Noto Sans', sans-serif;
+  font-family: 'Sunflower', sans-serif;
 }
+
 body {
   display: flex;
   min-height: 100vh;
@@ -12,16 +13,8 @@ main {
   flex: 1 0 auto;
 }
 
-.btn {
-  background-color: #4caf50 !important;
-}
-
 input {
   border-bottom-color: #4caf50 !important;
-}
-
-.page-footer {
-  padding: 10px !important;
 }
 
 h2,
@@ -31,6 +24,25 @@ h5 {
   margin: 0;
 }
 
+.brand-logo {
+  font-size: 13px !important;
+}
+
+.btn {
+  background-color: #4caf50 !important;
+}
+
+.page-footer {
+  padding: 10px !important;
+  font-size: 14px;
+}
+
 .navbar-fixed {
   margin-bottom: 15px;
+}
+
+@media (min-width: 370px) {
+  .brand-logo {
+    font-size: 20px !important;
+  }
 }

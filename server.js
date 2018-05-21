@@ -44,16 +44,20 @@ app.use(
   })
 );
 
+// authentication middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
 // require all routes
 app.use(require('./controllers/html-routes.js'));
 app.use('/api', require('./controllers/api-routes.js'));
+
+// 404 redirect
 app.get('*', function(req, res) {
   let templateObj = templateObjGenerator();
   templateObj.page = '404';
   res.render('index', templateObj);
 });
+
 // start the server with http because socket.io is attached to it
 http.listen(PORT, () => console.log('listening on ' + PORT));
