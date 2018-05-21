@@ -4,7 +4,7 @@
     <form class="col s12" method="POST" action="/newGroup" enctype= "multipart/form-data">
       <div class="row">
         <div class="input-field col s12">
-          <input id="groupName" name = "groupName"type="text" class="validate">
+          <input id="groupName" name = "groupName"type="text" class="validate" required>
 
           <label for="groupName">Group Name</label>
         </div>
@@ -12,7 +12,7 @@
       <div class="row">
         <div class="input-field col s12">
 
-          <textarea id="group-description" class="materialize-textarea" name = "groupDesc"></textarea>
+          <textarea id="group-description" class="materialize-textarea" name = "groupDesc" required></textarea>
           <label for="group-description">Group Description</label>
         </div>
       </div>
@@ -23,7 +23,7 @@
             <input type="file" name = "avatar" multiple>
           </div>
           <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" name= "fileName" placeholder="Upload an image">
+            <input class="file-path validate" type="text" name= "fileName" placeholder="Upload an image" required>
           </div>
         </div>
       </div>

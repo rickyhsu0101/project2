@@ -3,8 +3,6 @@ const orm = require('./orm.js');
 const userChatRules = [
   'messageId INT AUTO_INCREMENT',
   'username VARCHAR(30)',
-  // 'roomId INT NOT NULL',
-  // 'groupMembers TEXT NOT NULL',
   'groupName VARCHAR(30)',
   'messageContent TEXT NOT NULL',
   // 'time BIGINT NOT NULL',

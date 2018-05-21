@@ -1,10 +1,10 @@
-<div class="container chat-container">
-  <h2 class="chat-h2">Group Chat</h2>
+<div class="container chat-container z-depth-3">
+  <h2 class="chat-h2"><%= chatName %></h2>
   <div class="chat-msgs">
     <% if (chatMessages.length > 0) {%>
       <% for (var i = 0; i < chatMessages.length; i++) {%>
         <div class="messages">
-          <span><strong><%= chatMessages[i].username %></strong>: </span>
+          <span><b style="letter-spacing: 1px;"><%= chatMessages[i].username %></b>: </span>
           <span><%= chatMessages[i].messageContent %></span>
         </div>
       <%}%>
