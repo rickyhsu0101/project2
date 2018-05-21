@@ -1,4 +1,5 @@
 const orm = require("./orm.js");
+const moment = require("moment");
 const groupTaskRules = [
   'taskId INT AUTO_INCREMENT',
   'taskName VARCHAR(100) NOT NULL',
@@ -11,7 +12,28 @@ const groupTaskRules = [
   'retry BOOL DEFAULT true',
   'PRIMARY KEY(taskId)'
 ];
+const userTaskRules = [
+  'taskId INT NOT NULL',
+  'groupId INT NOT NULL',
+  'time BIGINT NOT NULL',
+  'content TEXT NOT NULL',
+  'status TEXT NOT NULL'
+];
 const task = {
+  createUserTaskTable: function(userId, cb){
+    orm.createTable("user_" + userId + "_task", userTaskRules, function(err, result){
+      cb(err, result);
+    });
+  },
+  addUserTask: function(userId, groupId, taskId, taskContent, cb){
+    const values = {
+      taskId: taskId,
+      groupId: groupId,
+      content: taskContent,
+      status: "completed"
+    }
+    orm.insertOneWithoutParams("user_" + userId )
+  },
   //add a group task table
   addGroupTaskTable: function (groupId, cb) {
     orm.createTable("group_" + groupId + "_task", groupTaskRules, function (err, result) {
@@ -34,10 +56,44 @@ const task = {
       cb(err, result);
     });
   },
+  getTaskByTaskId: function(groupId, taskId, cb){
+    const where = {
+      taskId: taskId
+    };
+    orm.selectAllParam("group_" + groupId + "_task", where, function(err, result){
+      cb(err, result);
+    });
+  },
   getTasksWithGroupId: function (groupId, cb) {
     orm.selectAll("group_" + groupId + "_task", function (err, result) {
       cb(err, result);
     });
+  },
+  completeTask: function(taskId, userId, groupId, content, cb){
+    const asyncFunction = [
+      function(callback){
+        task.getTaskByTaskId(groupId, taskId, function(err, result){
+          let selectedTask = result[0];
+          let completedConcat = selectedTask.completedMembers;
+          if(completedConcat == ""){
+            completedConcat += userId;
+          }else{
+            completedConcat += "," + userId;
+          }
+          const where = {
+            taskId: taskId
+          };
+          const set = {
+            completedMembers: completedConcat
+          };
+          orm.updateSingleRow("group_" + groupId + "_task",set, where, callback);
+        });
+      },
+      function(callback){
+        task.addUserTask(userId, groupId, taskId, content, callback);
+      }
+    ];
+    async.series(asyncFunction, cb);
   }
 };
 module.exports = task;

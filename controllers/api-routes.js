@@ -108,12 +108,36 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
     res.json(apiResponse);
   }
 });
+router.get("/group/:groupId/task/:taskId", function(req, res){
+
+})
 router.post("/group/:groupId/task/:taskId", function(req, res){
   let apiResponse = apiObjGenerator();
   if(req.isAuthenticated()){
     groups.selectGroupWithId(req.params.groupId, function(err, result){
       if(result.length > 0 ){
-        
+        tasks.getTasksWithGroupId(req.params.groupId, function(err, result){
+          let foundTask = false;
+          result.forEach(function(task){
+            if(task.taskId == parseInt(req.params.taskId)){
+              foundTask = true;
+            }
+          });
+          if(foundTask){
+            tasks.completeTask(req.params.taskId, req.user.userId, req.params.userId, req.body.content, function(err, result){
+              apiResponse.msg = "Success";
+              res.json(apiResponse);
+            });
+          }else{
+            apiResponse.errapiResponse.error = true;
+            apiResponse.msg = "Not Authorized";
+            res.json(apiResponse);
+          }
+        });
+      }else{
+        apiResponse.errapiResponse.error = true;
+        apiResponse.msg = "Not Authorized";
+        res.json(apiResponse);
       }
     });
   }else{
