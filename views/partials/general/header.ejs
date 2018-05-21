@@ -1,7 +1,7 @@
 <div class="navbar-fixed">
   <nav class="blue-grey darken-4">
     <div class="container nav-wrapper">
-      <a href="/" class="brand-logo">Project 2</a>
+      <a href="/" class="brand-logo">Compete Together</a>
       <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li>
@@ -30,23 +30,30 @@
       </ul>
     </div>
   </nav>
-  <ul class="sidenav" id="mobile">
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <% if (user){%>
-      <li>
-        <a href="/account">
-          <%= user.username %>
-        </a>
-      </li>
-      <% }else {%>
-        <li>
-          <a href="/login">Login</a>
-        </li>
-        <li>
-          <a href="/register">Sign up</a>
-        </li>
-        <%}%>
-  </ul>
 </div>
+
+<ul class="sidenav" id="mobile">
+  <li>
+    <a href="/">Home</a>
+  </li>
+  <% if (user){%>
+    <li>
+      <a href="/groups" id="findGroups">Find Groups</a>
+    </li>
+    <li>
+      <a href="<%='/profile/' + user.userId %>" id="userID">
+        <%=user.username%>
+      </a>
+    </li>
+    <li>
+      <a href="/logout" id="logout">Logout</a>
+    </li>
+  <% }else {%>
+      <li>
+        <a href="/login">Login</a>
+      </li>
+      <li>
+        <a href="/register">Sign Up</a>
+      </li>
+    <%}%>
+</ul>

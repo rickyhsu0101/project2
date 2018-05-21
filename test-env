@@ -1,9 +1,0 @@
-DB_HOST='wm63be5w8m7gs25a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
-DB_USER='jr5myb6ysa6dhuqv'
-DB_PASS='x9jwipq3vjw0ljol'
-DB_DATABASE = 'e57k5nuk77kzdzxc'
-
-DB_HOST='localhost'
-DB_USER='root'
-DB_PASS='343$&bxxYM^9m'
-DB_DATABASE = 'project2'

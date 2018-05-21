@@ -10,7 +10,7 @@
           /assets/img/defaultAvatar.png
         ">
       <%}%>
-      <h2>
+      <h2 class="center-align">
         <%= profile.username %>
       </h2>
       <% if (user){ %>
@@ -20,7 +20,7 @@
               <a class="wave-effect waves-light btn profile-btns" id = "changeAvatar">Change Avatar</a>
             </div>
             <div class="col s12 center-align">
-              <a href="/newgroup" class ="wave-effect waves-light btn profile-btns">Create Group</a>
+              <a href="/newgroup" class ="wave-effect waves-light btn profile-btns" style="margin-bottom: 0;">Create Group</a>
             </div>
           </div>
         <% } %>
@@ -36,7 +36,9 @@
                 <div class="col s12 m6">
                   <div class="card blue-grey darken-1 group">
                     <div class="card-content white-text">
-                      <%= groups[i].groupName %>
+                      <p class="group-name">
+                        <%= groups[i].groupName %>
+                      </p>
                       <p>
                         <%= groups[i].groupDesc %>
                       </p>
@@ -46,7 +48,7 @@
               </a>
             <%}%>
           <%} else {%>
-              <div>
+              <div class="col s12">
                 <a href = "/groups" id="join-groups" class="wave-effect waves-light btn">Join Some Groups!</a>
               </div>
             

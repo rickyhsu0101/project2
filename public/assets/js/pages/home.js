@@ -3,4 +3,6 @@ import '../../css/style.css';
 
 $(document).ready(function() {
   headerInit();
+
+  $('.parallax').parallax();
 });
