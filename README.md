@@ -15,14 +15,14 @@ Once the user has registered as a member, the user will be allowed a number of g
 ## Installation
 To install, clone this repository.  
 Within the repository install the required modules by issuing the command “npm install’.
--- After the required modules have installed, issue command ‘npm run webpack’
--- Create a .env file file 
--- DB_HOST='localhost'
--- DB_USER= ‘your user’
--- DB_PASS='your password'
--- DB_DATABASE = 'your database’'
--- Populate the database using the schema.sql and seeds.sql within the /db folder
--- Initiate using either npm start’ or npm run startWithWebpack’
+- After the required modules have installed, issue command ‘npm run webpack’
+- Create a .env file file 
+- DB_HOST='localhost'
+- DB_USER= ‘your user’
+- DB_PASS='your password'
+- DB_DATABASE = 'your database’'
+- Populate the database using the schema.sql and seeds.sql within the /db folder
+- Initiate using either npm start’ or npm run startWithWebpack’
 
 ## Additional Documentation
 User Stories:
