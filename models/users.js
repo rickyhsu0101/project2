@@ -2,6 +2,7 @@ const orm = require('./orm.js');
 const chat = require('./chat.js');
 const upload = require("./upload.js");
 const async = require("async");
+const tasks = require('./task.js');
 const userChatRules = [
     'messageId INT AUTO_INCREMENT',
     'roomId INT NOT NULL',
@@ -34,6 +35,9 @@ const users = {
                         upload.createUserUploadTable(resultUser[0].userId, function (err, result) {
                             callback(err, result);
                         });
+                    },
+                    function(callback){
+                        tasks.createUserTaskTable(resultUser[0].userId, callback);
                     }
                 ], function (err, result) {
                     cb(err, result[0]);
