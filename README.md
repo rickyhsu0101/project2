@@ -2,8 +2,6 @@
 ======================
 Project is a simulation framework.  At time of completion, the goal will be a social study of behavior when applied to completion of everyday tasks.  Focus of this study will be how the completion of task is related to the perception of the value received.
 
-[link](https://drive.google.com/file/d/1DlABFfgM6XXlF4PChSa2z9lueKi2J8ST/view)
-
 
 ## Description
 Once the user has registered as a member, the user will be allowed a number of groups where other users have indicated similar interests..  The features include:  
@@ -17,14 +15,14 @@ Once the user has registered as a member, the user will be allowed a number of g
 ## Installation
 To install, clone this repository.  
 Within the repository install the required modules by issuing the command “npm install’.
-After the required modules have installed, issue command ‘npm run webpack’
-Create a .env file file 
-DB_HOST='localhost'
-DB_USER= ‘your user’
-DB_PASS='your password'
-DB_DATABASE = 'your database’'
-Populate the database using the schema.sql and seeds.sql within the /db folder
-Initiate using either npm start’ or npm run startWithWebpack’
+-- After the required modules have installed, issue command ‘npm run webpack’
+-- Create a .env file file 
+-- DB_HOST='localhost'
+-- DB_USER= ‘your user’
+-- DB_PASS='your password'
+-- DB_DATABASE = 'your database’'
+-- Populate the database using the schema.sql and seeds.sql within the /db folder
+-- Initiate using either npm start’ or npm run startWithWebpack’
 
 ## Additional Documentation
 User Stories:
