@@ -83,7 +83,7 @@
           <li>
             <div class="collapsible-header">
               <div>
-                <strong><%= group.tasks[k].taskName %></strong>
+                <b><%= group.tasks[k].taskName %></b>
                 <p>
                   <%= group.tasks[k].taskPoints %>
                   Points
@@ -94,10 +94,10 @@
           </li>
           <li>
             <div class="collapsible-header">Complete Challenge</div>
-            <div class="collapsible-body white">
+            <div class="collapsible-body white collapsible-body-form">
               <form>
                 <div class="input-field">
-                  <input name="complete-task" id="complete-task" type="text" class="validate">
+                  <input name="complete-task" id="complete-task" type="text" class="validate" required>
                   <label for="complete-task">Submit</label>
                 </div>
               </form>
