@@ -34,6 +34,9 @@ Project Summary:
 Task List:
 [link](https://trello.com/b/Zw1Zbngf/project)
 
+Deployed:
+[link](https://murmuring-bastion-45956.herokuapp.com/)
+
 ## Contribution
 Create a fork of the project into your own repository. Make all your necessary changes and create a pull request with a description on what was added or removed and details explaining the changes in lines of code. If approved, project team will merge it.
 
