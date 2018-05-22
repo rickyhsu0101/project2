@@ -27,7 +27,7 @@
       <%}else{%>
         <img class="z-depth-3" id="groupProfileImg" src="/assets/img/defaultAvatar.png">
       <%}%>
-      <h2><%= group.groupName %></h2>
+      <h2 class="center-align"><%= group.groupName %></h2>
       <% if (power == "admin"){ %>
         <div class="row">
           <div class="col s12 center-align">
@@ -113,7 +113,8 @@
       <%if(group.tasks.length == 0){%>
         <% if(power=="admin"){%>
           <div>
-            <a id="new-task" class="wave-effect waves-light btn">Add new Task</a>
+            <h2 class="center-align" style="margin-bottom:30px">You have no tasks!</h2>
+            <a id="new-task" class="wave-effect waves-light btn-large">Create one now!</a>
           </div>
         <% } else{%>
           <div>
