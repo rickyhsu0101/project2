@@ -145,7 +145,9 @@ router.post('/newtask/:id', function(req, res) {
 router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
     if (err) {
+      console.log("");
       res.redirect('/');
+      return false;
     } else {
       // checks if the group exists
       groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(

@@ -1,5 +1,5 @@
 {
-  "name": "Compete Together",
+  "name": "competetogether",
   "version": "1.0.0",
   "description": "RPG-like social media",
   "main": "server.js",

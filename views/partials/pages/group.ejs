@@ -17,7 +17,8 @@
   <%}%>
 <%}%>
  
-<div class="container">
+<div class = "hide" id = "data" data-group = "<%=group.groupId%>" data-user = "<%=user.userId%>" data-power = "<%=power%>"></div> 
+<div class="container" >
   <div class="row">
     <div class="col s12 m4" id ="profileColumn">
       <% if(group.groupAvatar){%>
@@ -78,10 +79,11 @@
     </div>
 
     <div class="col s12 m8" id = "tasksColumn">
+      <div id = "taskPopulate">
       <% for(var k = 0; k < group.tasks.length; k++) { %>
-        <ul class="group-task collapsible">
+        <ul class="group-task collapsible" data-taskId = "<%= group.tasks[k].taskId %>">
           <li>
-            <div class="collapsible-header">
+            <div class="collapsible-header"> 
               <div>
                 <strong><%= group.tasks[k].taskName %></strong>
                 <p>
@@ -92,17 +94,17 @@
             </div>
             <div class="collapsible-body white"><span><%= group.tasks[k].taskDesc %></span></div>
           </li>
+          <% if(power != "admin" && member){%>
           <li>
             <div class="collapsible-header">Complete Challenge</div>
             <div class="collapsible-body white">
-              <form>
                 <div class="input-field">
-                  <input name="complete-task" id="complete-task" type="text" class="validate">
+                  <input name="complete-task"  type="text" class="validate complete-task" data-task="<%= group.tasks[k].taskId %>"data-user = "<%= user.userId%>" data-group = "<%= group.groupId%>">
                   <label for="complete-task">Submit</label>
                 </div>
-              </form>
             </div>
           </li>
+          <%}%>
           <li>
             <div class="collapsible-header">All Completions</div>
             <div class="collapsible-body white"><span><%= group.tasks[k].completedMembers %></span></div>
@@ -110,6 +112,7 @@
         </ul>
 
       <% } %>
+      </div>
       <%if(group.tasks.length == 0){%>
         <% if(power=="admin"){%>
           <div>
@@ -175,3 +178,55 @@
   <%}%>
 <%}%>
 
+<!--Frontend Templating-->
+<script id = "taskFrontend" type= "text/x-handlebars-template">
+  {{#each task}}
+  <ul class="group-task collapsible">
+    <li>
+      <div class="collapsible-header">
+        <div>
+          <strong>taskName</strong>
+          <p>
+            {{this.data.taskPoints}}
+          </p>
+        </div>
+      </div>
+      <div class="collapsible-body white"><span>
+        {{this.data.taskDesc}}
+      </span></div>
+    </li>
+    {{#if this.admin}}
+    {{else if this.completed}}
+    {{else}}
+    <li>
+      <div class="collapsible-header">Complete Challenge</div>
+      <div class="collapsible-body white">
+        <form>
+          <div class="input-field">
+            <input name="complete-task"  type="text" class="validate complete-task" data-task="{{this.data.taskId}}">
+            <label for="complete-task">Submit</label>
+          </div>
+        </form>
+      </div>
+    </li>
+    {{/if}}
+    <li>
+      <div class="collapsible-header">All Completions</div>
+      <div class="collapsible-body white"><span>
+        <ul>
+        {{#each this.data.submissions}}
+          <li>
+            <div>
+              {{this.userId}}
+              {{this.username}}
+              {{this.content}}
+              {{this.status}}
+            </div>
+          </li>
+        {{/each}}
+        </ul>
+      </span></div>
+    </li>
+  </ul>
+  {{/each}}
+</script>

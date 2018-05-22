@@ -1,5 +1,6 @@
 const orm = require("./orm.js");
 const moment = require("moment");
+const async = require("async");
 const groupTaskRules = [
   'taskId INT AUTO_INCREMENT',
   'taskName VARCHAR(100) NOT NULL',
@@ -13,6 +14,8 @@ const groupTaskRules = [
   'PRIMARY KEY(taskId)'
 ];
 const userTaskRules = [
+  'userId INT NOT NULL',
+  'username TEXT NOT NULL',
   'taskId INT NOT NULL',
   'groupId INT NOT NULL',
   'time BIGINT NOT NULL',
@@ -25,14 +28,35 @@ const task = {
       cb(err, result);
     });
   },
-  addUserTask: function(userId, groupId, taskId, taskContent, cb){
+  addUserTask: function(userId, username, groupId, taskId, taskContent, cb){
+    
     const values = {
+      userId: userId,
+      username: username,
       taskId: taskId,
       groupId: groupId,
       content: taskContent,
-      status: "completed"
+      status: "completed",
+      time: moment().format("X")
+    };
+    orm.insertOneWithoutParams("user_" + userId + "_task", values, cb);
+  },
+  getAllTaskSubmission: function(groupId, taskId, userIds, cb){
+    let tables = [];
+    let where = {};
+    let user = [];
+    
+    if(userIds != ""){
+      let userArray = userIds.split(",");
+      userArray.forEach(function(value){
+        tables.push("user_" + value + "_task");
+        const obj = {};
+        where["user_" + value + "_task"] = {taskId: taskId};
+      });
+        orm.selectMultipleAllParamWithOrder(tables, where, "time", cb);
+    }else{
+      cb(null, []);
     }
-    orm.insertOneWithoutParams("user_" + userId )
   },
   //add a group task table
   addGroupTaskTable: function (groupId, cb) {
@@ -69,7 +93,7 @@ const task = {
       cb(err, result);
     });
   },
-  completeTask: function(taskId, userId, groupId, content, cb){
+  completeTask: function(taskId, userId, username, groupId, content, cb){
     const asyncFunction = [
       function(callback){
         task.getTaskByTaskId(groupId, taskId, function(err, result){
@@ -90,7 +114,7 @@ const task = {
         });
       },
       function(callback){
-        task.addUserTask(userId, groupId, taskId, content, callback);
+        task.addUserTask(userId, username, groupId, taskId, content, callback);
       }
     ];
     async.series(asyncFunction, cb);
