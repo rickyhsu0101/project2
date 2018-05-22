@@ -2,6 +2,7 @@ const orm = require('./orm.js');
 const chat = require('./chat.js');
 const task = require('./task.js');
 const users = require('./users.js');
+console.log(users);
 const upload = require('./upload.js');
 const async = require('async');
 const groupRules = [
@@ -151,6 +152,7 @@ const group = {
         };
         orm.updateSingleRow("groups", set, where, cb);
       });
+
     });
   },
   groupDeleteUser: function(groupId, userId, cb){

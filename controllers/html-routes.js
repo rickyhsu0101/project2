@@ -152,6 +152,7 @@ router.post('/newGroup', function(req, res) {
     if (err) {
       console.log(err);
       res.redirect('/');
+      return false;
     } else {
       // checks if the group exists
       groups.addGroup(req.body.groupName, req.body.groupDesc, req.user.userId, function(

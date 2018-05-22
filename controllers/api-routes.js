@@ -109,8 +109,36 @@ router.delete("/group/:id/delete/:memberId", function(req, res){
   }
 });
 router.get("/group/:groupId/task/:taskId", function(req, res){
+  let apiResponse = apiObjGenerator();
+  let userIds = "";
+  if(req.isAuthenticated()){
+    const asyncFunctions = [
+      function (callback) {
+        tasks.getTaskByTaskId(req.params.groupId, req.params.taskId, function(err, result){
+          console.log(result);
+          userIds = result[0].completedMembers;
+          callback(err, result);
+        });
+      },
+      function(callback){
+        console.log(userIds)
+        tasks.getAllTaskSubmission(req.params.groupId, req.params.taskId, userIds, callback);
+      }
+    ];
 
-})
+    async.series(asyncFunctions, function(err, result){
+      let filteredResult = result[0][0];
+      filteredResult.submissions = result[1];
+      apiResponse.msg = "Success";
+      apiResponse.data = filteredResult;
+      res.json(apiResponse);
+    });
+  }else{
+    apiResponse.error = true;
+    apiResponse.msg = "Not Authorized";
+    res.json(apiResponse);
+  }
+});
 router.post("/group/:groupId/task/:taskId", function(req, res){
   let apiResponse = apiObjGenerator();
   if(req.isAuthenticated()){
@@ -124,18 +152,20 @@ router.post("/group/:groupId/task/:taskId", function(req, res){
             }
           });
           if(foundTask){
-            tasks.completeTask(req.params.taskId, req.user.userId, req.params.userId, req.body.content, function(err, result){
-              apiResponse.msg = "Success";
-              res.json(apiResponse);
+            users.selectUserWithId(req.user.userId, function(err, result){
+              tasks.completeTask(req.params.taskId, req.user.userId, result[0].username, req.params.groupId, req.body.content, function (err, result) {
+                apiResponse.msg = "Success";
+                res.json(apiResponse);
+              });
             });
           }else{
-            apiResponse.errapiResponse.error = true;
+            apiResponse.error = true;
             apiResponse.msg = "Not Authorized";
             res.json(apiResponse);
           }
         });
       }else{
-        apiResponse.errapiResponse.error = true;
+        apiResponse.error = true;
         apiResponse.msg = "Not Authorized";
         res.json(apiResponse);
       }
@@ -143,6 +173,18 @@ router.post("/group/:groupId/task/:taskId", function(req, res){
   }else{
     apiResponse.errapiResponse.error = true;
     apiResponse.msg = "Not Authorized";
+    res.json(apiResponse);
+  }
+});
+router.get("/group/:groupId/tasks", function(req, res){
+  let apiResponse = apiObjGenerator();
+  if(req.isAuthenticated()){
+    tasks.getTasksWithGroupId(req.params.groupId, function(err, result){
+      apiResponse.data = result;
+      res.json(apiResponse);
+    });
+  }else{
+    apiResponse.error = true;
     res.json(apiResponse);
   }
 });
