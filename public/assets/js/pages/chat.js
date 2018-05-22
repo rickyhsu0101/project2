@@ -12,13 +12,13 @@ $(document).ready(function() {
   const userObj = {
     name: $('#send-msg').attr('data-name'),
     room: $('#send-msg').attr('data-room'),
+    time: null,
     message: null
   };
 
   // creates a new connection
   socket.on(events.connect, () => {
     // grabs the room id to connect to the correct room
-
     // sends the 'room' event to the client to log the user into their room
     socket.emit('room', userObj.room);
   });
@@ -27,6 +27,7 @@ $(document).ready(function() {
   $('#send-msg').on('keyup', function(e) {
     if (e.keyCode === 13) {
       userObj.message = $(this).val();
+      userObj.time = Date.now();
 
       // emits the 'message' event to the server to send to users in the same room
       socket.emit(events.message, userObj);
@@ -67,7 +68,7 @@ $(document).ready(function() {
     // var nameSpan = $('span');
     $('.chat-msgs').append(`
     <div class="messages">
-      <span><strong>${data.name}</strong>: </span>
+      <span><b style="letter-spacing: 1px;">${data.name}</b>: </span>
       <span>${data.message}</span>
     </div>
   `);

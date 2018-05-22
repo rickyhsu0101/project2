@@ -30,9 +30,9 @@ function updateMembers() {
         if (power == 'admin') {
           if (data[0][i].userId != currentUserId) {
             memberHTML.append(
-              "<div class = 'col s4'><a class = 'wave-effect waves-light btn deleteButton' href = '#'>" +
+              "<a class = 'wave-effect waves-light btn deleteButton' href = '#'>" +
                 'Remove' +
-                '</a></div>'
+                '</a>'
             );
           }
         }
@@ -138,17 +138,18 @@ $(document).ready(function() {
     });
   });
 
-  $("#avatarChange").on("click", function(e){
-    $("#modalGroup").modal('open');
+  $('#avatarChange').on('click', function(e) {
+    $('#modalGroup').modal('open');
   });
-  $("#new-task").on("click", function(e){
-    $("#modal-task").modal('open');
+  $('#new-task').on('click', function(e) {
+    $('#modal-task').modal('open');
   });
-  $("#leaveGroupButton").on("click", function(e){
+  $('#leaveGroupButton').on('click', function(e) {
     e.preventDefault();
     var userId = $('#joinGroup').data('user');
     var groupId = $('#joinGroup').data('group');
     var query = "/api/group/" + groupId + "/delete/" + userId;
+
     $.ajax({
       method: 'DELETE',
       url: query

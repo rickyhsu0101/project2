@@ -16,6 +16,10 @@ strong {
   margin-top: 0px !important;
 }
 
+.collapsible-body-form {
+  padding: 12px !important;
+}
+
 .profile-btns {
   width: 100%;
   margin-bottom: 15px;
@@ -32,6 +36,11 @@ strong {
 #memberDiv a {
   text-decoration: none;
 }
+
+.deleteButton {
+  width: 100%;
+}
+
 .member {
   margin: 10px 0;
 }
@@ -40,6 +49,12 @@ strong {
 }
 .member .s4 {
   padding-right: 40px;
+}
+
+@media (min-width: 375px) {
+  .deleteButton {
+    width: inherit;
+  }
 }
 
 @media (min-width: 576px) {
@@ -55,6 +70,16 @@ strong {
     display: block;
     width: 200px;
     margin: 0 auto;
+  }
+
+  .collapsible-body-form {
+    padding: 28px !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1400px) {
+  .deleteButton {
+    width: 100%;
   }
 }
 

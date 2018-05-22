@@ -103,15 +103,20 @@ router.get('/chat/:id', function(req, res) {
     groupChat.getMessages(req.params.id, (err, result) => {
       if (err) {
       } else {
-        obj.user = req.user;
-        obj.page = 'chat';
-
-        // connects the user to the chat associated with the group
-        obj.chatPage = req.params.id;
-
         // contains all the messages from the chat. Gets loaded when a user connects
         obj.chatMessages = result;
-        res.render('index', obj);
+
+        // gets the group name to pass into the chat
+        groups.selectGroupWithId(req.params.id, function(err, result) {
+          obj.chatName = result[0].groupName;
+          obj.user = req.user;
+          obj.page = 'chat';
+
+          // connects the user to the chat associated with the group
+          obj.chatPage = req.params.id;
+
+          res.render('index', obj);
+        });
       }
     });
   } else {
@@ -145,7 +150,7 @@ router.post('/newtask/:id', function(req, res) {
 router.post('/newGroup', function(req, res) {
   avatar(req, res, err => {
     if (err) {
-      console.log("");
+      console.log(err);
       res.redirect('/');
       return false;
     } else {

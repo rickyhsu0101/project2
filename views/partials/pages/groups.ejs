@@ -11,7 +11,7 @@
         <%}%>
       <%}%>
       
-      <%if(groups){%>
+      <%if(groups.length > 0){%>
         <%for(var i=0; i < groups.length; i++){%>
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
@@ -32,6 +32,12 @@
             </div>
           </div>
         <%}%>
+      <%} else {%>
+        <h2 class="center-align" style="margin:60px 0;">No groups yet!</h2>
+        <div class="col s12 center-align">
+          <a href="/newgroup" class ="wave-effect waves-light btn-large profile-btns" style="margin-bottom: 0;">Go create one!</a>
+        </div>
+
       <%}%>
         
       

@@ -1,13 +1,14 @@
-.chat-container,
 form {
   width: 95%;
 }
+
 .chat-container {
   padding: 0;
-  margin: 0 auto;
+  margin: 0 auto 20px;
 }
 
 .chat-h2 {
+  font-size: 25px;
   text-align: center;
   background-color: #455a64;
   padding: 8px;
@@ -17,8 +18,6 @@ form {
 }
 
 .chat-msgs {
-  border-left: solid 1px #dee2e6;
-  border-right: solid 1px #dee2e6;
   height: 500px;
   overflow-y: auto;
   background-color: white;
@@ -26,21 +25,19 @@ form {
 }
 
 #send-msg {
-  border: solid 1px #dee2e6;
+  border: none;
+  border-top: solid 1px #dee2e6;
   width: 100%;
   padding: 13px;
-  /* border-top: 1px solid rgb(207, 207, 207); */
   resize: none;
 }
 
 .online {
   height: 500px;
-  border-left: solid 1px #dee2e6;
-  border-bottom: solid 1px #dee2e6;
 }
 
 .chat-msgs div {
-  padding: 5px 10px;
+  padding: 15px;
 }
 
 .chat-msgs div:nth-child(odd) {
@@ -49,4 +46,10 @@ form {
 
 .bg-white {
   background-color: white;
+}
+
+@media (min-width: 576px) {
+  .chat-h2 {
+    font-size: 30px;
+  }
 }
